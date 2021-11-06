@@ -19,7 +19,7 @@ La deuxième étape elle consiste en l'élaboration d'un rapport détaillé qui 
 <h3>Fait par Ait Amara Mohamed</h3>
 
 ## Représentation d'une expression arithmétique en arbre binaire
-<h3>Fait par Hammel Ayoub</h3>
+<h3>Fait par Hammal Ayoub</h3>
 
 ## Recherche dichotomique d'un élément dans un tableau
 <h3>Fait par Chibane Ilies</h3>
