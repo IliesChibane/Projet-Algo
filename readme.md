@@ -2,10 +2,10 @@
 
 <p align="center">
   <a href="#description-du-projet">Description du projet</a>   |   
-  <a href="#recherche-séquentielle-d'un-élément-dans-un-tableau">Recherche séquentielle d'un élément dans un tableau</a>   |  
-  <a href="#représentation-d'une-expression-arithmétique-en-arbre-binaire">Représentation d'une expression arithmétique en arbre binaire</a>   |  
-  <a href="#recherche-dichotomique-d'un-élément-dans-un-tableau">Recherche dichotomique d'un élément dans un tableau</a> |
-  <a href="#suppression-d'un-élément-dans-un-arbre-binaire-de-recherche">Suppression d'un élément dans un arbre binaire de recherche</a> 
+  <a href="#recherche-séquentielle-dun-élément-dans-un-tableau">Recherche séquentielle d'un élément dans un tableau</a>   |  
+  <a href="#représentation-dune-expression-arithmétique-en-arbre-binaire">Représentation d'une expression arithmétique en arbre binaire</a>   |  
+  <a href="#recherche-séquentielle-dun-élément-dans-un-tableau">Recherche dichotomique d'un élément dans un tableau</a> |
+  <a href="#suppression-dun-élément-dans-un-arbre-binaire-de-recherche">Suppression d'un élément dans un arbre binaire de recherche</a> 
 </p>
 
 <br>
