@@ -26,6 +26,6 @@ class binary_tree{
         void print_tree();
 };
 
-#include "tree.tpp"
+#include "tree.tcc"
 
 #endif

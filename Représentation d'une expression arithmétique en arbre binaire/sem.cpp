@@ -91,7 +91,7 @@ binary_tree<entity> f(const std::vector<entity> entities, int& ct) {
     // Cas d'un signe
     } else if (entities[ct].type == entity_type::operation &&
                 (entities[ct].value.operation == operation_type::sub ||
-                entities[ct].value.operation == operation_type::add) {
+                entities[ct].value.operation == operation_type::add)) {
         // Construction d'un noeud (0 <signe> opérande)
         entity op = entities[ct];
 
