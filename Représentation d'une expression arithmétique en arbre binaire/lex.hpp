@@ -34,6 +34,7 @@ class entity {
         } value;
 
         friend std::ostream& operator<<(std::ostream& stream, const entity& entity);
+        entity();
 };
 
 std::vector<entity> string_to_entities(const std::string &expression);

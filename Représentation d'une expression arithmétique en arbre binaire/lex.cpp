@@ -11,6 +11,7 @@ std::vector<entity> string_to_entities(const std::string &expression) {
     // could use regex tho ...
     for (int i = 0; i < expression.size(); i++) {
         entity e;
+        // Cas d'un operateur
         if (expression[i] == '+') {
             e.type = entity_type::operation;
             e.value.operation = operation_type::add;
@@ -31,6 +32,8 @@ std::vector<entity> string_to_entities(const std::string &expression) {
             e.type = entity_type::operation;
             e.value.operation = operation_type::mod;
             entities.push_back(e);
+
+        // Cas de parenthèses
         } else if (expression[i] == '(') {
             e.type = entity_type::parenthesis;
             e.value.parenthesis = parenthesis_type::open;
@@ -39,6 +42,8 @@ std::vector<entity> string_to_entities(const std::string &expression) {
             e.type = entity_type::parenthesis;
             e.value.parenthesis = parenthesis_type::close;
             entities.push_back(e);
+
+        // Cas d'un nombre
         } else if (isdigit(expression[i]) || expression[i] == '.') {
             int j = 1;
             while (i + j < expression.size() && 
@@ -50,6 +55,7 @@ std::vector<entity> string_to_entities(const std::string &expression) {
 
             entities.push_back(e);
             i = i + j - 1;
+        // Cas d'un blanc
         } else if (expression[i] == ' ') {
             continue;
         } else {
@@ -60,6 +66,10 @@ std::vector<entity> string_to_entities(const std::string &expression) {
     return entities;
 }
 
+entity::entity() {
+}
+
+// Affichage d'une entité
 std::ostream& operator<<(std::ostream& stream, const entity& entity) {
     if (entity.type == entity_type::number) {
         stream << "[type: number, value: " << entity.value.number << "]";
