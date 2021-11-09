@@ -9,24 +9,32 @@
  *  F --> nb | ( E ) | - F
  */
 
-binary_tree<entity> entities_to_binary_tree(const std::vector<entity> entities) {
+binary_tree<entity> entities_to_binary_tree(const std::vector<entity>& entities) {
     int ct = 0;
-    return e(entities, ct);
+    if (entities.size() == 0) 
+        throw 1;
+    binary_tree<entity> bt = e(entities, ct);
+    if (ct < entities.size())
+        throw 1;
+    
+    return bt;
 }
 
 // Routine pour reconnaitre les expressions : gère les opérations + et -
-binary_tree<entity> e(const std::vector<entity> entities, int& ct) {
+binary_tree<entity> e(const std::vector<entity>& entities, int& ct) {
     binary_tree<entity> bt, rt, lt;
     try {
         // Premier opérande
         bt = t(entities, ct);
-        while (entities[ct].type == entity_type::operation &&
+        while (ct < entities.size() && 
+                entities[ct].type == entity_type::operation &&
                 (entities[ct].value.operation == operation_type::add ||
-                entities[ct].value.operation == operation_type::sub) &&
-                ct < entities.size()) {
+                entities[ct].value.operation == operation_type::sub)) {
             entity op = entities[ct];
             lt = bt;
             ct = ct + 1;
+            if (ct >= entities.size())
+                throw 1;
 
             // Deuxième opérande
             rt = t(entities, ct);
@@ -43,19 +51,21 @@ binary_tree<entity> e(const std::vector<entity> entities, int& ct) {
 }
 
 // Routine pour reconnaitre les termes : gène les opérations de *, / et %
-binary_tree<entity> t(const std::vector<entity> entities, int& ct) {
+binary_tree<entity> t(const std::vector<entity>& entities, int& ct) {
     binary_tree<entity> bt, rt, lt;
     try {
         // Premier opérande
         bt = f(entities, ct);
-        while (entities[ct].type == entity_type::operation &&
+        while (ct < entities.size() &&
+                entities[ct].type == entity_type::operation &&
                 (entities[ct].value.operation == operation_type::mul ||
                 entities[ct].value.operation == operation_type::div ||
-                entities[ct].value.operation == operation_type::mod) &&
-                ct < entities.size()) {
+                entities[ct].value.operation == operation_type::mod)) {
             entity op = entities[ct];
             lt = bt;
             ct = ct + 1;
+            if (ct >= entities.size())
+                throw 1;
 
             // Deuxième opérande
             rt = f(entities, ct);
@@ -72,17 +82,20 @@ binary_tree<entity> t(const std::vector<entity> entities, int& ct) {
 }
 
 // Routine pour reconnaitre les entités, les parenthèses et les signes
-binary_tree<entity> f(const std::vector<entity> entities, int& ct) {
+binary_tree<entity> f(const std::vector<entity>& entities, int& ct) {
     binary_tree<entity> bt, rt, lt;
     // Cas de parenthèses
     if (entities[ct].type == entity_type::parenthesis &&
             entities[ct].value.parenthesis == parenthesis_type::open) {
         // Lecture de la première parenthèse ouvrante
         ct = ct + 1;
+        if (ct >= entities.size())
+            throw 1;
         // Passage à l'expression englobée par les parenthèses
         bt = e(entities, ct);
         // Lectures de la deuxième parenthèse fermante
-        if (entities[ct].type == entity_type::parenthesis &&
+        if (ct < entities.size() &&
+            entities[ct].type == entity_type::parenthesis &&
             entities[ct].value.parenthesis == parenthesis_type::close) {
             ct = ct + 1;
         } else {
@@ -100,6 +113,9 @@ binary_tree<entity> f(const std::vector<entity> entities, int& ct) {
         left.value.number = 0;
 
         ct = ct + 1;
+        if (ct >= entities.size())
+            throw 1;
+
         rt = f(entities, ct);
         lt.set_root(left);
 
