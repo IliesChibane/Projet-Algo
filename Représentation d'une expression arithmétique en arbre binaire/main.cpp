@@ -3,6 +3,8 @@
 #include <string>
 
 #include "lex.hpp"
+#include "tree.hpp"
+#include "sem.hpp"
 
 /*  Représentation d'une expression arithmétique en arbre binaire
  *  -------------------------------------------------------------
@@ -24,15 +26,33 @@
  */
 
 int main(int argc, char **argv) {
+    // Lecture de l'expression arithmétique
     std::string expression;
     std::getline(std::cin, expression);
-    std::cout << "expression: " << expression << std::endl; 
+    std::cout << "expression: " << expression << std::endl << std::endl;
 
-    std::vector<entity> entities = string_to_entities(expression);
-    std::cout << "entités lexicales : ";
-    for (int i = 0; i < entities.size(); i++)
-        std::cout << entities[i] << " ";
-    std::cout << std::endl;
-    
+    std::vector<entity> entities;
+    binary_tree<entity> bt;
+    try {
+        // Génération des entités lexicales
+        entities = string_to_entities(expression);
+        std::cout << "entités lexicales : ";
+        for (int i = 0; i < entities.size(); i++)
+            std::cout << entities[i] << " ";
+        std::cout << std::endl << std::endl;
+    } catch (int e) {
+        std::cout << "Erreur lexicale" << std::endl;
+        return 1;
+    }
+
+    try {
+        // Génération de l'arbre syntaxique
+        bt = entities_to_binary_tree(entities); 
+        bt.print_tree();
+    } catch (int e) {
+        std::cout << "Erreur syntaxique" << std::endl;
+        return 1;
+    }
+
     return 0;
 }
