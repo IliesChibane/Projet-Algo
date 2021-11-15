@@ -6,7 +6,7 @@
  *  Z --> E #
  *  E --> T + { T }* | T - { T }*
  *  T --> F x { F }* | F / { F }*
- *  F --> nb | ( E ) | - F
+ *  F --> nb | ( E ) | - F | + F
  */
 
 binary_tree<entity> entities_to_binary_tree(const std::vector<entity>& entities) {
@@ -16,7 +16,7 @@ binary_tree<entity> entities_to_binary_tree(const std::vector<entity>& entities)
     binary_tree<entity> bt = e(entities, ct);
     if (ct < entities.size())
         throw 1;
-    
+
     return bt;
 }
 
