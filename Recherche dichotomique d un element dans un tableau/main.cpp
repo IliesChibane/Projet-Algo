@@ -1,0 +1,43 @@
+#include <iostream>
+#include <stdlib.h>
+#include <bits/stdc++.h>
+
+#include "RechercheDichotomique.hpp"
+
+using namespace std;
+
+int main()
+{
+    cout << "choisissez la taille du tableau" << endl;
+
+    unsigned long long n;
+    cin >> n;
+
+    int *t = (int *)malloc(n * sizeof(int));
+    remplirTabRandom(t, n);
+
+    AffichTab(t, n);
+
+    cout << "choisissez le nombre que vous voulez rechercher dans le tableau" << endl;
+
+    int val;
+    cin >> val;
+
+    chrono::time_point<chrono::steady_clock> start = chrono::steady_clock::now(), stop;
+
+    TriFusion(t, 0, n - 1);
+
+    int pos = dichotomie(t, n, val);
+
+    stop = chrono::steady_clock::now();
+    chrono::duration<double, nano> duration = stop - start;
+
+    if(pos!=-1)
+        cout << "la valeur " << val << " apres avoir trier le tableau se trouve a la position " << pos << endl;
+    else
+        cout << "la valeur " << val << " n'existe pas dans le tableau" << endl;
+
+    cout << "la fonction de recherche dichotomique apres le tri le tableau aura prit " << duration.count()
+         << "ns afin de terminer son execution" <<endl;
+    return 0;
+}
