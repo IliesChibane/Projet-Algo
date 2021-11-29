@@ -38,8 +38,7 @@ int main(){
     cout<<"Arbre avant"<<endl;
     traverser_arbre_ordonne(arbre_equilibree);
 		
-	/*cout << "choisissez le nombre que vous voulez supprimer dans l'arbre " << endl;
-    cin >> val;*/
+
 	
     CalculateTimeRecursive(arbre_equilibree, val);
     CalculateTimeIterative(arbre_equilibree, val);
@@ -54,8 +53,7 @@ int main(){
     cout<<"Arbre avant"<<endl;
     traverser_arbre_ordonne(arbre_non_equilibree);
 		
-	/*cout << "choisissez le nombre que vous voulez supprimer dans l'arbre " << endl;
-    cin >> val;*/
+
 	
     CalculateTimeRecursive(arbre_non_equilibree, val);
     CalculateTimeIterative(arbre_non_equilibree, val);

@@ -1,5 +1,4 @@
 #include <iostream>
-#include <stdlib.h> //pour génerer des entiers aléatoirement
 #include <bits/stdc++.h>
 #include "CreationTableau.hpp"
 
