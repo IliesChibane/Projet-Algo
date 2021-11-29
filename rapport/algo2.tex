@@ -4,12 +4,12 @@
 Une expression arithmétique est une succession de caractères mathématiques notamment des nombres, des opérateurs mathématiques (+ addition, - soustraction, * multiplication, / division et * modulo) et des symboles impropres pour indiquer la priorité( ( ) les parenthèses).
 Il faut noter cependant que les opérateurs mathématiques ne possèdent pas tous la même priorité; La multiplication et la division sont plus prioritaires que l'addition et la soustraction.
 Dans le cas où la priorité de deux opérateurs est la même, celui le plus à gauche dans l'expression arithmétique devient plus prioritaire que celui à droite.
-En considérant ces contraintes, une des représentations les plus adaptées pour représenter une expression arithmétique et sous forme d'arbre binaire.
+En considérant ces contraintes, une des représentations les plus adaptées pour décrire une expression arithmétique est l'arbre binaire.
 \par
-Un arbre binaire est une structure de données complexe, il est caractérisé par un élément racine qui contient à son tour un chemin vers un ou deux autres éléments appelés fils droit et fils gauche. Chaque élément intermédiaire de l'arbre par la suite a la même structure que la racine, jusqu'à arriver aux éléments terminaux qui ne possèdent pas de fils qu'on nomme les feuilles de l'arbre.
+Un arbre binaire est une structure de données complexe, il est caractérisé par un élément racine qui contient à son tour un chemin vers un ou deux autres éléments appelés fils droit et fils gauche. Chaque élément intermédiaire de l'arbre par la suite a la même structure que la racine, jusqu'à arriver aux éléments terminaux qui ne possèdent pas de fils et qu'on nomme les feuilles de l'arbre.
 \par
-Nous pouvons alors par extrapolation représenter chaque opération arithmétique par un élément de l'arbre, telle que l'élément de l'arbre content l'opérateur, et les deux opérandes sont contenus dans les deux fils de l'élément.
-Pour qu'un arbre binaire puisse représenter la structure d'une expression arithmétique correctement, ce dernier doit respecter l'ordre et la priorité des opérations. Les opérations les moins prioritaires sont en haut de l'arbre car elles dépendent du résultat des opérations plus prioritaires qui elles sont plus bas dans l'arbre binaire (voir Figure \ref{fig:exp_arbre}).
+Nous pouvons alors par extrapolation représenter chaque opération arithmétique par un élément de l'arbre, telle que l'élément de l'arbre contient l'opérateur, et les deux opérandes sont contenus dans les deux fils de l'élément.
+Pour qu'un arbre binaire puisse représenter la structure d'une expression arithmétique correctement, ce dernier doit respecter l'ordre et la priorité des opérations. Les opérations les moins prioritaires sont en haut de l'arbre car elles dépendent du résultat des opérations plus prioritaires qui elles, sont plus bas dans l'arbre binaire (voir Figure \ref{fig:exp_arbre}).
 
 \begin{figure}[H]
     \centering
@@ -82,8 +82,8 @@ On parcourt la chaîne de caractères depuis le début, et on génère les entit
 Nous utilisons l'algorithme de descente récursive pour parcourir le vecteur d'entités et générer l'arbre binaire. Dans cet algorithme chaque MGP (membre de gauche de production) est associé à une fonction dans le programme. L'algorithme commence en appelant une première fois l'axiome de la grammaire et se termine une fois que tout le vecteur est parcouru.
 \par
 La grammaire utilisée est comme suit :
-$$ E \rightarrow T + { T }* | T - { T }* $$
-$$ T \rightarrow F + { F }* | F - { F }* $$
+$$ E \rightarrow T + \{ T \}^* | T - \{ T \}^* $$
+$$ T \rightarrow F * \{ F \}^* | F / \{ F \}^* $$
 $$ F \rightarrow nb | ( E ) | + F | - F $$
 
 \begin{algorithm}[H]
@@ -191,7 +191,7 @@ Cette fonction $f$ génère les noeuds des nombres et des opérateurs unaires, e
 
 \section{Calcul de complexité}
 \subsection{Complexité temporelle}
-La complexité de l'analyse lexicale est toujours égale à la longueur de la chaîne c-à-d. : $\mathcal{O}(n)$ tel que $n$ est la longueur de l'expression en de caractères.
+La complexité de l'analyse lexicale est toujours égale à la longueur de la chaîne dans tous les cas c-à-d. : $\mathcal{O}(n)$ tel que $n$ est la longueur de l'expression en de caractères.
 \par
 La complexité de l'analyse syntaxique est quant à elle égale à la longueur du vecteur d'entités lexicales, car il est parcouru une seule fois, c-à-d. : $\mathcal{O}(n')$ tel que $n'$ est la longueur du vecteur d'entités.
 \par
@@ -202,9 +202,9 @@ L'expression arithmétique est d'abord stockée dans une chaîne de caractères 
 \par
 Sachant qu'une entité contient le type de l'entité et la valeur en elle-même, cependant la valeur est stockée comme un nombre réel qui prend 8 octets comparé à la représentation en chaîne de caractères où chaque caractère est sous 1 octet.
 \par
-Donc la taille d'un élément d'une chaîne de caractères est $1$ unité, la taille d'une entité est $9$ unités, et la taille d'un élément d'un arbre est égale à $9 + 4 * 2$ unités (la taille d'un pointeur est égale à $4$ unités) donc $17$ unités.
+Donc la taille d'un élément d'une chaîne de caractères est $1$ unité (octet), la taille d'une entité est $9$ unités, et la taille d'un élément d'un arbre est égale à $9 + 4 * 2$ unités (la taille d'un pointeur est égale à $4$ unités) donc $17$ unités.
 \par
-La complexité spatiale est égale à la somme des trois complexités : $n * 1 + n' * 9 + n' * 17 = n + 26 * n' \approx \mathcal{O}(n + n')$
+La complexité spatiale est égale à la somme des trois complexités (taille de la chaîne + taille du vecteur + taille de l'arbre) : $n * 1 + n' * 9 + n' * 17 = n + n' * 26 \approx \mathcal{O}(n + n')$
 \par
 
 \section{Expérimentation}
