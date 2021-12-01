@@ -143,27 +143,56 @@ struct element* supprimer_element(struct element* racine, int val){
     
 }
 
+bool existe(struct element* noeud, int val)
+{
+    if (noeud == nullptr)
+        return false;
+ 
+    if (noeud->valeur == val)
+        return true;
+ 
+    
+    bool res1 = existe(noeud->gauche, val);
+    
+    if(res1) return true;
+ 
+    
+    bool res2 = existe(noeud->droit, val);
+ 
+    return res2;
+}
+
 void CalculateTimeRecursive(element* racine, int val)
 {
-
+    if (! existe(racine,val)){
+        printf("La valeur que vous cherchez à supprimer n'existe pas\n");
+    } 
+    else{
         //time start
         chrono::time_point<chrono::steady_clock> start = chrono::steady_clock::now(), stop;
         racine = supprimer_element_recursive(racine, val);
         //time ends
         stop = chrono::steady_clock::now();
-    	chrono::duration<double, nano> duration = stop - start;
+        chrono::duration<double, nano> duration = stop - start;
         printf("Le temps d'execution avec une approche Récursive est : %lf nanosecondes\n", duration.count());
-
+    }
 }
 
-void CalculateTimeIterative(element* racine, int val)
+void CalculateTimeIterative(element* racine, int val, int &ex)
 {
-    //time start
+    if (! existe(racine,val)){
+        printf("La valeur que vous cherchez à supprimer n'existe pas\n");
+    } 
+    else{
+    
+        //time start
         chrono::time_point<chrono::steady_clock> start = chrono::steady_clock::now(), stop;
         racine = supprimer_element(racine, val);
         //time ends
         stop = chrono::steady_clock::now();
-    	chrono::duration<double, nano> duration = stop - start;
+        chrono::duration<double, nano> duration = stop - start;
         printf("Le temps d'execution avec une approche Itérative est : %lf nanosecondes\n", duration.count());
+	    ex = duration.count();
+    }
 
 }

@@ -11,7 +11,7 @@ void remplirTabRandom(int *tab, unsigned long long n)
 
     int *liste = (int *)malloc(R * sizeof(int));
 
-    srand(time(NULL));
+    //srand(time(NULL));
     //On remplie une liste contenant une liste de nombre de 1 a R
 
     for (auto i = 0; (unsigned)i < R; ++i) {

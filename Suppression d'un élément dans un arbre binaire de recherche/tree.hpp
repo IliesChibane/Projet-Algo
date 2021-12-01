@@ -1,4 +1,5 @@
 #include <iostream>
+#include <stdlib.h> //pour génerer des entiers aléatoirement
 #include <bits/stdc++.h>
 #include "CreationTableau.hpp"
 
@@ -65,6 +66,35 @@ struct element* creer_arbre(int arr[], int taille){
 }
 
 
+void chercher(element *racine, int level, int &maxLevel, int &res) //charcher la valeur du noeud le plus profond
+{
+    if (racine != nullptr)
+    {
+        chercher(racine->gauche, ++level, maxLevel, res);
+ 
+        // mettre à jour les vals
+        if (level > maxLevel)
+        {
+            res = racine->valeur;
+            maxLevel = level;
+        }
+ 
+        chercher(racine->droit, level, maxLevel, res);
+    }
+}
+
+
+int get_feuille(element *racine)
+{
+    // Initialisation
+    int res = -1;
+    int maxLevel = -1;
+ 
+
+    chercher(racine, 0, maxLevel, res);
+    return res;
+}
+
 
 
 //visualization basique de l'arbre binaire 
@@ -72,7 +102,7 @@ struct element* creer_arbre(int arr[], int taille){
 void traverser_arbre_ordonne(struct element* racine){ //afficher l'arbre binaire en ordre 
     if(racine != nullptr){
         traverser_arbre_ordonne(racine->gauche);
-        cout <<racine->valeur<<endl;
+        cout <<racine->valeur<<" ";
         traverser_arbre_ordonne(racine->droit);
     }
 }
@@ -80,15 +110,15 @@ void traverser_arbre_ordonne(struct element* racine){ //afficher l'arbre binaire
 void traverser_arbre_preordonne(struct element* racine){ //afficher l'arbre binaire en ordre 
     if(racine != nullptr){
         cout <<racine->valeur<<endl;
-        traverser_arbre_ordonne(racine->gauche);
-        traverser_arbre_ordonne(racine->droit);
+        traverser_arbre_preordonne(racine->gauche);
+        traverser_arbre_preordonne(racine->droit);
     }
 }
 
 void traverser_arbre_postordonne(struct element* racine){ //afficher l'arbre binaire en ordre 
     if(racine != nullptr){
-        traverser_arbre_ordonne(racine->gauche);
-        traverser_arbre_ordonne(racine->droit);
+        traverser_arbre_postordonne(racine->gauche);
+        traverser_arbre_postordonne(racine->droit);
         cout <<racine->valeur<<endl;
     }
 }
