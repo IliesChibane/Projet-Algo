@@ -19,18 +19,15 @@ int main()
     AffichTab(t, n);
 
     cout << "choisissez le nombre que vous voulez rechercher dans le tableau" << endl;
-
     int val;
     cin >> val;
- cout << "fin de cin"<< endl;
 
-    chrono::time_point<chrono::steady_clock> start = chrono::steady_clock::now(), stop;
 
-    //TriFusion(t, 0, n - 1);
-cout << "début de recherche"<< endl;
-   // int pos = sequentielle(t, n, val);
-    int pos = sequentielle_processus(t, n, val);
-cout << "fin de recherche"<< endl;
+   chrono::time_point<chrono::steady_clock> start = chrono::steady_clock::now(), stop;
+
+   //int pos = sequentielle(t, n, val);
+   int pos = sequentielle_processus(t, n, val);
+
 
     stop = chrono::steady_clock::now();
     chrono::duration<double, nano> duration = stop - start;
@@ -42,5 +39,8 @@ cout << "fin de recherche"<< endl;
 
     cout << "la fonction de recherche sequentielle apres le tri le tableau aura prit " << duration.count()
          << "ns afin de terminer son execution" <<endl;
-    return 0;
+
+
+
+       return 0;
 }

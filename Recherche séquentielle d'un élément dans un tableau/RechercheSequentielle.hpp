@@ -48,7 +48,8 @@ int sequentielle_processus(int *tab, unsigned long long n, int r)
                     break;
                 }
             }
-            return f ? pos : -1;
+            cout << "la valeur cherchée se trouve a la position " << pos << endl;  
+            exit( f ? pos : -1);
         default:
             break;
     }
@@ -64,7 +65,8 @@ int sequentielle_processus(int *tab, unsigned long long n, int r)
                     break;
                 }
             }
-            return f ? pos : -1;
+            cout << "la valeur cherchée se trouve a la position " << pos << endl;  
+            exit(f ? pos : -1);
         default:
             break;
     }
@@ -81,8 +83,11 @@ int sequentielle_processus(int *tab, unsigned long long n, int r)
             }
     }
 
-    if (f) return pos;
-    else return -1;
-    
+    if (f) return 0;
+    else{
+        cout << "la valeur cherchée n'existe pas dans le tableau" << endl;
+        return -1;
+    }
+
 
 }
