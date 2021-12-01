@@ -53,7 +53,7 @@ Nous pouvons le représenter via le pseudo code suivant :
         $SousTabFusionIndex  \leftarrow gauche$\;
         \While{$SousTab1Index < SousTab1$ et $SousTab2Index < SousTab2$}
        {
-            \\
+            %\\
             \If{tabG[SousTab1Index] <= tabD[SousTab2Index]}{
                 $tab[SousTabFusionIndex] \leftarrow tabG[SousTab2Index]$\;
                 $SousTab1Index++$\;
@@ -63,21 +63,24 @@ Nous pouvons le représenter via le pseudo code suivant :
                 $SousTab2Index++$\;
             }
             $SousTabFusionIndex++$\;
-        \EndWhile}
+        %\EndWhile
+        }
         \While{$SousTab1Index < SousTab1$}
        {
-            \\
+            %\\
             $tab[SousTabFusionIndex] \leftarrow tabG[SousTab1Index]$\;
             $SousTab1Index++$\;
             $SousTabFusionIndex++$\;
-        \EndWhile}
+        %\EndWhile
+        }
         \While{$SousTab2Index < SousTab2$}
        {
-            \\
+            %\\
             $tab[SousTabFusionIndex] \leftarrow tabG[SousTab2Index]$\;
             $SousTab1Index++$\;
             $SousTabFusionIndex++$\;
-        \EndWhile}
+        %\EndWhile
+        }
     }
     \caption{Fusion(Entrée: tab: tableau d'entier; droite, gauche, milieu: entier;)}
 \end{function}
@@ -129,7 +132,7 @@ Nous pouvons le représenter via le pseudo code suivant :
                 {$pos \leftarrow i$\;
                  retour pos\;}
             \tcp{Si la valeur recherchée est plus petite que la valeur du l'élément du milieu Alors on regarde le sous-tableau de gauche}
-            \Elseif {$tab[i] > r$}
+            \ElseIf {$tab[i] > r$}
                 {$fin = i - 1$\;}
             \tcp{sinon on regarde le sous-tableau de droite}
             \Else
