@@ -89,8 +89,10 @@ struct element* supprimer_element(struct element* racine, int val){
     chercher_element(actuel,val,pere); // on cherche l'elt à supprimer, pere point sur le parent de actuel
 
     //si la valeur cherchée est inexistante
-    if(actuel==nullptr)
+    if(actuel==nullptr){
+        printf("La valeur que vous cherchez à supprimer n'existe pas\n");
         return nullptr;
+    }
     
     // si le noeud a supp a au plus un fils , on cherche c'est quel fils
     if (actuel->gauche == nullptr || actuel->droit == nullptr) {
@@ -122,6 +124,7 @@ struct element* supprimer_element(struct element* racine, int val){
     // si le noeud à supp a deux fils
     else {
         element* min;
+        pere = nullptr;
  
         // on cherche le min du sous arbre droit du noeud à supprimer on garddant trace du pere 
         min = actuel->droit;
