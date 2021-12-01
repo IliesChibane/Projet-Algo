@@ -194,7 +194,7 @@ Maintenant, nous allons écrire l’algorithme itératif de suppression pour com
 
 \section{Calcul de complexité}
 \subsection{Complexité temporelle}
-Dans le meilleur cas, nous aurons un ABR équilibré, c’est-à-dire que le nombre des fils à gauche est le même qu’à la droite. La complexité temporelle est donc de l’ordre de la hauteur de l’arbre binaire de recherche. Puisque ce dernier est en moyenne $\mathcal{O}(log_2(n)$, la complexité temporelle du cas moyen est de l’ordre $\mathcal{O}(log_2(n)$. Il en va de même pour le cas moyen.
+Dans le meilleur cas, nous aurons un ABR équilibré, c’est-à-dire que le nombre des fils à gauche est le même qu’à la droite. La complexité temporelle est donc de l’ordre de la hauteur de l’arbre binaire de recherche. Puisque ce dernier est en moyenne $\mathcal{O}(log_2(n))$, la complexité temporelle du cas moyen est de l’ordre $\mathcal{O}(log_2(n))$. Il en va de même pour le cas moyen.
 \par
 Nous avons obtenu une complexité temporelle logarithmique parce que la suppression dans un arbre binaire de recherche est un cas où un problème de taille n est divisé en sous-problèmes de taille n/2 jusqu'à atteindre un problème de taille 1.
 \par
@@ -205,6 +205,30 @@ $$i.e : n=2^x\hspace{2cm} qui\hspace{0.2cm} est\hspace{0.2cm} log_2 n\hspace{0.2
 \par
 Par ailleurs, si on traverse de la racine à une feuille, c’est-à-dire toute la hauteur $h$ de l’arbre. Si ce dernier n’est pas équilibré, on sera amené à parcourir tous les nœuds et la hauteur de l’arbre deviendra $n$. par conséquent la complexité temporelle dans le pire des cas de l’opération de suppression est $\mathcal{O}(n)$.
 
+Le tableau suivant représente les temps d'exécution théorique en nanoseconde de l'algorithme de suppression de la racine selon la variation de la taille de l'arbre.
+
+\small
+\begin{center}
+\begin{tabular}{| c | c | c | c | c | c | c | c | c | c | c | c | c |}
+    \hline
+    N &  10 & 50 & 100 & 500 & 1000 & 5000 & 10000 & 100000 & 1000000 & 10000000 \\
+    \hline
+    t(ns) & 490 & 560 & 720 & 830 & 1130 & 1280 & 1380 & 1590 &  2489 & 2680  \\
+    
+    \hline
+\end{tabular}  
+\end{center}
+
+La figure suivante (voir Figure \ref{fig:temps_exec_abr_theo}) représente l'évolution du temps d'exécution théorique selon la taille de l'arbre binaire de recherche.
+
+\begin{figure}[H]
+    \centering
+        \includegraphics[scale=0.7]{./ressources/exe theo.png}
+        \caption{Temps d'exécution théorique du programme selon la taille de l'arbre}
+    \label{fig:temps_exec_abr_theo}
+\end{figure} 
+
+Depuis le graphe,  on observe que le temps d'exécution évolue de manière linéarithmique avec l'augmentation de la taille du problème.
 
 \subsection{Complexité spatiale}
 
@@ -240,7 +264,6 @@ Le tableau suivant représente les temps d'exécution en nanoseconde de l'algori
     \hline
     Récursive & Arbre complétement Déséquilibré  & Suppression d'un noeud feuille & 230 \\
     \hline
-    
      Itérative & Arbre partiellement équilibré & Suppression d'un noeud avec deux fils & 160 \\
     \hline
     Itérative & Arbre partiellement équilibré & Suppression d'un noeud avec un fils & 300 \\
@@ -288,12 +311,11 @@ Le tableau suivant représente les temps d'exécution en nanoseconde de l'algori
     \hline
     t9(ns) & 230 & 450 & 290 & 650 & 840  & 820 & 1450 & 2291 & 6191 & 7999 \\
     \hline
-    t10(ns) & 210 & 681 & 310 & 779 & 760 & 960 & 1520 & 2690 & 6399 & 9900 \\
+    t10 (ns) & 210 & 681 & 310 & 779 & 760 & 960 & 1520 & 2690 & 6399 & 9900 \\
     \hline
-    Moyenne(ns) & 274 & 358 & 409 & 776 & 817 & 1008 & 1534 & 2823 & 6497 & 9595 \\
+    Moyenne (ns) & 274 & 358 & 409 & 776 & 817 & 1008 & 1534 & 2823 & 6497 & 9595 \\
     \hline
 \end{tabular}}
-\\
 
 \normalsize
 \par
