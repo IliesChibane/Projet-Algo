@@ -89,17 +89,26 @@ Il est important de noter que le successeur d'ordre peut être obtenu en trouvan
         }
         
         $Temp \leftarrow Min(racine.filsd)$\; \tcp{Peut etre remplacé par $Temp \leftarrow Max(racine.filsg)$\;}
+      }
+    }
+\end{function}
+
+
+\begin{function}[H]
+\caption{supprimerec(Entrée: racine: arbre, valeur: entier) : arbre}
+    \Begin{
         $racine.valeur \leftarrow Temp.valeur$ \;
         $racine.filsd \leftarrow supprimerec(racine.filsd, Temp.valeur)$ \; \tcp{Peut etre remplacé par $racine.filsg \leftarrow supprimerec(racine.filsg, Temp.valeur)$ \;}
-        }
-        \ENDIF
         retour racine;
-    }
+        }
     
 \end{function}
+
+
+\singlespacing
 \par 
 Comme nous l'avons mentionné avant, quand on veut supprimer un nœud qui a deux fils, nous devons écraser sa valeur en optant pour l’une des deux options : soit on cherche le successeur en ordre du nœud à supprimer, soit son prédécesseur en ordre. Il est à noter que le successeur en ordre du nœud représente le minimum dans son sous-arbre à droite, et que son prédécesseur représente le maximum de son sous-arbre gauche. Voici donc les deux fonctions que nous pourrons utiliser pour effectuer ces deux tâches :
-\par
+\singlespacing
 \begin{function}[H]
     \textbf{Variables :}\\
     min: arbre\;
@@ -125,7 +134,7 @@ Comme nous l'avons mentionné avant, quand on veut supprimer un nœud qui a deux
     }
     \caption{Max(Entrée: racine: arbre) : arbre}
 \end{function}
-
+\singlespacing
 \par 
 Puisque l’opération de suppression est une tâche complexe, nous avons, en premier lieu opter pour la méthode récursive. Celle-ci nous permet d’avoir une vue globale sur les cas auxquels nous pourrons être confrontés et comment procéder pour garder la structure de l’arbre intacte même après la suppression.  
 \par
@@ -169,7 +178,7 @@ Maintenant, nous allons écrire l’algorithme itératif de suppression pour com
 
 
 \begin{function}[H]
-
+\caption{supprimeiter(Entrée: racine: arbre, valeur: entier) : arbre}
      \Else{ \tcp{Si le noeud à supprimer a deux fils}
         \tcp{On commence par chercher le successeur en ordre}
         $min \leftarrow actuel.filsd$\;
@@ -189,7 +198,7 @@ Maintenant, nous allons écrire l’algorithme itératif de suppression pour com
         Libérer(min)\;
         }
         retour racine\;
-    \caption{supprimeiter(Entrée: racine: arbre, valeur: entier) : arbre}
+    
 \end{function}
 
 
@@ -284,12 +293,14 @@ Le tableau suivant représente les temps d'exécution en nanoseconde de l'algori
       &  &  noeud feuille & 200 \\
     \hline
 \end{tabular}}
+\singlespacing
 \par
 En effet, nous constatons du tableau que l’algorithme itératif est toujours plus rapide que le récursif. Par ailleurs, la complexité temporelle de la suppression augmente selon le nombre de fils du nœud à supprimer. Plus il a de fils, plus le temps d’exécution est élevé.\\ 
 \par
 Le tableau suivant représente les temps d'exécution en nanoseconde de l'algorithme de suppression de la feuille la plus lointaine de la racine dans un arbre quelconque en utilisant une approche itérative.\\ 
+\singlespacing
 \small
-\resizebox{19cm}{!}{
+\resizebox{17cm}{!}{
 \begin{tabular}{| c | c | c | c | c | c | c | c | c | c | c | c | c |}
     \hline
     N &  10 & 50 & 100 & 500 & 1000 & 5000 & 10000 & 100000 & 1000000 & 10000000 \\
@@ -316,8 +327,9 @@ Le tableau suivant représente les temps d'exécution en nanoseconde de l'algori
     \hline
     Moyenne (ns) & 274 & 358 & 409 & 776 & 817 & 1008 & 1534 & 2823 & 6497 & 9595 \\
     \hline
-\end{tabular}}
-
+\end{tabular}
+}
+\singlespacing
 \normalsize
 \par
 La figure suivante (voir Figure \ref{fig:temps_exec_noeuds}) représente l'évolution du temps d'exécution selon la taille de l'arbre.

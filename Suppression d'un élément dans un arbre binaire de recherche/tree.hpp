@@ -37,7 +37,7 @@ struct element* inserer_element(struct element* elt, int val){ //insertion d'un 
 
 
 
-struct element* creer_arbre_equilibree(int arr[], int debut, int fin){ //créer un arbre équilibré pour tester
+struct element* creer_arbre_equilibree(int arr[], int debut, int fin){
     
     if (debut > fin)
     return nullptr;
@@ -66,7 +66,7 @@ struct element* creer_arbre(int arr[], int taille){
 }
 
 
-void chercher(element *racine, int level, int &maxLevel, int &res) //chercher la valeur du noeud le plus profond
+void chercher(element *racine, int level, int &maxLevel, int &res) //charcher la valeur du noeud le plus profond
 {
     if (racine != nullptr)
     {
@@ -84,7 +84,7 @@ void chercher(element *racine, int level, int &maxLevel, int &res) //chercher la
 }
 
 
-int get_feuille(element *racine) //retourner la feuille la plus lointaine de la racine, pour tester
+int get_feuille(element *racine)
 {
     // Initialisation
     int res = -1;
@@ -99,7 +99,7 @@ int get_feuille(element *racine) //retourner la feuille la plus lointaine de la 
 
 //visualization basique de l'arbre binaire 
 
-void traverser_arbre_ordonne(struct element* racine){ //afficher l'arbre binaire en ordre infixé
+void traverser_arbre_ordonne(struct element* racine){ //afficher l'arbre binaire en ordre 
     if(racine != nullptr){
         traverser_arbre_ordonne(racine->gauche);
         cout <<racine->valeur<<" ";
@@ -107,7 +107,7 @@ void traverser_arbre_ordonne(struct element* racine){ //afficher l'arbre binaire
     }
 }
 
-void traverser_arbre_preordonne(struct element* racine){ //afficher l'arbre binaire en ordre prefixé
+void traverser_arbre_preordonne(struct element* racine){ //afficher l'arbre binaire en ordre 
     if(racine != nullptr){
         cout <<racine->valeur<<endl;
         traverser_arbre_preordonne(racine->gauche);
@@ -115,7 +115,7 @@ void traverser_arbre_preordonne(struct element* racine){ //afficher l'arbre bina
     }
 }
 
-void traverser_arbre_postordonne(struct element* racine){ //afficher l'arbre binaire en ordre postfixé
+void traverser_arbre_postordonne(struct element* racine){ //afficher l'arbre binaire en ordre 
     if(racine != nullptr){
         traverser_arbre_postordonne(racine->gauche);
         traverser_arbre_postordonne(racine->droit);
@@ -123,7 +123,7 @@ void traverser_arbre_postordonne(struct element* racine){ //afficher l'arbre bin
     }
 }
 
-void traverser_par_niveau(element *racine) //pour visualiser l'arbre
+void traverser_par_niveau(element *racine)
 {
     // cas de base
     if (racine == nullptr) return;

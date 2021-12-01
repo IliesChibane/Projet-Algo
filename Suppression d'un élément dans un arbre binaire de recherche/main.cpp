@@ -72,7 +72,7 @@ int main(){
         traverser_par_niveau(arbre_aleatoire);
 
     
-        CalculateTimeIterative(arbre_aleatoire, get_feuille(arbre_aleatoire) , exet);
+        CalculateTimeIterative(arbre_aleatoire, arbre_aleatoire->valeur , exet);
 		tem = tem + exet;
 
         cout<<"Arbre après"<<endl;
