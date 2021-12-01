@@ -4,16 +4,7 @@
 //Recherche d'un element dans un arbre binaire 
 using namespace std;
 
-void chercher_element(struct element* &element_cherche, int val, struct element* &element){ // passage par référence pour changer la valeur de element_cherche avec l'element trouvé.
-    while(element_cherche && element_cherche->valeur != val){
-        element = element_cherche;
 
-        if(val < element_cherche->valeur)
-            element_cherche = element_cherche->gauche;
-        else
-            element_cherche = element_cherche->droit;
-    }
-}
 
 //Recherche de la valeur minimale dans un arbre, utile pour la suppression d'un element avec deux fils.
 
@@ -86,7 +77,15 @@ struct element* supprimer_element(struct element* racine, int val){
     struct element* pere=nullptr;
     struct element* actuel = racine;
 
-    chercher_element(actuel,val,pere); // on cherche l'elt à supprimer, pere point sur le parent de actuel
+    // on cherche l'elt à supprimer, pere point sur le parent de actuel
+    while(actuel && actuel->valeur != val){
+        pere = actuel;
+
+        if(val < actuel->valeur)
+            actuel = actuel->gauche;
+        else
+            actuel = actuel->droit;
+    } 
 
     //si la valeur cherchée est inexistante
     if(actuel==nullptr){
