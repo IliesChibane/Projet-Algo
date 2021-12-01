@@ -246,41 +246,41 @@ Le tableau suivant représente les temps d'exécution en nanoseconde de l'algori
     \hline
     Type d'approche & Type d'arbre & Type de Suppression &  Temps d'execution (ns) \\
     \hline
-    Récursive & Arbre partiellement équilibré  & Suppression d'un noeud avec deux fils & 1651\\
+    \multirow{9}*{Récursive} & \multirow{3}*{Arbre partiellement équilibré}  &  noeud avec deux fils & 1651\\
+    \cline{3-4}
+      &   &  noeud avec un fils & 1960 \\
+    \cline{3-4}
+      &  &  noeud feuille & 1080 \\
+    \cline{2-4}
+      & \multirow{3}*{Arbre complétement équilibré}  &  noeud avec deux fils & 290\\
+    \cline{3-4}
+      & &  noeud avec un fils & 280\\
+    \cline{3-4}
+      &   &  noeud feuille & 220\\
+    \cline{2-4}
+      & \multirow{3}*{Arbre complétement Déséquilibré} &  noeud avec deux fils & 290 \\
+    \cline{3-4}
+      &  &  noeud avec un fils & 290\\
+    \cline{3-4}
+      &  &  noeud feuille & 230 \\
     \hline
-    Récursive & Arbre partiellement équilibré & Suppression d'un noeud avec un fils & 1960 \\
-    \hline
-    Récursive & Arbre partiellement équilibré & Suppression d'un noeud feuille & 1080\\
-    \hline
-    Récursive & Arbre complétement équilibré  & Suppression d'un noeud avec deux fils & 290\\
-    \hline
-    Récursive & Arbre complétement équilibré  & Suppression d'un noeud avec un fils & 280\\
-    \hline
-    Récursive & Arbre complétement équilibré  & Suppression d'un noeud feuille & 220\\
-    \hline
-    Récursive & Arbre complétement Déséquilibré  & Suppression d'un noeud avec deux fils & 290 \\
-    \hline
-    Récursive & Arbre complétement Déséquilibré & Suppression d'un noeud avec un fils & 290\\
-    \hline
-    Récursive & Arbre complétement Déséquilibré  & Suppression d'un noeud feuille & 230 \\
-    \hline
-     Itérative & Arbre partiellement équilibré & Suppression d'un noeud avec deux fils & 160 \\
-    \hline
-    Itérative & Arbre partiellement équilibré & Suppression d'un noeud avec un fils & 300 \\
-    \hline
-    Itérative & Arbre partiellement équilibré & Suppression d'un noeud feuille & 410\\
-    \hline
-    Itérative & Arbre complétement équilibré & Suppression d'un noeud avec deux fils & 260 \\
-    \hline
-    Itérative & Arbre complétement équilibré & Suppression d'un noeud avec un fils & 200\\
-    \hline
-    Itérative & Arbre complétement équilibré & Suppression d'un noeud feuille & 160\\
-    \hline
-    Itérative & Arbre complétement Déséquilibré  & Suppression d'un noeud avec deux fils & 250\\
-    \hline
-    Itérative & Arbre complétement Déséquilibré & Suppression d'un noeud avec un fils & 280 \\
-    \hline
-    Itérative & Arbre complétement Déséquilibré & Suppression d'un noeud feuille & 200 \\
+    \multirow{9}*{Itérative} & \multirow{3}*{Arbre partiellement équilibré}  &  noeud avec deux fils & 160 \\
+    \cline{3-4}
+      &  &  noeud avec un fils & 300 \\
+    \cline{3-4}
+      & &  noeud feuille & 410\\
+    \cline{2-4}
+      & \multirow{3}*{Arbre complétement équilibré} &  noeud avec deux fils & 260 \\
+    \cline{3-4}
+      &  &  noeud avec un fils & 200\\
+    \cline{3-4}
+      &  &  noeud feuille & 160\\
+    \cline{2-4}
+      & \multirow{3}*{Arbre complétement Déséquilibré}  &  noeud avec deux fils & 250\\
+    \cline{3-4}
+      &  &  noeud avec un fils & 280 \\
+    \cline{3-4}
+      &  &  noeud feuille & 200 \\
     \hline
 \end{tabular}}
 \par
