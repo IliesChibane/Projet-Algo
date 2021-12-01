@@ -195,7 +195,31 @@ La complexité de l'analyse lexicale est toujours égale à la longueur de la ch
 \par
 La complexité de l'analyse syntaxique est quant à elle égale à la longueur du vecteur d'entités lexicales, car il est parcouru une seule fois, c-à-d. : $\mathcal{O}(n')$ tel que $n'$ est la longueur du vecteur d'entités.
 \par
-La complexité temporelle de l'algorithme devient alors : $\mathcal{O}(n + n')$.
+La complexité temporelle de l'algorithme devient alors : $\mathcal{O}(n + n')$. Sachant que $n > n'$ (le nombre de caractères est supérieur au nombre d'opérandes) on peut remplacer $n'$ par $n$, et la formule devient : $\mathcal{O}(n)$ qui est une complexité linéraire.
+
+Le tableau suivant représente les temps d'exécution théorique en nanoseconde de l'algorithme selon la variation de la taille de l'expression:
+
+\small
+\begin{center}
+\begin{tabular}{| c | c | c | c | c | c | c | c | c | c | c | c | c |}
+    \hline
+    N & 10 & 50 & 100 & 500 & 1000 & 5000 & 10000 & 100000 & 1000000 & 10000000 \\
+    \hline
+    t(ns) & 10 & 50 & 100 & 500 & 1000 & 5000 & 10000 & 100000 & 1000000 & 10000000 \\
+    \hline
+\end{tabular}  
+\end{center}
+
+La figure suivante (voir Figure \ref{fig:temps_exec_th_algo2}) représente l'évolution du temps d'exécution théorique selon la longueur de l'expression.
+
+\begin{figure}[H]
+    \centering
+        \includegraphics[scale=0.5]{./ressources/temps_execution_th_algo2.pdf}
+        \caption{Temps d'exécution théorique de l'algorithme de représentation d'expression arithmétique en arbre binaire}
+    \label{fig:temps_exec_th_algo2}
+\end{figure} 
+
+Depuis le graphe,  on observe que le temps d'exécution évolue de manière linéaire avec l'évolution de la taille de l'expression.
 
 \subsection{Complexité spatiale}
 L'expression arithmétique est d'abord stockée dans une chaîne de caractères de longueur $n$, puis dans un vecteur d'entités de longueur $n'$, puis dans un arbre binaire qui contient lui aussi $n'$ éléments.
@@ -208,7 +232,7 @@ La complexité spatiale est égale à la somme des trois complexités (taille de
 \par
 
 \section{Expérimentation}
-Le tableau suivant représente les temps d'exécution en nanoseconde de l'algorithme selon la variation de la taille de l'expression arithmétique en d'opérande.\\
+Le tableau suivant représente les temps d'exécution en nanoseconde de l'algorithme selon la variation de la taille de l'expression arithmétique.\\
 \small
 \begin{tabular}{| c | c | c | c | c | c | c | c | c | c | c | c |}
     \hline
@@ -239,13 +263,13 @@ Le tableau suivant représente les temps d'exécution en nanoseconde de l'algori
 \end{tabular}
 \normalsize
 \par
-La figure suivante (voir Figure \ref{fig:temps_exec}) représente l'évolution du temps d'exécution selon la longueur de l'expression arithmétique en d'opérande.
+La figure suivante (voir Figure \ref{fig:temps_exec_algo2}) représente l'évolution du temps d'exécution selon la longueur de l'expression arithmétique.
 
 \begin{figure}[H]
     \centering
-        \includegraphics[scale=0.5]{./ressources/temps_execution.pdf}
-        \caption{Temps d'exécution du programme selon la longueur de l'expression en d'opérandes}
-    \label{fig:temps_exec}
+        \includegraphics[scale=0.5]{./ressources/temps_execution_algo2.pdf}
+        \caption{Temps d'exécution du programme selon la longueur de l'expression}
+    \label{fig:temps_exec_algo2}
 \end{figure}
 \par
 Depuis le graphe, la courbe est sous forme d'une droite, on observe que le temps d'exécution évolue de manière linéaire avec l'augmentation de la taille du problème, ce qui correspond bien à la complexité théorique calculée auparavant. 
