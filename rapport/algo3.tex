@@ -53,7 +53,7 @@ Nous pouvons le représenter via le pseudo code suivant :
         $SousTabFusionIndex  \leftarrow gauche$\;
         \While{$SousTab1Index < SousTab1$ et $SousTab2Index < SousTab2$}
        {
-            \\
+            %\\
             \If{tabG[SousTab1Index] <= tabD[SousTab2Index]}{
                 $tab[SousTabFusionIndex] \leftarrow tabG[SousTab2Index]$\;
                 $SousTab1Index++$\;
@@ -63,21 +63,24 @@ Nous pouvons le représenter via le pseudo code suivant :
                 $SousTab2Index++$\;
             }
             $SousTabFusionIndex++$\;
-        \EndWhile}
+        %\EndWhile
+        }
         \While{$SousTab1Index < SousTab1$}
        {
-            \\
+            %\\
             $tab[SousTabFusionIndex] \leftarrow tabG[SousTab1Index]$\;
             $SousTab1Index++$\;
             $SousTabFusionIndex++$\;
-        \EndWhile}
+        %\EndWhile
+        }
         \While{$SousTab2Index < SousTab2$}
        {
-            \\
+            %\\
             $tab[SousTabFusionIndex] \leftarrow tabG[SousTab2Index]$\;
             $SousTab1Index++$\;
             $SousTabFusionIndex++$\;
-        \EndWhile}
+        %\EndWhile
+        }
     }
     \caption{Fusion(Entrée: tab: tableau d'entier; droite, gauche, milieu: entier;)}
 \end{function}
@@ -129,7 +132,7 @@ Nous pouvons le représenter via le pseudo code suivant :
                 {$pos \leftarrow i$\;
                  retour pos\;}
             \tcp{Si la valeur recherchée est plus petite que la valeur du l'élément du milieu Alors on regarde le sous-tableau de gauche}
-            \Elseif {$tab[i] > r$}
+            \ElseIf {$tab[i] > r$}
                 {$fin = i - 1$\;}
             \tcp{sinon on regarde le sous-tableau de droite}
             \Else
@@ -141,11 +144,35 @@ Nous pouvons le représenter via le pseudo code suivant :
 
 \section{Calcul de complexité}
 \subsection{Complexité temporelle}
-La complexité du tri dichotomique est toujours égale à : $\mathcal{O}(n \log(n)$ que ce soit dans le cas meilleur ou le cas tel que $n$ est la longueur du tableau.
+La complexité du tri dichotomique est toujours égale à : $\mathcal{O}(n \log(n))$ que ce soit dans le cas meilleur ou le cas tel que $n$ est la longueur du tableau.
 \par
-La complexité de la recherche dichotomique  est quant à elle égale à $\mathcal{O}(\log(n')$ tel que $n'$ est la longueur du tableau.
+La complexité de la recherche dichotomique  est quant à elle égale à $\mathcal{O}(\log(n'))$ tel que $n'$ est la longueur du tableau.
 \par
-La complexité temporelle de l'algorithme devient alors : $\mathcal{O}(n \log(n) + \log(n')) = {O}(\log(n^n + n'))$.
+La complexité temporelle de l'algorithme devient alors : $\mathcal{O}(n \log(n) + \log(n')) = {O}(\log(n^n + n'))$.\\
+
+Le tableau suivant représente les temps d'exécution théorique en nanoseconde de l'algorithme selon la variation de la taille du tableau
+
+\small
+\begin{center}
+\begin{tabular}{| c | c | c | c | c | c | c | c | c | c | c | c | c |}
+    \hline
+    N &  10 & 50 & 100 & 500 & 1000 & 5000 & 10000 & 100000 & 1000000 & 10000000 \\
+    \hline
+    t(ns) & 11 & 87 & 202 & 1352 & 3003 & 18499 & 40004 & 500005 & 6000006 & 70000007 \\
+    \hline
+\end{tabular}  
+\end{center}
+
+La figure suivante (voir Figure \ref{fig:temps_exec_dico_theo}) représente l'évolution du temps d'exécution théorique selon la longueur du tableau.
+
+\begin{figure}[H]
+    \centering
+        \includegraphics[scale=0.5]{./ressources/tempsexecutiondicotheorique.png}
+        \caption{Temps d'exécution théorique du programme selon la longueur du tableau}
+    \label{fig:temps_exec_dico_theo}
+\end{figure} 
+
+Depuis le graphe,  on observe que le temps d'exécution évolue de manière linéarithmique avec l'augmentation de la taille du problème.
 
 \subsection{Complexité spatiale}
 L'expression arithmétique est d'abord stockée dans une chaîne de caractères de longueur $n$, puis dans un vecteur d'entités de longueur $n'$, puis dans un arbre binaire qui contient lui aussi $n'$ éléments.
@@ -156,8 +183,10 @@ La taille d'un entier étant de 2 octets la complexité spatiale est égale au p
 \par
 
 \section{Expérimentation}
-Le tableau suivant représente les temps d'exécution en nanoseconde de l'algorithme selon la variation de la taille de l'expression arithmétique en d'opérande.\\ \\
+Le tableau suivant représente les temps d'exécution expérimentale en nanoseconde de l'algorithme selon la variation de la taille du tableau.
+
 \small
+\begin{center}
 \resizebox{19cm}{!}{
 \begin{tabular}{| c | c | c | c | c | c | c | c | c | c | c | c | c |}
     \hline
@@ -183,22 +212,23 @@ Le tableau suivant représente les temps d'exécution en nanoseconde de l'algori
     \hline
     t10(ns) & 5242 & 31262 & 41654 & 233613 & 530896 & 1041460 & 3706200 & 45122700 & 1687400000 & 33447800000 \\
     \hline
-    Moyenne(ns) & 2164 & 28704 & 92760 & 169733 & 341583 & 1047560 & 4598740 & 38774800 & 5626090000 & 37018600000 \\
+    Moyenne(ns) & 5221 & 37382 & 66294 & 239061 & 521040 & 1271437 & 3429518 & 37552644 & 3176520000 & 70894030000 \\
     \hline
 \end{tabular}}
-\\
+\end{center}
 \normalsize
 \par
 La figure suivante (voir Figure \ref{fig:temps_exec_dico}) représente l'évolution du temps d'exécution selon la longueur du tableau.
 
 \begin{figure}[H]
     \centering
-        \includegraphics[scale=0.5]{./ressources/tempsexecutiondico.png}
+        \includegraphics[scale=0.55]{./ressources/tempsexecutiondico.png}
         \caption{Temps d'exécution du programme selon la longueur du tableau}
     \label{fig:temps_exec_dico}
 \end{figure}
+
 \par
-Depuis le graphe, la courbe est sous forme d'un arc ascendant, on observe que le temps d'exécution évolue de manière linéarithmique avec l'augmentation de la taille du problème, ce qui correspond bien à la complexité théorique calculée auparavant. 
+Depuis le graphe,  on observe que le temps d'exécution évolue de manière linéarithmique avec l'augmentation de la taille du problème, ce qui correspond bien à la complexité théorique et d’exécution théorique calculée auparavant. 
 
 \section{Conclusion}
-L'algorithme de la recherche dichotomique propose une complexité optimale pour la recherche dans un tableau, cependant sa dépendance d'une fonction de tri afin de pouvoir fonctionner Quel que soit le tableau donné impacte négativement sa complexité, dans notre l'utilisation d'une fonction de tri dichotomique aura fait passer notre algorithme d'une complexité logarithmique a une complexité linéarithmique. Nous pouvons en conclure que la recherche par dichotomie est effectivement une bonne option, mais qu'afin de pouvoir l'utiliser à son plein potentiel il est nécessaire de l'utiliser sur des tableaux préalablement triés ou accompagné d'une fonction de tri ayant une complexité égale ou meilleur à elle.
+L'algorithme de la recherche dichotomique propose une complexité optimale pour la recherche dans un tableau, cependant sa dépendance d'une fonction de tri afin de pouvoir fonctionner Quel que soit le tableau donné impacte négativement sa complexité, dans notre l'utilisation d'une fonction de tri dichotomique aura fait passer notre algorithme d'une complexité logarithmique a une complexité linéarithmique. Nous pouvons en conclure que la recherche par dichotomie est effectivement une bonne option, mais qu'afin de pouvoir l'utiliser à son plein potentiel il est nécessaire de l'utiliser sur des tableaux préalablement triés ou accompagné d'une fonction de tri ayant une complexité égale ou meilleure à elle.
