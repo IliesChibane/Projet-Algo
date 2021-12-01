@@ -274,5 +274,9 @@ La figure suivante (voir Figure \ref{fig:temps_exec_algo2}) représente l'évolu
 \par
 Depuis le graphe, la courbe est sous forme d'une droite, on observe que le temps d'exécution évolue de manière linéaire avec l'augmentation de la taille du problème, ce qui correspond bien à la complexité théorique calculée auparavant. 
 
+\section{Améliorations}
+Une amélioration possible de l'algorithme consiste à fusionner l'analyse lexicale et syntaxique dans une même itération, c-à-d. que l'entité lexicale est injectée dans l'analyse syntaxique dès qu'elle est reconnue par l'analyse lexicale, sans effectuer une deuxième fois le parcours de l'expression. Cela va diminuer la complexité temporelle de moitié, et la complexité spatiale d'un tier.
+
 \section{Conclusion}
-L'algorithme de la descente récursive propose une complexité optimale pour la représentation de l'expression arithmétique en arbre binaire, égale à la longueur de l'expression arithmétique, car il parcourt l'expression un nombre minimal de fois (une seule fois). Nous avons bien vu pendant les expériences que l'évolution du temps d'exécution d'une telle complexité est relativement contrôlée et suit une courbe droite et linéaire.
+L'algorithme de la descente récursive propose une complexité optimale pour la représentation de l'expression arithmétique en arbre binaire, égale à la longueur de l'expression arithmétique, car il parcourt l'expression un nombre minimal de fois (une seule fois). Nous avons bien vu pendant les expériences que l'évolution du temps d'exécution d'une telle complexité est relativement contrôlé et suit une courbe droite et linéaire.
+
