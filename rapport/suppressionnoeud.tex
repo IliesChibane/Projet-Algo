@@ -55,6 +55,7 @@ Il est important de noter que le successeur d'ordre peut être obtenu en trouvan
 
 
 \begin{function}[H]
+\caption{supprimerec(Entrée: racine: arbre, valeur: entier) : arbre}
     \textbf{Variables :}\\
     Temp: arbre\;
     \Begin{
@@ -64,7 +65,7 @@ Il est important de noter que le successeur d'ordre peut être obtenu en trouvan
         \If{$valeur < racine.valeur$}{
             \tcp{Si la valeur cherchée est inférieure à l'élèment en cours, on supprime à gauche}
             $racine.filsg \leftarrow supprimerec(racine.filsg, valeur)$\;}
-        \Elseif{$valeur > racine.valeur$}{
+        \ElseIf{$valeur > racine.valeur$}{
         \tcp{Si la valeur cherchée est supérieure à l'élèment en cours, on supprime à droite}
             $racine.filsd \leftarrow supprimerec(racine.filsd, valeur)$\;}
         \Else
@@ -73,14 +74,14 @@ Il est important de noter que le successeur d'ordre peut être obtenu en trouvan
         \tcp{Le noeud n'a pas de fils}
         \If{$racine.filsg = Nil$ et $racine.filsd = Nil$}{
         retour Nil\;}
-        \Elseif{$racine.filsd = Nil$}
+        \ElseIf{$racine.filsd = Nil$}
         {
         \tcp{Si le noeud a un fils gauche seulement}
         $Temp \leftarrow racine.filsg$ \;
         Libérer(racine)\;
         retour Temp \;
         }
-        \Elseif{$racine.filsg = Nil$}{
+        \ElseIf{$racine.filsg = Nil$}{
         \tcp{Si le noeud a un fils à droite seulement}
         $Temp \leftarrow racine.filsd$ \;
         Libérer(racine)\;
@@ -94,7 +95,7 @@ Il est important de noter que le successeur d'ordre peut être obtenu en trouvan
         \ENDIF
         retour racine;
     }
-    \caption{supprimerec(Entrée: racine: arbre, valeur: entier) : arbre}
+    
 \end{function}
 \par 
 Comme nous l'avons mentionné avant, quand on veut supprimer un nœud qui a deux fils, nous devons écraser sa valeur en optant pour l’une des deux options : soit on cherche le successeur en ordre du nœud à supprimer, soit son prédécesseur en ordre. Il est à noter que le successeur en ordre du nœud représente le minimum dans son sous-arbre à droite, et que son prédécesseur représente le maximum de son sous-arbre gauche. Voici donc les deux fonctions que nous pourrons utiliser pour effectuer ces deux tâches :
@@ -132,12 +133,12 @@ Maintenant, nous allons écrire l’algorithme itératif de suppression pour com
 
 \begin{function}[H]
     \textbf{Variables :}\\
-    Temp, actuel, min, pere, prec: arbre\;
+    inter, actuel, min, pere : arbre\;
     \Begin{
     $actuel \leftarrow racine$ \;
-    $prec \leftarrow Nil$ \;
+    $pere \leftarrow Nil$ \;
         \While{$actuel <> Nil$ et $actuel.valeur <> valeur$}{
-        $ prec \leftarrow actuel$ \;
+        $ pere \leftarrow actuel$ \;
         \If{valeur < actuel.valeur}{
         $actuel \leftarrow actuel.filsg$\;
         \Else{$actuel \leftarrow actuel.filsd$\;}
@@ -145,20 +146,20 @@ Maintenant, nous allons écrire l’algorithme itératif de suppression pour com
         }
         \If{$actuel = Nil$}{
         Ecrire("La valeur que vous voulez supprimer n'existe pas dans l'arbre")\;
-        retour racine\;
+        retour Nil\;
         }
         \If{$actuel.filsg = Nil$ ou $actuel.filsd = Nil$}{ \tcp{Si le noeud a au plus un fils}
         \If{$actuel.filsg = Nil$}{ 
-        $Temp \leftarrow actuel.filsd$\;
+        $inter \leftarrow actuel.filsd$\;
         }
-        \Else{$Temp \leftarrow actuel.filsg$\;}
-        \If{$prec = Nil$}{ \tcp{Si le noeud est une racine}
-        retour Temp\;
+        \Else{$inter \leftarrow actuel.filsg$\;}
+        \If{$pere = Nil$}{ \tcp{Si le noeud est une racine}
+        retour inter\;
         }
-        \If{actuel = prec.filsd}{ \tcp{Si le noeud est une fils à droite}
-        prec.filsd = Temp\;
+        \If{actuel = pere.filsd}{ \tcp{Si le noeud est une fils à droite}
+        pere.filsd = inter\;
         }
-        \Else{prec.filsg = Temp\;}
+        \Else{pere.filsg = inter\;}
         Libérer(actuel)\;
         }
     }
@@ -171,21 +172,21 @@ Maintenant, nous allons écrire l’algorithme itératif de suppression pour com
 
      \Else{ \tcp{Si le noeud à supprimer a deux fils}
         \tcp{On commence par chercher le successeur en ordre}
-        $Temp \leftarrow actuel.filsd$\;
-        $pere \leftarrow racine$\;
-        \While{$Temp.filsg <> Nil$}{
-        $pere \leftarrow Temp$\;
-        $Temp \leftarrow Temp.filsg$\;
+        $min \leftarrow actuel.filsd$\;
+        $pere \leftarrow Nil$\;
+        \While{$min.filsg <> Nil$}{
+        $pere \leftarrow min$\;
+        $min \leftarrow min.filsg$\;
         }
-        \If{$pere <> racine$}{
+        \If{$pere <> Nil$}{
         \tcp{On peut mettre fils droit du successeur comme fils gauche du père du successeur }
-        $pere.filsg \leftarrow Temp.filsd$\;
+        $pere.filsg \leftarrow min.filsd$\;
         }
         \Else{
-        $actuel.filsd \leftarrow temp.filsd$\;
+        $actuel.filsd \leftarrow min.filsd$\;
         }
-        $actuel.valeur \leftarrow Temp.valeur$\; \\
-        Libérer(Temp)\;
+        $actuel.valeur \leftarrow min.valeur$\; \\
+        Libérer(min)\;
         }
         retour racine\;
     \caption{supprimeiter(Entrée: racine: arbre, valeur: entier) : arbre}
