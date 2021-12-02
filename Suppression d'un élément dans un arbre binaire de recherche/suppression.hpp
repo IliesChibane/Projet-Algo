@@ -73,12 +73,13 @@ struct element* supprimer_element_recursive(struct element* racine, int val){ //
  * 
  * ***/
 
+
 struct element* supprimer_element(struct element* racine, int val){
     struct element* pere=nullptr;
     struct element* actuel = racine;
 
-    // on cherche l'elt à supprimer, pere point sur le parent de actuel
-    while(actuel && actuel->valeur != val){
+    // on cherche l'elt à supprimer, pere point sur le pere de actuel
+    while(actuel != nullptr && actuel->valeur != val){
         pere = actuel;
 
         if(val < actuel->valeur)
@@ -123,7 +124,7 @@ struct element* supprimer_element(struct element* racine, int val){
     // si le noeud à supp a deux fils
     else {
         element* min;
-        pere = nullptr;
+        pere = racine;
  
         // on cherche le min du sous arbre droit du noeud à supprimer on garddant trace du pere 
         min = actuel->droit;
@@ -132,7 +133,7 @@ struct element* supprimer_element(struct element* racine, int val){
             min = min->gauche;
         }
  
-        if (pere != nullptr) //vérifie si le parent du successeur en ordre sup est le courant ou non. s'il ne l'est pas, alors l'enfant gauche de son parent est égal à l'enfant droit de sup.
+        if (pere != racine) //vérifie si le pere du successeur en ordre sup est le courant ou non. s'il ne l'est pas, alors l'enfant gauche de son pere est égal à l'enfant droit de sup.
             pere->gauche = min->droit;
         else
             actuel->droit = min->droit;
@@ -141,12 +142,99 @@ struct element* supprimer_element(struct element* racine, int val){
         free(min);
     }
     return racine;
-
-    
 }
 
-bool existe(struct element* noeud, int val) //vérifier si le noeud existe pour l'approche récursive
+
+// Autre fonction de suppression
+/*struct element* supprimer_element(element* racine, int val)
 {
+    element* pere = nullptr;
+    element* actuel = racine;
+ 
+    // on cherche l'elt à supprimer, pere point sur le pere de actuel
+    while(actuel != nullptr && actuel->valeur != val){
+        pere = actuel;
+
+        if(val < actuel->valeur)
+            actuel = actuel->gauche;
+        else
+            actuel = actuel->droit;
+    } 
+ 
+    //si la valeur cherchée est inexistante
+    if(actuel==nullptr){
+        printf("La valeur que vous cherchez à supprimer n'existe pas\n");
+        return nullptr;
+    }
+ 
+    // Cas 1: le noeud n'a aucun fils
+    if (actuel->gauche == nullptr && actuel->droit == nullptr){
+        // si le noeud à supp n'est pas une racine, on met son pere gauche/droit à Null
+        if (actuel != racine)
+        {
+            if (pere->gauche == actuel) 
+                pere->gauche = nullptr;
+            
+            else 
+                pere->droit = nullptr;
+        }
+        // si nous avons qu'une racine
+        else {
+            return nullptr;
+        }
+
+        // on libère l'espace
+        free(actuel);        // ou bien delete actuel en appelant le destructeur
+    }
+
+    // Cas 2: noeud à supp a deux fils
+    else if (actuel->gauche && actuel->droit){
+        element* min; // pour chercher le succ en ordre
+        pere = racine;
+
+        // on cherche le min du sous arbre droit du noeud à supprimer on garddant trace du pere 
+        min = actuel->droit;
+        while (min->gauche != nullptr) {
+            pere = min;
+            min = min->gauche;
+        }
+
+        if (pere != racine) //vérifie si le pere du successeur en ordre sup est le courant ou non. s'il ne l'est pas, alors l'enfant gauche de son pere est égal à l'enfant droit de sup.
+            pere->gauche = min->droit;
+        else
+            actuel->droit = min->droit;
+
+        actuel->valeur = min->valeur;
+        free(min);
+    }
+    // Cas 3: le noeud à supp a un seul fils
+    else {
+        // choose a intermediaire node
+        element* intermediaire = (actuel->gauche)? actuel->gauche: actuel->droit;
+
+        //si le noeud n'est pas une racine, on lie le pere gauche/droit avec l'intermediaire  
+        if (actuel != racine)
+        {
+            if (actuel == pere->gauche) 
+                pere->gauche = intermediaire;
+            
+            else 
+                pere->droit = intermediaire;
+            
+        }
+        //si le noeud  est la racine, l'intermediaire devient direct la racine
+        else 
+            return intermediaire;
+        
+        // deallocate the memory
+        free(actuel);
+    }
+    return racine;
+}
+*/
+
+
+bool existe(struct element* noeud, int val){ //vérifier si le noeud existe pour l'approche récursiv
     if (noeud == nullptr)
         return false;
  
@@ -164,8 +252,7 @@ bool existe(struct element* noeud, int val) //vérifier si le noeud existe pour 
     return res2;
 }
 
-void CalculateTimeRecursive(element* racine, int val)
-{
+void CalculateTimeRecursive(element* &racine, int val){
     if (! existe(racine,val)){
         printf("La valeur que vous cherchez à supprimer n'existe pas\n");
     } 
@@ -180,8 +267,7 @@ void CalculateTimeRecursive(element* racine, int val)
     }
 }
 
-void CalculateTimeIterative(element* racine, int val, int &ex)
-{
+void CalculateTimeIterative(element* &racine, int val, int &ex){
         //time start
         chrono::time_point<chrono::steady_clock> start = chrono::steady_clock::now(), stop;
         racine = supprimer_element(racine, val);
