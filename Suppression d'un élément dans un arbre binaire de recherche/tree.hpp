@@ -99,7 +99,7 @@ int get_feuille(element *racine)
 
 //visualization basique de l'arbre binaire 
 
-void traverser_arbre_ordonne(struct element* racine){ //afficher l'arbre binaire en ordre 
+void traverser_arbre_ordonne(struct element* racine){ //afficher l'arbre binaire en ordre infixé
     if(racine != nullptr){
         traverser_arbre_ordonne(racine->gauche);
         cout <<racine->valeur<<" ";
@@ -107,7 +107,7 @@ void traverser_arbre_ordonne(struct element* racine){ //afficher l'arbre binaire
     }
 }
 
-void traverser_arbre_preordonne(struct element* racine){ //afficher l'arbre binaire en ordre 
+void traverser_arbre_preordonne(struct element* racine){ //afficher l'arbre binaire en ordre préfixé
     if(racine != nullptr){
         cout <<racine->valeur<<endl;
         traverser_arbre_preordonne(racine->gauche);
@@ -115,7 +115,7 @@ void traverser_arbre_preordonne(struct element* racine){ //afficher l'arbre bina
     }
 }
 
-void traverser_arbre_postordonne(struct element* racine){ //afficher l'arbre binaire en ordre 
+void traverser_arbre_postordonne(struct element* racine){ //afficher l'arbre binaire en ordre postfixé
     if(racine != nullptr){
         traverser_arbre_postordonne(racine->gauche);
         traverser_arbre_postordonne(racine->droit);

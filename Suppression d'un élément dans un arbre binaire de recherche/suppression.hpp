@@ -36,7 +36,7 @@ struct element* supprimer_element_recursive(struct element* racine, int val){ //
     else if(val > racine->valeur)  //si la val a supprimer est inf à la valeur de l'elt alors on va supprimer à droite.
         racine->droit = supprimer_element_recursive(racine->droit,val);
 
-    else{ //si val == racine->valeur (on a trouvé l'elt à supprimer)
+    else { //si val == racine->valeur (on a trouvé l'elt à supprimer)
 
         //si l'elt n'a aucun fils
         if(racine->droit==nullptr && racine->droit==nullptr)
@@ -146,7 +146,7 @@ struct element* supprimer_element(struct element* racine, int val){
 
 
 // Autre fonction de suppression
-/*struct element* supprimer_element(element* racine, int val)
+struct element* supprimer_element0(element* racine, int val)
 {
     element* pere = nullptr;
     element* actuel = racine;
@@ -231,7 +231,7 @@ struct element* supprimer_element(struct element* racine, int val){
     }
     return racine;
 }
-*/
+
 
 
 bool existe(struct element* noeud, int val){ //vérifier si le noeud existe pour l'approche récursiv

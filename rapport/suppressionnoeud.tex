@@ -32,8 +32,8 @@ Il suffit d'enlever le nœud en modifiant le lien du père, s’il existe. Sinon
     \label{fig:d1}
 \end{figure}
 
-\subsection{Cas 2 : Cas d’un unique fils Le nœud à supprimer à un unique fils}
-On décroche le noeud de l’arbre comme dans le cas 1.Ensuite,on relie directement son père et son fils. Si ce père n’existe pas, l’arbre est réduit au fils unique du nœud supprimé.  (voir Figure \ref{fig:d2}).
+\subsection{Cas 2 : Cas d’un unique fils. Le nœud à supprimer à un seul fils}
+On décroche le noeud de l’arbre En reliant directement son père et son fils. Ensuite on libère l'espace qu'occupe le noeud à supprimer. Si son père n’existe pas, l’arbre est réduit au fils unique du nœud supprimé.  (voir Figure \ref{fig:d2}).
 \begin{figure}[H]
     \centering
         \includegraphics[scale=0.7]{./ressources/d2.jpeg}
@@ -41,7 +41,7 @@ On décroche le noeud de l’arbre comme dans le cas 1.Ensuite,on relie directem
     \label{fig:d2}
 \end{figure}
 
-\subsection{Cas 3 : Cas de deux fils Le nœud à supprimer à deux fils}
+\subsection{Cas 3 : Cas de deux fils. Le nœud à supprimer à deux fils}
 On cherche le successeur en ordre du noeud. Ensuite, on copie le contenu du successeur d'ordre dans le noeud et on supprime le successeur d'ordre. Notez que le prédécesseur d'ordre peut également être utilisé.
 \par
 Il est important de noter que le successeur d'ordre peut être obtenu en trouvant la valeur minimale dans le sous-arbre de droite du noeud à supprimer et que le prédécesseur d'ordre est le maximum de son sous-arbre gauche.(voir Figure \ref{fig:d3}).
@@ -182,12 +182,12 @@ Maintenant, nous allons écrire l’algorithme itératif de suppression pour com
      \Else{ \tcp{Si le noeud à supprimer a deux fils}
         \tcp{On commence par chercher le successeur en ordre}
         $min \leftarrow actuel.filsd$\;
-        $pere \leftarrow Nil$\;
+        $pere \leftarrow racine$\;
         \While{$min.filsg <> Nil$}{
         $pere \leftarrow min$\;
         $min \leftarrow min.filsg$\;
         }
-        \If{$pere <> Nil$}{
+        \If{$pere <> racine$}{
         \tcp{On peut mettre fils droit du successeur comme fils gauche du père du successeur }
         $pere.filsg \leftarrow min.filsd$\;
         }
@@ -204,14 +204,15 @@ Maintenant, nous allons écrire l’algorithme itératif de suppression pour com
 
 \section{Calcul de complexité}
 \subsection{Complexité temporelle}
-Dans le meilleur cas, nous aurons un ABR équilibré, c’est-à-dire que le nombre des fils à gauche est le même qu’à la droite. La complexité temporelle est donc de l’ordre de la hauteur de l’arbre binaire de recherche. Puisque ce dernier est en moyenne $\mathcal{O}(log_2(n))$, la complexité temporelle du cas moyen est de l’ordre $\mathcal{O}(log_2(n))$. Il en va de même pour le cas moyen.
+Dans le meilleur cas, nous aurons un ABR équilibré, c’est-à-dire que le nombre des fils à gauche est le même qu’à la droite. Ainsi, l'opération de se fera que sur la motié de l'ABR équilibre, ce qui donne une complexité de $\mathcal{O}(log_2(n))$.  
 \par
 Nous avons obtenu une complexité temporelle logarithmique parce que la suppression dans un arbre binaire de recherche est un cas où un problème de taille n est divisé en sous-problèmes de taille n/2 jusqu'à atteindre un problème de taille 1.
 \par
 Le calcul de la complexité se fait donc de la manière suivante :
 $$ \frac {a}{b^x}=1  \hspace{2cm}[Dans\hspace{0.2cm} un\hspace{0.2cm} arbre\hspace{0.2cm} binaire\hspace{0.2cm} b = 2] $$
 $$i.e : n=2^x\hspace{2cm} qui\hspace{0.2cm} est\hspace{0.2cm} log_2 n\hspace{0.2cm} par\hspace{0.2cm} definition\hspace{0.2cm} de\hspace{0.2cm} la\hspace{0.2cm} fonction\hspace{0.2cm} logarithme$$
-
+\par 
+Dans le cas moyen, la complexité temporelle est de l’ordre de la hauteur de l’arbre binaire de recherche. Puisque ce dernier est en moyenne $\mathcal{O}(log_2(n))$, la complexité temporelle du cas moyen est de l’ordre $\mathcal{O}(log_2(n))$.
 \par
 Par ailleurs, si on traverse de la racine à une feuille, c’est-à-dire toute la hauteur $h$ de l’arbre. Si ce dernier n’est pas équilibré, on sera amené à parcourir tous les nœuds et la hauteur de l’arbre deviendra $n$. par conséquent la complexité temporelle dans le pire des cas de l’opération de suppression est $\mathcal{O}(n)$.
 
@@ -243,15 +244,16 @@ Depuis le graphe,  on observe que le temps d'exécution évolue de manière lin�
 \subsection{Complexité spatiale}
 
 \par
-Nos noeuds sont directement stockées dans un arbre de recherche à $n$ éléments. Dans notre cas, une entité contient une valeur entière et deux pointeurs pour les deux fils. La taille de la valeur stockée ainsi qu'un pointeur fait 4 octets. Donc la taille d'un élèment dans l'arbre est égale à $4+ 4*2$ unités donc $12$ unités.
+Nos noeuds sont directement stockées dans un arbre de recherche à $n$ éléments. Dans notre cas, un noeud contient une valeur entière et deux pointeurs pour les deux fils. La taille de la valeur stockée ainsi que celle d'un pointeur fait 4 octets. Donc la taille d'un élèment dans l'arbre est égale à $4+ 4*2$ unités donc $12$ unités.
 \par
 La complexité spatiale de l’algorithme est $\mathcal{O}(n)$.
 \par
 
 \section{Expérimentation}
 Le tableau suivant représente les temps d'exécution en nanoseconde de l'algorithme de suppression dans un arbre à 10 noeuds selon l'approche utilisée, l'équillibre de l'arbre et le nombre de fils du noeud à supprimer.\\ 
+\singlespacing
 \small
-\resizebox{19cm}{!}{
+\resizebox{17cm}{!}{
 \begin{tabular}{| c | c | c | c | c |}
     \hline
     Type d'approche & Type d'arbre & Type de Suppression &  Temps d'execution (ns) \\
@@ -341,7 +343,7 @@ La figure suivante (voir Figure \ref{fig:temps_exec_noeuds}) représente l'évol
     \label{fig:temps_exec_noeuds}
 \end{figure}
 \par
-Depuis le graphe, la courbe est sous forme de courbe ascendante, on observe que le temps d'exécution évolue de manière linéare avec l'augmentation de la taille du problème, ce qui correspond bien à la complexité théorique calculée auparavant. 
+Depuis le graphe, la courbe est sous forme de courbe ascendante, on observe que le temps d'exécution évolue avec l'augmentation de la taille du problème, ce qui correspond bien à la complexité théorique calculée auparavant. 
 
 \section{Conclusion}
-La suppression d’un nœud dans un arbre binaire de recherche est l’une des opérations les plus compliquées à faire étant donné qu’il faut appliquer un traitement différent selon le nombre de fils que le nœud à supprimer possède.  Dans cette partie, nous avons essayé les deux approches : itérative et récursive. Nous constatons qu’en utilisant cette dernière, les cas de figure sont bien distingués et faciles à comprendre contrairement à la façon itérative qui est beaucoup plus lourde.En revanche, l'approche itérative nous aide à comprendre de manière détaillée tout ce qui se passe en interne dans l'algorithme et comment la suppression est réellement effectuée.De plus, elle est beaucoup plus rapide que l'approche récursive.
+La suppression d’un nœud dans un arbre binaire de recherche est l’une des opérations les plus compliquées à faire étant donné qu’il faut appliquer un traitement différent selon le nombre de fils que le nœud à supprimer possède.  Dans cette partie, nous avons essayé les deux approches : itérative et récursive. Nous constatons qu’en utilisant cette dernière, le code est plutot petit et facile à comprendre contrairement à la façon itérative qui est beaucoup plus lourde.En revanche, cette dernière nous aide à comprendre de manière détaillée tout ce qui se passe en interne dans l'algorithme et comment la suppression est réellement effectuée.De plus, elle est plus rapide que l'approche récursive.
