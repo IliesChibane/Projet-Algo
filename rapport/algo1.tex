@@ -1,0 +1,82 @@
+\chapter{Recherche séquentielle d'un élément dans un tableau}
+
+\section{Description de l'objectif de l'algorithme}
+En informatique, un tableau est une structure de données représentant une séquence finie d'éléments défini par un index représentant sa position au sein du tableau nous permettant d'y accéder. C'est un type de conteneur que l'on retrouve dans un grand nombre de langages de programmation et est l'un des plus utilisés du de sa simplicité.
+\par
+Les données du tableau étant accessible individuellement il est nécessaire de faire une recherche lorsque l'on souhaite accéder a une valeur spécifique du tableau cependant lorsque la taille de la structure est grande il devient difficile d'y accéder efficacement. Dans ce chapitre on nous allons voir la recherche séquentielle qui est une recherche très coûteuse en temps et nous allons aussi présenter une optimisation de cette recherche afin de gagner en complexité temporelle.
+\par
+La recherche séquentielle ou recherche linéaire est un algorithme pour trouver une valeur dans une liste ou un tableau. Elle consiste simplement à considérer les éléments du tableau les uns après les autres, jusqu'à ce que l'élément soit trouvé, ou que toutes les cases aient été lues. Elle est aussi appelée recherche par balayage.. (voir Figure \ref{fig:recherche_sec}).
+
+\begin{figure}[H]
+    \centering
+        \includegraphics[scale=0.5]{./ressources/Recherche_séquentielle.jpg}
+        \caption{Exemple graphique d'une recherche séquentielle}
+    \label{fig:recherche_sec}
+\end{figure}
+
+\section{Fonctionnement de l'algorithme}
+La recherche séquentielle consiste à prendre les éléments du tableau les uns après les autres, jusqu'à avoir trouvé la cible, ou avoir épuisé le tableau.Elle ne demande aucune condition au préalable pour le tableau en entrée; par exemple: il n'est pas necessaire que le tableau soit trié.
+
+
+\par
+Nous pouvons le représenter via le pseudo code suivant :
+
+
+\section{Calcul de complexité}
+\subsection{Complexité temporelle}
+La complexité de la recherche séquentielle est toujours égale à : $\mathcal{O}(n)$.
+
+\subsection{Complexité spatiale}
+\par
+L'unique structure de données utilisée est un tableau d'entier a n éléments. 
+\par
+La taille d'un entier étant de 2 octets, la complexité spatiale est donc égale au produit de la taille du tableau et de la taille d'un entier : $n * 2 \approx \mathcal{O}(n)$
+\par
+
+\section{Expérimentation}
+Le tableau suivant représente les temps d'exécution en nanoseconde de l'algorithme selon la variation de la taille de l'expression arithmétique en d'opérande.\\ \\
+\small
+\resizebox{19cm}{!}{
+\begin{tabular}{| c | c | c | c | c | c | c | c | c | c | c | c | c |}
+    \hline
+    N &  10 & 50 & 100 & 500 & 1000 & 5000 & 10000 & 100000 & 1000000 & 10000000 \\
+    \hline
+    t1(ns) & 606 & 401 & 222 & 3224 & 12010 & 6864 & 106408 & 1066370 & 11130 & 11018 \\
+    \hline
+    t2(ns) & 866 & 1153 & 1851 & 5171 & 11383 & 52809 & 109357 & 1061730 & 3028000 & 38859000 \\
+    \hline
+    t3(ns) & 168 & 1066 & 1064 & 5714 & 10237 & 53084 & 2875 & 5070 & 4519680 & 56877700 \\
+    \hline
+    t4(ns) & 744 & 1119 & 1283 & 7111 & 747 & 2197 & 1504 & 11452 & 7636790 & 41331300 \\
+    \hline
+    t5(ns) & 588 & 785 & 829 & 1328 & 10459 & 3069 & 102717 & 1074940 & 1077270 & 54743600 \\
+    \hline
+    t6(ns) & 722 & 621 & 1402 & 1556 & 4204 & 10955 & 5509 & 1082590 & 1069420 & 11577 \\
+    \hline
+    t7(ns) & 638 & 499 & 375 & 5083 & 10259 & 6345 & 106589 & 493002 & 10463 & 38906200 \\
+    \hline
+    t8(ns) & 708 & 746 & 2192 & 7064 & 5008 & 8755 & 107439 & 1041410 & 1094640 & 40419900 \\
+    \hline
+    t9(ns) & 694 & 1225 & 1570 & 1118 & 11180  & 3275 & 122386 & 922361 & 10669 & 55940100 \\
+    \hline
+    t10(ns) & 666 & 1161 & 1504 & 2456 & 11349 & 10799 & 7470 & 1092110 & 7197500 & 40000300 \\
+    \hline
+    Moyenne(ns) & 2164 & 28704 & 92760 & 169733 & 341583 & 1047560 & 4598740 & 38774800 & 5626090000 & 37018600000 \\
+    \hline
+\end{tabular}}
+\\
+\normalsize
+\par
+La figure suivante (voir Figure \ref{fig:temps_exec_seq}) représente l'évolution du temps d'exécution selon la longueur du tableau.
+
+\begin{figure}[H]
+    \centering
+        \includegraphics[scale=0.5]{./ressources/tempsexecutiondico.png}
+        \caption{Temps d'exécution du programme selon la longueur du tableau}
+    \label{fig:temps_exec_seq}
+\end{figure}
+\par
+Depuis le graphe, la courbe est sous forme d'un arc ascendant, on observe que le temps d'exécution évolue de manière linéarithmique avec l'augmentation de la taille du problème, ce qui correspond bien à la complexité théorique calculée auparavant. 
+
+\section{Conclusion}
+L'algorithme de la recherche sequentielle(linéaire) se caractérise par son fonctionnement inconditionnel sur n'importe quel tableau. Par ailleurs, il est coûteux en temps. Pour remédier au problème tomporelle, il est possible d'utiliser  la technique de 2 processus expliquée auparavant. Cela optimise le temps de recherche par 2 mais il augmente la complexité spatiale par 3. Donc l'utilisation des processus est utile quand on a suffisament d'espace mémoire et on veut accélerer la recherche.
