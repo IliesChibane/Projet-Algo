@@ -54,7 +54,7 @@ Nous pouvons le représenter via le pseudo code suivant :
         \While{$SousTab1Index < SousTab1$ et $SousTab2Index < SousTab2$}
        {
             %\\
-            \If{tabG[SousTab1Index] <= tabD[SousTab2Index]}{
+            \uIf{tabG[SousTab1Index] <= tabD[SousTab2Index]}{
                 $tab[SousTabFusionIndex] \leftarrow tabG[SousTab2Index]$\;
                 $SousTab1Index++$\;
             }
@@ -128,11 +128,11 @@ Nous pouvons le représenter via le pseudo code suivant :
             \tcp{Calcul de la position de l'élément du milieu}
             $i \leftarrow (debut + fin) / 2$\;
             \tcp{Si l'élément du milieu est l'élément recherché on retourne sa position}
-            \If{$tab[i] == r$}
+            \uIf{$tab[i] == r$}
                 {$pos \leftarrow i$\;
                  retour pos\;}
             \tcp{Si la valeur recherchée est plus petite que la valeur du l'élément du milieu Alors on regarde le sous-tableau de gauche}
-            \ElseIf {$tab[i] > r$}
+            \uElseIf {$tab[i] > r$}
                 {$fin = i - 1$\;}
             \tcp{sinon on regarde le sous-tableau de droite}
             \Else
