@@ -1,11 +1,11 @@
 \chapter{Recherche séquentielle d'un élément dans un tableau}
 
 \section{Description de l'objectif de l'algorithme}
-En informatique, un tableau est une structure de données représentant une séquence finie d'éléments défini par un index représentant sa position au sein du tableau nous permettant d'y accéder. C'est un type de conteneur que l'on retrouve dans un grand nombre de langages de programmation et est l'un des plus utilisés du de sa simplicité.
+En informatique, un tableau est une structure de données représentant une séquence finie d'éléments définis par un index représentant leurs positions au sein du tableau. C'est un type de conteneur que l'on retrouve dans un grand nombre de langages de programmation et est l'un des plus utilisés dû à sa simplicité.
 \par
-Les données du tableau étant accessible individuellement il est nécessaire de faire une recherche lorsque l'on souhaite accéder a une valeur spécifique du tableau cependant lorsque la taille de la structure est grande il devient difficile d'y accéder efficacement. Dans ce chapitre on nous allons voir la recherche séquentielle qui est une recherche très coûteuse en temps et nous allons aussi présenter une optimisation de cette recherche afin de gagner en complexité temporelle.
+Les données du tableau étant accessible individuellement il est nécessaire de faire une recherche lorsque l'on souhaite accéder a une valeur spécifique du tableau. Cependant, lorsque la taille de la structure est grande il devient difficile d'y accéder efficacement. Dans ce chapitre nous allons voir la recherche séquentielle qui est une recherche très coûteuse en temps et nous allons aussi présenter une optimisation de cette recherche afin de gagner en complexité temporelle.
 \par
-La recherche séquentielle ou recherche linéaire est un algorithme pour trouver une valeur dans une liste ou un tableau. Elle consiste simplement à considérer les éléments du tableau les uns après les autres, jusqu'à ce que l'élément soit trouvé, ou que toutes les cases aient été lues. Elle est aussi appelée recherche par balayage.. (voir Figure \ref{fig:recherche_sec}).
+La recherche séquentielle ou recherche linéaire est un algorithme pour trouver une valeur dans une liste ou un tableau. Elle consiste simplement à considérer les éléments du tableau les uns après les autres, jusqu'à ce que l'élément soit trouvé, ou que toutes les cases aient été lues. Elle est aussi appelée recherche par balayage. (voir Figure \ref{fig:recherche_sec}).
 
 \begin{figure}[H]
     \centering
@@ -22,9 +22,67 @@ La recherche séquentielle consiste à prendre les éléments du tableau les uns
 Nous pouvons le représenter via le pseudo code suivant :
 
 
+\begin{function}[H]
+    \textbf{Variables :}\\
+    i : entier\;
+    trouve : bool\;
+    \Begin{
+        $trouve \leftarrow faux $\;
+        $i \leftarrow 0 $\;
+
+         \While{$trouve \leftarrow false \:\: ET \:\: i \: < \: n$}
+       {
+            
+            \If{$tab[i] == valeur$}{
+                $trouve \leftarrow vrai $\;
+                $i++$\;
+            }
+        }
+
+            \uIf{$trouve \leftarrow vrai$}{
+                $retourner\:\: i-1$\;
+            }
+            \Else {
+             $retourner -1$\;
+            }
+}
+    \caption{sequentielle(Entrée: tab: tableau d'entier; tailleTableau, valeur: entier;)}
+\end{function}
+
+
+
+
+
+
+
 \section{Calcul de complexité}
 \subsection{Complexité temporelle}
 La complexité de la recherche séquentielle est toujours égale à : $\mathcal{O}(n)$.
+
+le tableau suivant représente les temps d'exécution théorique en nanoseconde de l'algorithme selon la variation de la taille de l'expression:
+
+\small
+\begin{center}
+\begin{tabular}{| c | c | c | c | c | c | c | c | c | c | c | c | c |}
+    \hline
+    N & 10 & 50 & 100 & 500 & 1000 & 5000 & 10000 & 100000 & 1000000 & 10000000 \\
+    \hline
+    t(ns) & 10 & 50 & 100 & 500 & 1000 & 5000 & 10000 & 100000 & 1000000 & 10000000 \\
+    \hline
+\end{tabular}  
+\end{center}
+
+La figure suivante (voir Figure \ref{fig:temps_exec_th_algo2}) représente l'évolution du temps d'exécution théorique selon la longueur de l'expression.
+
+\begin{figure}[H]
+    \centering
+        \includegraphics[scale=0.5]{./ressources/temps_execution_th_algo2.pdf}
+        \caption{Temps d'exécution théorique de l'algorithme de recherche linéaire}
+    \label{fig:temps_exec_th_algo2}
+\end{figure} 
+
+Depuis le graphe,  on observe que le temps d'exécution évolue de manière linéaire avec l'évolution de la taille de l'expression.
+
 
 \subsection{Complexité spatiale}
 \par
@@ -71,12 +129,93 @@ La figure suivante (voir Figure \ref{fig:temps_exec_seq}) représente l'évoluti
 
 \begin{figure}[H]
     \centering
-        \includegraphics[scale=0.5]{./ressources/tempsexecutiondico.png}
+        \includegraphics[scale=0.5]{./ressources/graphe_temps_execution.png}
         \caption{Temps d'exécution du programme selon la longueur du tableau}
     \label{fig:temps_exec_seq}
 \end{figure}
 \par
-Depuis le graphe, la courbe est sous forme d'un arc ascendant, on observe que le temps d'exécution évolue de manière linéarithmique avec l'augmentation de la taille du problème, ce qui correspond bien à la complexité théorique calculée auparavant. 
+Depuis le graphe, la courbe est sous forme d'un arc ascendant, on observe que le temps d'exécution évolue de manière presque liénaire avec l'augmentation de la taille du problème, ce qui correspond bien à la complexité théorique calculée auparavant.
+On a pas obtenu une droite linéaire car les testes étaient peu et aléatoires.
+\section{Amélioration}
+L'algorithme de recherche linéaire est coûteux en terme de temps, donc on a pensé à utiliser 2 processus qui vont rechercher la valeur en parallèle pour gagner du temps.
+Le premier processus commence à chercher depuis le début jusqu'à la moitié du tableau et le deuxième processus commence de la moitié jusqu'à la fin du tableau. Le premier d'entre eux qui trouve la valeur, il l'envoie au processus père.
+
+
+
+
+
+\begin{function}[H]
+    \textbf{Variables :}\\
+    i, pos, status,debut,fin : entier\;
+    $pid1, pid2, pid : pid_t$\;
+    trouve : bool\;
+    
+    \Begin{
+        $debut  \leftarrow 0$\;
+        $fin  \leftarrow  tailleTableau/2 $\;
+        $trouve  \leftarrow  faux $\; 
+        
+        $pid1 = fork()$\;\tcp{on crée le fils 1}
+        \uIf {$pid1 == -1$}{
+        ecrire("y'a un problème lors de la création du fils 1")\;}
+\Else{
+\tcp{on commence la recheche du début jusqu'au milieu du tableau}
+        \For{$i \leftarrow debut$ \KwTo $fin$}{
+             \If{$tab[i] == valeur$}{
+                $trouve \leftarrow vrai $\;
+                $pos \leftarrow i$\;
+            }
+        }
+\tcp{si le fils 1 trouve la valeur cherchée il affichera sa position sinon il affiche un nombre négatif}
+        ecrire(pos)\;
+\tcp{si le fils 1 a trouvé la valeur on renvoie sa position sinon on revoie -1}
+        exit($f\:\: ?\:\: pos : -1$)\;
+    }
+    
+    $debut \leftarrow tailleTableau/ 2 + 1$\;
+    $fin \leftarrow tailleTableau - 1$\;
+    
+    
+
+    }
+    \caption{sequentielleprocessus(Entrée: tab: tableau d'entier tailleTableau, valeur: entier)}
+\end{function}
+
+\begin{function}[H]
+    \textbf{Variables :}\\
+    i, pos, status,debut,fin : entier\;
+    $pid1, pid2, pid : pid_t$\;
+    trouve : bool\;
+    
+    \Begin{
+     $pid2 = fork()$\;\tcp{on crée le fils 2}
+        \uIf {$pid2 == -1$}{
+        ecrire("y'a un problème lors de la création du fils 1")\;}
+\Else{
+\tcp{on commence la recheche du milieu jusqu'à la fin du tableau}
+        \For{$i \leftarrow debut$ \KwTo $fin$}{
+             \If{$tab[i] == valeur$}{
+                $trouve \leftarrow vrai $\;
+                $pos \leftarrow i$\;
+            }
+        }
+        ecrire(pos)\;
+        exit($f\:\: ?\:\: pos : -1$)\;
+    }   
+    \While{$(pid = wait(\&status)) != -1$} {
+        \tcp{le père attend l'arrivée du premier fils}
+       ecrire("on attend le premier fils")\;
+    }
+       
+\uIf {f}{ $retourner \:\: 0$\;}
+\Else{
+        ecrire ("la valeur cherchée n'existe pas dans le tableau") \;
+        $retourner -1$\;
+    }
+    
+    }
+    \caption{sequentielleprocessus(Entrée: tab: tableau d'entier tailleTableau, valeur: entier)}
+\end{function}
 
 \section{Conclusion}
-L'algorithme de la recherche sequentielle(linéaire) se caractérise par son fonctionnement inconditionnel sur n'importe quel tableau. Par ailleurs, il est coûteux en temps. Pour remédier au problème tomporelle, il est possible d'utiliser  la technique de 2 processus expliquée auparavant. Cela optimise le temps de recherche par 2 mais il augmente la complexité spatiale par 3. Donc l'utilisation des processus est utile quand on a suffisament d'espace mémoire et on veut accélerer la recherche.
+L'algorithme de la recherche sequentielle(linéaire) se caractérise par son fonctionnement inconditionnel sur n'importe quel tableau. Par ailleurs, il est coûteux en temps. Pour remédier au problème tomporelle, il est possible d'utiliser  la technique de 2 processus expliquée auparavant. Cela optimise le temps de recherche par 2 mais il augmente la complexité spatiale par 3: (père,fils1,fils2). Donc l'utilisation des processus est utile quand on a suffisament d'espace mémoire et on veut accélerer la recherche.

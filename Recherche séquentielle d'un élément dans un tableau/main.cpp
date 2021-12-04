@@ -24,9 +24,9 @@ int main()
 
 
    chrono::time_point<chrono::steady_clock> start = chrono::steady_clock::now(), stop;
-
-   //int pos = sequentielle(t, n, val);
-   int pos = sequentielle_processus(t, n, val);
+//choissisez une seule fonction en mettant l'autre en commentaire
+   int pos = sequentielle(t, n, val);
+   //int pos = sequentielle_processus(t, n, val);
 
 
     stop = chrono::steady_clock::now();
