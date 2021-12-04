@@ -198,7 +198,7 @@ Maintenant, nous allons écrire l’algorithme itératif de suppression pour com
         Libérer(min)\;
         }
         retour racine\;
-    
+        FIN.
 \end{function}
 
 
@@ -215,7 +215,22 @@ $$i.e : n=2^x\hspace{2cm} qui\hspace{0.2cm} est\hspace{0.2cm} log_2 n\hspace{0.2
 Dans le cas moyen, la complexité temporelle est de l’ordre de la hauteur de l’arbre binaire de recherche. Puisque ce dernier est en moyenne $\mathcal{O}(log_2(n))$, la complexité temporelle du cas moyen est de l’ordre $\mathcal{O}(log_2(n))$.
 \par
 Par ailleurs, si on traverse de la racine à une feuille, c’est-à-dire toute la hauteur $h$ de l’arbre. Si ce dernier n’est pas équilibré, on sera amené à parcourir tous les nœuds et la hauteur de l’arbre deviendra $n$. par conséquent la complexité temporelle dans le pire des cas de l’opération de suppression est $\mathcal{O}(n)$.
+\par
+La complexité temporelle de la suppression d’un nœud ne diffère pas grandement entre l’approche récursive et l’itérative étant donné que chaque boucle dans cette dernière est remplacée par un appel récursif de la fonction dans la deuxième approche.
+\par
+Dans la suppression itérative, on commence d’abord par chercher la valeur à supprimer en utilisant une boucle à n itérations. Ensuite une fois trouvée, si le nœud contenant cette valeur a deux fils, nous devons une fois de plus faire la recherche du minimum (resp. Maximum) dans son sous arbre à droite (resp. Gauche) qui contient $n’$ éléments.
+\par
+Dans le meilleur et moyen cas, l’arbre sera complètement équilibré et donc la complexité temporelle sera $\mathcal{O}(log_2(n - n') +log_2(n')) \approx  \mathcal{O}(log_2(n))$.
+\par
+Dans le pire cas la complexité sera $\mathcal{O}((n -n')) + {O}(n') \approx  {O}(n)$. 
+\par
+Dans la suppression récursive, on compare à chaque fois la valeur cherchée avec la valeur en cours et on effectue des appels récursifs jusqu’à trouver la valeur voulue. Ensuite, si le nœud contenant cette valeur a deux fils, nous devons faire la recherche du minimum (resp. Maximum) dans son sous arbre à droite (resp. Gauche) afin d’écraser sa valeur. Finalement, on effectue un autre appel récursif sur le même sous-arbre pour supprimer la valeur du minimum.
+\par
+Dans le meilleur et moyen cas, l’arbre sera complètement équilibré et donc la complexité temporelle sera  $\mathcal{O}(log_2(n - n') +log_2(n')) + \mathcal{O}(n'/2) \approx \mathcal{O}(n)$
+\par 
+Dans le pire cas la complexité sera $\mathcal{O}((n -n')) + {O}(n') + {O}(n'/2) \approx {O}(n)$
 
+\par
 Le tableau suivant représente les temps d'exécution théorique en nanoseconde de l'algorithme de suppression de la racine selon la variation de la taille de l'arbre.
 
 \small
