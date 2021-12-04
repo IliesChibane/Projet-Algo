@@ -77,7 +77,7 @@ La figure suivante (voir Figure \ref{fig:temps_exec_th_algo2}) représente l'év
 \begin{figure}[H]
     \centering
         \includegraphics[scale=0.5]{./ressources/temps_execution_th_algo2.pdf}
-        \caption{Temps d'exécution théorique de l'algorithme de représentation d'expression arithmétique en arbre binaire}
+        \caption{Temps d'exécution théorique de l'algorithme de recherche linéaire}
     \label{fig:temps_exec_th_algo2}
 \end{figure} 
 
@@ -134,7 +134,8 @@ La figure suivante (voir Figure \ref{fig:temps_exec_seq}) représente l'évoluti
     \label{fig:temps_exec_seq}
 \end{figure}
 \par
-Depuis le graphe, la courbe est sous forme d'un arc ascendant, on observe que le temps d'exécution évolue de manière linéarithmique avec l'augmentation de la taille du problème, ce qui correspond bien à la complexité théorique calculée auparavant. 
+Depuis le graphe, la courbe est sous forme d'un arc ascendant, on observe que le temps d'exécution évolue de manière presque liénaire avec l'augmentation de la taille du problème, ce qui correspond bien à la complexité théorique calculée auparavant.
+On a pas obtenu une droite linéaire car les testes étaient aléatoires.
 \section{Amélioration}
 L'algorithme de recherche linéaire est coûteux en terme de temps, donc on a pensé à utiliser 2 processus qui vont rechercher la valeur en parallèle pour gagner du temps.
 Le premier processus commence à chercher depuis le début jusqu'à la moitié du tableau et le deuxième processus commence de la moitié jusqu'à la fin du tableau. Le premier d'entre eux qui trouve la valeur, il l'envoie au processus père.
