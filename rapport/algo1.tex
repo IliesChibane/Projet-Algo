@@ -1,11 +1,11 @@
 \chapter{Recherche séquentielle d'un élément dans un tableau}
 
 \section{Description de l'objectif de l'algorithme}
-En informatique, un tableau est une structure de données représentant une séquence finie d'éléments défini par un index représentant sa position au sein du tableau nous permettant d'y accéder. C'est un type de conteneur que l'on retrouve dans un grand nombre de langages de programmation et est l'un des plus utilisés du de sa simplicité.
+En informatique, un tableau est une structure de données représentant une séquence finie d'éléments définis par un index représentant leurs positions au sein du tableau. C'est un type de conteneur que l'on retrouve dans un grand nombre de langages de programmation et est l'un des plus utilisés dû à sa simplicité.
 \par
-Les données du tableau étant accessible individuellement il est nécessaire de faire une recherche lorsque l'on souhaite accéder a une valeur spécifique du tableau cependant lorsque la taille de la structure est grande il devient difficile d'y accéder efficacement. Dans ce chapitre on nous allons voir la recherche séquentielle qui est une recherche très coûteuse en temps et nous allons aussi présenter une optimisation de cette recherche afin de gagner en complexité temporelle.
+Les données du tableau étant accessible individuellement il est nécessaire de faire une recherche lorsque l'on souhaite accéder a une valeur spécifique du tableau. Cependant, lorsque la taille de la structure est grande il devient difficile d'y accéder efficacement. Dans ce chapitre nous allons voir la recherche séquentielle qui est une recherche très coûteuse en temps et nous allons aussi présenter une optimisation de cette recherche afin de gagner en complexité temporelle.
 \par
-La recherche séquentielle ou recherche linéaire est un algorithme pour trouver une valeur dans une liste ou un tableau. Elle consiste simplement à considérer les éléments du tableau les uns après les autres, jusqu'à ce que l'élément soit trouvé, ou que toutes les cases aient été lues. Elle est aussi appelée recherche par balayage.. (voir Figure \ref{fig:recherche_sec}).
+La recherche séquentielle ou recherche linéaire est un algorithme pour trouver une valeur dans une liste ou un tableau. Elle consiste simplement à considérer les éléments du tableau les uns après les autres, jusqu'à ce que l'élément soit trouvé, ou que toutes les cases aient été lues. Elle est aussi appelée recherche par balayage. (voir Figure \ref{fig:recherche_sec}).
 
 \begin{figure}[H]
     \centering
@@ -135,7 +135,7 @@ La figure suivante (voir Figure \ref{fig:temps_exec_seq}) représente l'évoluti
 \end{figure}
 \par
 Depuis le graphe, la courbe est sous forme d'un arc ascendant, on observe que le temps d'exécution évolue de manière presque liénaire avec l'augmentation de la taille du problème, ce qui correspond bien à la complexité théorique calculée auparavant.
-On a pas obtenu une droite linéaire car les testes étaient aléatoires.
+On a pas obtenu une droite linéaire car les testes étaient peu et aléatoires.
 \section{Amélioration}
 L'algorithme de recherche linéaire est coûteux en terme de temps, donc on a pensé à utiliser 2 processus qui vont rechercher la valeur en parallèle pour gagner du temps.
 Le premier processus commence à chercher depuis le début jusqu'à la moitié du tableau et le deuxième processus commence de la moitié jusqu'à la fin du tableau. Le premier d'entre eux qui trouve la valeur, il l'envoie au processus père.
@@ -218,4 +218,4 @@ Le premier processus commence à chercher depuis le début jusqu'à la moitié d
 \end{function}
 
 \section{Conclusion}
-L'algorithme de la recherche sequentielle(linéaire) se caractérise par son fonctionnement inconditionnel sur n'importe quel tableau. Par ailleurs, il est coûteux en temps. Pour remédier au problème tomporelle, il est possible d'utiliser  la technique de 2 processus expliquée auparavant. Cela optimise le temps de recherche par 2 mais il augmente la complexité spatiale par 3. Donc l'utilisation des processus est utile quand on a suffisament d'espace mémoire et on veut accélerer la recherche.
+L'algorithme de la recherche sequentielle(linéaire) se caractérise par son fonctionnement inconditionnel sur n'importe quel tableau. Par ailleurs, il est coûteux en temps. Pour remédier au problème tomporelle, il est possible d'utiliser  la technique de 2 processus expliquée auparavant. Cela optimise le temps de recherche par 2 mais il augmente la complexité spatiale par 3: (père,fils1,fils2). Donc l'utilisation des processus est utile quand on a suffisament d'espace mémoire et on veut accélerer la recherche.
