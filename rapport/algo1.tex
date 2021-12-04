@@ -156,7 +156,7 @@ Le premier processus commence à chercher depuis le début jusqu'à la moitié d
         $trouve  \leftarrow  faux $\; 
         
         $pid1 = fork()$\;\tcp{on crée le fils 1}
-        \uIf {($pid1 == -1$)}{
+        \uIf {$pid1 == -1$}{
         ecrire("y'a un problème lors de la création du fils 1")\;}
 \Else{
 \tcp{on commence la recheche du début jusqu'au milieu du tableau}
@@ -178,7 +178,7 @@ Le premier processus commence à chercher depuis le début jusqu'à la moitié d
     
 
     }
-    \caption{sequentielle_processus(Entrée: tab: tableau d'entier tailleTableau, valeur: entier\;)}
+    \caption{sequentielleprocessus(Entrée: tab: tableau d'entier tailleTableau, valeur: entier)}
 \end{function}
 
 \begin{function}[H]
@@ -189,7 +189,7 @@ Le premier processus commence à chercher depuis le début jusqu'à la moitié d
     
     \Begin{
      $pid2 = fork()$\;\tcp{on crée le fils 2}
-        \uIf {($pid2 == -1$)}{
+        \uIf {$pid2 == -1$}{
         ecrire("y'a un problème lors de la création du fils 1")\;}
 \Else{
 \tcp{on commence la recheche du milieu jusqu'à la fin du tableau}
@@ -202,19 +202,19 @@ Le premier processus commence à chercher depuis le début jusqu'à la moitié d
         ecrire(pos)\;
         exit($f\:\: ?\:\: pos : -1$)\;
     }   
-   \While{$((pid = wait(&status)) != -1)$
-   \tcp{le père attend l'arrivée du premier fils}
-       {ercire("on attend le premier fils")\;
-       }
-      } 
-\uIf {(f)}{ $retourner \:\: 0$\;}
+    \While{$(pid = wait(\&status)) != -1$} {
+        \tcp{le père attend l'arrivée du premier fils}
+       ecrire("on attend le premier fils")\;
+    }
+       
+\uIf {f}{ $retourner \:\: 0$\;}
 \Else{
         ecrire ("la valeur cherchée n'existe pas dans le tableau") \;
         $retourner -1$\;
     }
     
     }
-    \caption{sequentielle_processus(Entrée: tab: tableau d'entier tailleTableau, valeur: entier\;)}
+    \caption{sequentielleprocessus(Entrée: tab: tableau d'entier tailleTableau, valeur: entier)}
 \end{function}
 
 \section{Conclusion}
