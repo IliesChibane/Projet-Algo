@@ -1,0 +1,1630 @@
+\chapter{Annexe}
+
+\section{Recherche séquentielle d'un élément dans un tableau}
+
+\subsection{main.cpp}
+\begin{minted}[
+breaklines=true,
+frame=lines,
+linenos
+]{c++}
+#include <iostream>
+#include <stdlib.h>
+#include <bits/stdc++.h>
+
+#include "RechercheSequentielle.hpp"
+
+using namespace std;
+
+int main()
+{
+    cout << "choisissez la taille du tableau" << endl;
+
+    unsigned long long n;
+    cin >> n;
+
+    int *t = (int *)malloc(n * sizeof(int));
+    remplirTabRandom(t, n);
+
+    AffichTab(t, n);
+
+    cout << "choisissez le nombre que vous voulez rechercher dans le tableau" << endl;
+    int val;
+    cin >> val;
+
+
+   chrono::time_point<chrono::steady_clock> start = chrono::steady_clock::now(), stop;
+//choissisez une seule fonction en mettant l'autre en commentaire
+   int pos = sequentielle(t, n, val);
+   //int pos = sequentielle_processus(t, n, val);
+
+
+    stop = chrono::steady_clock::now();
+    chrono::duration<double, nano> duration = stop - start;
+
+    if(pos!=-1)
+        cout << "la valeur " << val << " apres avoir trier le tableau se trouve a la position " << pos << endl;
+    else
+        cout << "la valeur " << val << " n'existe pas dans le tableau" << endl;
+
+    cout << "la fonction de recherche sequentielle apres le tri le tableau aura prit " << duration.count()
+         << "ns afin de terminer son execution" <<endl;
+
+
+
+       return 0;
+}
+\end{minted}
+
+\subsection{CreationTableau.hpp}
+\begin{minted}[
+breaklines=true,
+frame=lines,
+linenos
+]{c++}
+#include <iostream>
+#include <stdlib.h>
+#include <time.h>
+#include <bits/stdc++.h>
+
+using namespace std;
+
+//fonction qui remplie le tableau avec des valeurs aléatoire
+void remplirTabRandom(int *tab, unsigned long long n)
+{
+    auto R = n * 10;
+
+    int *liste = (int *)malloc(R * sizeof(int));
+
+    srand(time(NULL));
+    //On remplie une liste contenant une liste de nombre de 1 a R
+
+    for (auto i = 0; (unsigned)i < R; ++i) {
+        liste[i] = i;
+    }
+
+    //On mélange par la suite l'ordre des nombres dans la liste aléatoirement
+    for (auto i = 0; (unsigned)i < R; ++i) {
+        auto j = i + rand() % (R - i);
+        int temp = liste[i];
+        liste[i] = liste[j];
+        liste[j] = temp;
+    }
+
+    //On remplie notre tableau avec les n première valeur de la liste mélangée
+    for (auto i = 0; (unsigned)i < n; ++i) {
+        tab[i] = liste[i];
+    }
+    system("cls");
+
+    //On informe l'utilisateur que le tableau a été créer avec succès
+    cout << "Tableau de "<< n << " creer avec succes"<< endl;
+
+    free(liste);
+}
+
+
+void AffichTab(int *tab, unsigned long long n)
+{
+    //Afin de ne pas surchargé la console nous n'afficheront que les 1000 premières valeurs du tableau
+    cout << "[";
+    for(auto i = 0; (unsigned)i < 1000; ++i)
+    {
+        cout << tab[i];
+        if((unsigned)i != (n - 1))
+            cout << ", ";
+        if(((unsigned)i==999)&&(n!=1000))
+            cout << ".......";
+        else if((unsigned)i == (n - 1))
+            break;
+    }
+    cout << "]" << endl;
+}
+\end{minted}
+
+\subsection{RechercheSequentielle.hpp}
+\begin{minted}[
+breaklines=true,
+frame=lines,
+linenos
+]{c++}
+#include <iostream>
+#include <stdlib.h>
+#include <bits/stdc++.h>
+#include <vector>
+#include <sys/types.h>
+#include <unistd.h>
+#include <wait.h>
+#include <signal.h>
+
+#include "CreationTableau.hpp"
+
+using namespace std;
+
+int sequentielle(int *tab, unsigned long long n, int r)
+{
+  unsigned long long i=0;
+  bool trouve = false;
+  do
+  {
+      if (tab[i] == r) //si la valeur recherchée est égale à l'élément actuel
+      {
+          trouve = true;// on met la variable trouve à vrai
+      }
+     i++; 
+      
+  } while (trouve == false && i != n);
+
+  if (trouve == true) return i-1; //si la valeur est trouvée on renvoie sa position
+  else return -1;//sinon, on renvoie -1
+     
+}
+
+int sequentielle_processus(int *tab, unsigned long long n, int r)
+{
+    int  pos,status;
+    bool f = false;
+    pid_t pid1, pid2, pid;
+
+    int debut = 0, fin = n/ 2;
+    switch (pid1 = fork()) {//on crée le fils 1
+        case -1: //dans le cas où y'a un problème lors de la création
+            break;
+        case 0: // le fils 1 est créé avec succès
+            for (int i = debut; i <= fin; i++) {//on commence la recheche du début jusqu'au milieu du tableau
+                if (tab[i] == r) {
+                    f = true;
+                    pos = i;
+                    break;
+                }
+            }
+            cout << "la valeur cherchée se trouve a la position " << pos << endl;  
+            //si le fils 1 trouve la valeur cherchée il affichera sa position sinon il affiche
+            //un nombre négatif
+            exit( f ? pos : -1);//si le fils 1 a trouvé la valeur on renvoie sa position
+            //sinon on revoie -1
+        default:
+            break;
+    }
+    debut = n/ 2 + 1, fin = n - 1;
+    switch (pid2 = fork()) {//on crée le fils 2
+        case -1://dans le cas où y'a un problème lors de la création
+            break;
+        case 0:// le fils 2 est créé avec succès
+            for (int i = debut; i <= fin; i++) {//on commence la recheche du milieu jusqu'à la fin du tableau
+                if (tab[i] == r) {
+                    f = true;
+                    pos = i;
+                    break;
+                }
+            }
+            cout << "la valeur cherchée se trouve a la position " << pos << endl;  
+            //si le fils 2 trouve la valeur cherchée il affichera sa position sinon il affiche
+            //un nombre négatif
+            exit(f ? pos : -1);//si le fils 2 a trouvé la valeur on renvoie sa position
+            //sinon on revoie -1
+        default:
+            break;
+    }
+    
+    while ((pid = wait(&status)) != -1) {//le père attend l'arrivée du premier fils
+        if (WIFEXITED(status))
+            if (WEXITSTATUS(status)) {
+                f = true;
+                if (pid == pid1) {
+                    kill(pid2, SIGTERM);//si le fils 1 arrive on tue le fils 2
+                } else {
+                    kill(pid1, SIGTERM);//si le fils 2 arrive on tue le fils 1
+                }
+            }
+    }
+
+    if (f) return 0;
+    else{
+        //si aucun fils n'a trouvé la valeur recherché on affiche le message suivant:
+        cout << "la valeur cherchée n'existe pas dans le tableau" << endl;
+        return -1;
+    }
+
+
+}
+\end{minted}
+
+\section{Représentation d'une expression arithmétique en arbre binaire}
+
+\subsection{main.cpp}
+\begin{minted}[
+breaklines=true,
+frame=lines,
+linenos
+]{c++}
+#include <iostream>
+#include <vector>
+#include <string>
+#include <chrono>
+
+#include "lex.hpp"
+#include "tree.hpp"
+#include "sem.hpp"
+
+/*  Représentation d'une expression arithmétique en arbre binaire
+ *  -------------------------------------------------------------
+ *
+ *  Entrée : Expression arithmétique sous forme d'une chaîne de caractères.
+ *  Sortie : Une représentation en arbre binaire de l'expression arithmétique.
+ *
+ *  Détails de l'algorithme
+ *  -----------------------
+ *
+ *  Le traitement de la chaîne passe par les étapes suivantes :
+ *      - Analyse lexicale : à l'issue de laquelle on génére les entités 
+ *      lexicales.
+ *      - Analyse syntaxico-sémantique par descente récursive : Où le 
+ *      séquencement d'entités lexicales est transformé en arbre binaire.
+ *
+ *      expression --<analyse lexicale>--> tableau d'entités 
+ *                          --<analyse syntaxico-sémantique>--> arbre binaire
+ */
+
+int main(int argc, char **argv) {
+    // Lecture de l'expression arithmétique
+    std::string expression;
+    std::cout << "entrez l'expression : ";
+    std::getline(std::cin, expression);
+    std::cout << "expression: " << expression << std::endl << std::endl;
+
+    std::vector<entity> entities;
+    binary_tree<entity> bt;
+
+
+    std::chrono::time_point<std::chrono::steady_clock> start = std::chrono::steady_clock::now(), stop;
+    try {
+        // Génération des entités lexicales
+        entities = string_to_entities(expression);
+        /*std::cout << "entités lexicales : ";
+        for (int i = 0; i < entities.size(); i++)
+            std::cout << entities[i] << " ";
+        std::cout << std::endl << std::endl;*/
+    } catch (int e) {
+        std::cout << "Erreur lexicale" << std::endl;
+        return 1;
+    }
+
+    try {
+        // Génération de l'arbre syntaxique
+        bt = entities_to_binary_tree(entities); 
+        stop = std::chrono::steady_clock::now(); 
+        //bt.print_tree();
+    } catch (int e) {
+        std::cout << "Erreur syntaxique" << std::endl;
+        return 1;
+    }
+
+    std::chrono::duration<double, std::nano> duration = stop - start;
+    std::cout << "temps = " << duration.count() << "ns" << std::endl;
+
+    return 0;
+}
+\end{minted}
+
+\subsection{tree.hpp}
+\begin{minted}[
+breaklines=true,
+frame=lines,
+linenos
+]{c++}
+#ifndef TREE_HPP_
+#define TREE_HPP_
+
+#include <iostream>
+
+template <class T>
+struct node {
+    T value;
+    node<T>* left;
+    node<T>* right;
+};
+
+template <class T>
+class binary_tree{
+    private:
+        node<T>* root_;
+
+        void print(const std::string& prefix, node<T> *node, bool is_left);
+
+    public:
+        binary_tree();
+        binary_tree(binary_tree<T>& lt, binary_tree<T>& rt, T& value);
+        void set_root(const T& value);
+        void set_left(binary_tree<T>& tree);
+        void set_right(binary_tree<T>& tree);
+        void print_tree();
+};
+
+#include "tree.tcc"
+
+#endif
+\end{minted}
+
+\subsection{tree.tcc}
+\begin{minted}[
+breaklines=true,
+frame=lines,
+linenos
+]{c++}
+// Constructeur par défaut
+template <class T>
+binary_tree<T>::binary_tree() : root_{nullptr} {
+}
+
+// Constructeur
+template <class T>
+binary_tree<T>::binary_tree(binary_tree<T>& lt, binary_tree<T>& rt, T& value) 
+    : root_{new node<T>} {
+        root_->value = value;
+        set_left(lt);
+        set_right(rt);
+}
+
+// Initialise la racine de l'arbre
+template <class T>
+void binary_tree<T>::set_root(const T& value) {
+    root_ = new node<T>;
+    root_->left = nullptr;
+    root_->right = nullptr;
+    root_->value = value;
+}
+
+// Initialise le fils gauche
+template <class T>
+void binary_tree<T>::set_left(binary_tree<T>& tree) {
+    if (root_ != nullptr) 
+        root_->left = tree.root_;
+}
+
+// Initialise le fils droit 
+template <class T>
+void binary_tree<T>::set_right(binary_tree<T>& tree) {
+    if (root_ != nullptr)
+        root_->right = tree.root_;
+}
+
+// Affiche un noeud de l'arbre et ses fils récursivement
+template <class T>
+void binary_tree<T>::print(const std::string& prefix, node<T> *node, bool is_left) {
+    if (node != nullptr) {
+        std::cout << prefix;
+        std::cout << (is_left ? "|--" : "'--" );
+
+        // Affichage du noeud courant
+        std::cout << node->value << std::endl;
+
+        // Affichage des noeuds fils
+        print(prefix + (is_left ? "|   " : "    "), node->left, true);
+        print(prefix + (is_left ? "|   " : "    "), node->right, false);
+    }
+}
+
+// Affiche l'arbre
+template <class T>
+void binary_tree<T>::print_tree() {
+    print("", root_, false);
+}
+\end{minted}
+
+\subsection{lex.hpp}
+\begin{minted}[
+breaklines=true,
+frame=lines,
+linenos
+]{c++}
+#ifndef LEX_HPP_
+#define LEX_HPP_
+
+#include <string>
+#include <iostream>
+#include <vector>
+
+enum class entity_type {
+    number,
+    operation,
+    parenthesis
+};
+
+enum class operation_type {
+    add,
+    sub,
+    mul,
+    div,
+    mod
+};
+
+enum class parenthesis_type {
+    open,
+    close
+};
+
+class entity {
+    public:
+        entity_type type;
+        union {
+            long double number;
+            operation_type operation;
+            parenthesis_type parenthesis;
+        } value;
+
+        friend std::ostream& operator<<(std::ostream& stream, const entity& entity);
+        entity();
+};
+
+std::vector<entity> string_to_entities(const std::string &expression);
+
+#endif
+\end{minted}
+
+\subsection{lex.cpp}
+\begin{minted}[
+breaklines=true,
+frame=lines,
+linenos
+]{c++}
+#include <string>
+#include <vector>
+#include <iostream>
+
+#include "lex.hpp"
+
+
+std::vector<entity> string_to_entities(const std::string &expression) {
+    std::vector<entity> entities; 
+
+    // could use regex tho ...
+    for (int i = 0; i < expression.size(); i++) {
+        entity e;
+        // Cas d'un operateur
+        if (expression[i] == '+') {
+            e.type = entity_type::operation;
+            e.value.operation = operation_type::add;
+            entities.push_back(e);
+        } else if (expression[i] == '-') {
+            e.type = entity_type::operation;
+            e.value.operation = operation_type::sub;
+            entities.push_back(e);
+        } else if (expression[i] == '*') {
+            e.type = entity_type::operation;
+            e.value.operation = operation_type::mul;
+            entities.push_back(e);
+        } else if (expression[i] == '/') {
+            e.type = entity_type::operation;
+            e.value.operation = operation_type::div;
+            entities.push_back(e);
+        } else if (expression[i] == '%') {
+            e.type = entity_type::operation;
+            e.value.operation = operation_type::mod;
+            entities.push_back(e);
+
+        // Cas de parenthèses
+        } else if (expression[i] == '(') {
+            e.type = entity_type::parenthesis;
+            e.value.parenthesis = parenthesis_type::open;
+            entities.push_back(e);
+        } else if (expression[i] == ')') {
+            e.type = entity_type::parenthesis;
+            e.value.parenthesis = parenthesis_type::close;
+            entities.push_back(e);
+
+        // Cas d'un nombre
+        } else if (isdigit(expression[i]) || expression[i] == '.') {
+            int j = 1;
+            while (i + j < expression.size() && 
+                    (isdigit(expression[i + j]) || expression[i + j] == '.'))
+                j++;
+
+            e.type = entity_type::number;
+            e.value.number = std::stold(expression.substr(i, j));
+
+            entities.push_back(e);
+            i = i + j - 1;
+        // Cas d'un blanc
+        } else if (expression[i] == ' ') {
+            continue;
+        } else {
+            throw 1;
+        }
+    }
+
+    return entities;
+}
+
+entity::entity() {
+}
+
+// Affichage d'une entité
+std::ostream& operator<<(std::ostream& stream, const entity& entity) {
+    if (entity.type == entity_type::number) {
+        stream << "[type: number, value: " << entity.value.number << "]";
+    } else if (entity.type == entity_type::operation) {
+        stream << "[type: operation, value: ";
+        switch (entity.value.operation) {
+            case operation_type::add:
+                stream << "addition]";
+                break;
+            case operation_type::sub:
+                stream << "subtraction]";
+                break;
+            case operation_type::mul:
+                stream << "multiplication]";
+                break;
+            case operation_type::div:
+                stream << "division]";
+                break;
+            case operation_type::mod:
+                stream << "modulo]";
+                break;
+            default:
+                break;
+        }
+    } else {
+        stream << "[type: parenthesis, value: ";
+        switch (entity.value.parenthesis) {
+            case parenthesis_type::open:
+                stream << "open]";
+                break;
+            case parenthesis_type::close:
+                stream << "close]";
+                break;
+            default:
+                break;
+        }
+    }
+    return stream;
+}
+\end{minted}
+
+\subsection{sem.hpp}
+\begin{minted}[
+breaklines=true,
+frame=lines,
+linenos
+]{c++}
+#ifndef SEM_HPP_
+#define SEM_HPP_
+
+#include "lex.hpp"
+#include "tree.hpp"
+
+binary_tree<entity> entities_to_binary_tree(const std::vector<entity>& entities);
+
+binary_tree<entity> e(const std::vector<entity>&, int& ct);
+binary_tree<entity> t(const std::vector<entity>&, int& ct);
+binary_tree<entity> f(const std::vector<entity>&, int& ct);
+
+#endif
+\end{minted}
+
+\subsection{sem.cpp}
+\begin{minted}[
+breaklines=true,
+frame=lines,
+linenos
+]{c++}
+#include "lex.hpp"
+#include "tree.hpp"
+#include "sem.hpp"
+
+/*  Grammaire:
+ *  Z --> E #
+ *  E --> T + { T }* | T - { T }*
+ *  T --> F x { F }* | F / { F }*
+ *  F --> nb | ( E ) | - F | + F
+ */
+
+binary_tree<entity> entities_to_binary_tree(const std::vector<entity>& entities) {
+    int ct = 0;
+    if (entities.size() == 0) 
+        throw 1;
+    binary_tree<entity> bt = e(entities, ct);
+    if (ct < entities.size())
+        throw 1;
+
+    return bt;
+}
+
+// Routine pour reconnaitre les expressions : gère les opérations + et -
+binary_tree<entity> e(const std::vector<entity>& entities, int& ct) {
+    binary_tree<entity> bt, rt, lt;
+    try {
+        // Premier opérande
+        bt = t(entities, ct);
+        while (ct < entities.size() && 
+                entities[ct].type == entity_type::operation &&
+                (entities[ct].value.operation == operation_type::add ||
+                entities[ct].value.operation == operation_type::sub)) {
+            entity op = entities[ct];
+            lt = bt;
+            ct = ct + 1;
+            if (ct >= entities.size())
+                throw 1;
+
+            // Deuxième opérande
+            rt = t(entities, ct);
+
+            // Construction du noeud d'opération
+            bt.set_root(op);
+            bt.set_left(lt);
+            bt.set_right(rt);
+        }
+    } catch (int e) {
+        throw e;
+    }
+    return bt;
+}
+
+// Routine pour reconnaitre les termes : gène les opérations de *, / et %
+binary_tree<entity> t(const std::vector<entity>& entities, int& ct) {
+    binary_tree<entity> bt, rt, lt;
+    try {
+        // Premier opérande
+        bt = f(entities, ct);
+        while (ct < entities.size() &&
+                entities[ct].type == entity_type::operation &&
+                (entities[ct].value.operation == operation_type::mul ||
+                entities[ct].value.operation == operation_type::div ||
+                entities[ct].value.operation == operation_type::mod)) {
+            entity op = entities[ct];
+            lt = bt;
+            ct = ct + 1;
+            if (ct >= entities.size())
+                throw 1;
+
+            // Deuxième opérande
+            rt = f(entities, ct);
+
+            // Construction du noeud d'opération
+            bt.set_root(op);
+            bt.set_left(lt);
+            bt.set_right(rt);
+        }
+    } catch (int e) {
+        throw e;
+    }
+    return bt;
+}
+
+// Routine pour reconnaitre les entités, les parenthèses et les signes
+binary_tree<entity> f(const std::vector<entity>& entities, int& ct) {
+    binary_tree<entity> bt, rt, lt;
+    // Cas de parenthèses
+    if (entities[ct].type == entity_type::parenthesis &&
+            entities[ct].value.parenthesis == parenthesis_type::open) {
+        // Lecture de la première parenthèse ouvrante
+        ct = ct + 1;
+        if (ct >= entities.size())
+            throw 1;
+        // Passage à l'expression englobée par les parenthèses
+        bt = e(entities, ct);
+        // Lectures de la deuxième parenthèse fermante
+        if (ct < entities.size() &&
+            entities[ct].type == entity_type::parenthesis &&
+            entities[ct].value.parenthesis == parenthesis_type::close) {
+            ct = ct + 1;
+        } else {
+            throw 1;
+        }
+    // Cas d'un signe
+    } else if (entities[ct].type == entity_type::operation &&
+                (entities[ct].value.operation == operation_type::sub ||
+                entities[ct].value.operation == operation_type::add)) {
+        // Construction d'un noeud (0 <signe> opérande)
+        entity op = entities[ct];
+
+        entity left;
+        left.type = entity_type::number;
+        left.value.number = 0;
+
+        ct = ct + 1;
+        if (ct >= entities.size())
+            throw 1;
+
+        rt = f(entities, ct);
+        lt.set_root(left);
+
+        bt.set_root(op);
+        bt.set_left(lt);
+        bt.set_right(rt);
+    // Cas d'un nombre
+    } else {
+        // Création d'une feuille contenant le nombre
+        entity e = entities[ct];
+        bt.set_root(e);
+        ct = ct + 1;
+    }
+    return bt;
+}
+\end{minted}
+
+\section{Recherche dichotomique d'un élément dans un tableau}
+
+\subsection{main.cpp}
+\begin{minted}[
+breaklines=true,
+frame=lines,
+linenos
+]{c++}
+#include <iostream>
+#include <stdlib.h>
+#include <bits/stdc++.h>
+
+#include "RechercheDichotomique.hpp"
+
+using namespace std;
+
+int main()
+{
+    cout << "choisissez la taille du tableau" << endl;
+
+    unsigned long long n;
+    cin >> n;
+
+    int *t = (int *)malloc(n * sizeof(int));
+    remplirTabRandom(t, n);
+
+    AffichTab(t, n);
+
+    cout << "choisissez le nombre que vous voulez rechercher dans le tableau" << endl;
+
+    int val;
+    cin >> val;
+
+    chrono::time_point<chrono::steady_clock> start = chrono::steady_clock::now(), stop;
+
+    TriFusion(t, 0, n - 1);
+
+    int pos = dichotomie(t, n, val);
+
+    stop = chrono::steady_clock::now();
+    chrono::duration<double, nano> duration = stop - start;
+
+    if(pos!=-1)
+        cout << "la valeur " << val << " apres avoir trier le tableau se trouve a la position " << pos << endl;
+    else
+        cout << "la valeur " << val << " n'existe pas dans le tableau" << endl;
+
+    cout << "la fonction de recherche dichotomique apres le tri le tableau aura prit " << duration.count()
+         << "ns afin de terminer son execution" <<endl;
+    return 0;
+}
+\end{minted}
+
+\subsection{CreationTableau.hpp}
+\begin{minted}[
+breaklines=true,
+frame=lines,
+linenos
+]{c++}
+#include <iostream>
+#include <stdlib.h>
+#include <time.h>
+#include <bits/stdc++.h>
+
+using namespace std;
+
+//fonction qui remplie le tableau avec des valeurs aléatoire
+void remplirTabRandom(int *tab, unsigned long long n)
+{
+    auto R = n * 10;
+
+    int *liste = (int *)malloc(R * sizeof(int));
+
+    srand(time(NULL));
+    //On remplie une liste contenant une liste de nombre de 1 a R
+
+    for (auto i = 0; (unsigned)i < R; ++i) {
+        liste[i] = i;
+    }
+
+    //On mélange par la suite l'ordre des nombres dans la liste aléatoirement
+    for (auto i = 0; (unsigned)i < R; ++i) {
+        auto j = i + rand() % (R - i);
+        int temp = liste[i];
+        liste[i] = liste[j];
+        liste[j] = temp;
+    }
+
+    //On remplie notre tableau avec les n première valeur de la liste mélangée
+    for (auto i = 0; (unsigned)i < n; ++i) {
+        tab[i] = liste[i];
+    }
+    system("cls");
+
+    //On informe l'utilisateur que le tableau a été créer avec succès
+    cout << "Tableau de "<< n << " creer avec succes"<< endl;
+
+    free(liste);
+}
+
+//L'algo de dichotomie nécessitant que le tableau soit trier nous utilisons une fonction de trie afin d'éviter toute erreur
+// On applique l'algo de tri fusion
+void Fusion(int *tab, unsigned long long const gauche, unsigned long long const mid, unsigned long long const droite)
+{
+    auto const subtab1 = mid - gauche + 1;
+    auto const subtab2 = droite - mid;
+
+    // Création de tableau temporaire
+    int *tabG = (int *)malloc(subtab1 * sizeof(int)),
+        *tabD = (int *)malloc(subtab1 * sizeof(int));
+
+    // On copie le contenue du tableau dans tabG et tabD
+    for (auto i = 0; (unsigned)i < subtab1; ++i)
+        tabG[i] = tab[gauche + i];
+
+    for (auto j = 0; (unsigned)j < subtab2; ++j)
+        tabD[j] = tab[mid + 1 + j];
+
+    auto subtab1_index = 0, // Index initial du premier sous tableau
+        subtab2_index = 0; // Index initial du second sous tableau
+    int tabfusion_index = gauche; // Index initial du tableau fusionné
+
+    // On fusionne les 2 tableau en prennant a chaque fois la valeur le plus petite des 2 tableaux
+    while ((unsigned)subtab1_index < subtab1 && (unsigned)subtab2_index < subtab2) {
+        if (tabG[subtab1_index] <= tabD[subtab2_index]) {
+            tab[tabfusion_index] = tabG[subtab1_index];
+            subtab1_index++;
+        }
+        else {
+            tab[tabfusion_index] = tabD[subtab2_index];
+            subtab2_index++;
+        }
+        tabfusion_index++;
+    }
+    // On copie le contenue du restant du tableau tabG
+    while ((unsigned)subtab1_index < subtab1) {
+        tab[tabfusion_index] = tabG[subtab1_index];
+        subtab1_index++;
+        tabfusion_index++;
+    }
+    // On copie le contenue du restant du tableau tabD
+    while ((unsigned)subtab2_index < subtab2) {
+        tab[tabfusion_index] = tabD[subtab2_index];
+        subtab2_index++;
+        tabfusion_index++;
+    }
+}
+
+// On divive le tableau en 2 de manière recursive puis on les tri avant de les fusionner
+void TriFusion(int *tab, unsigned long long const debut, unsigned long long const fin)
+{
+    if (debut >= fin)
+        return;
+
+    auto mid = debut + (fin - debut) / 2;
+    TriFusion(tab, debut, mid);
+    TriFusion(tab, mid + 1, fin);
+    Fusion(tab, debut, mid, fin);
+}
+
+void AffichTab(int *tab, unsigned long long n)
+{
+    //Afin de ne pas surchargé la console nous n'afficheront que les 1000 premières valeurs du tableau
+    cout << "[";
+    for(auto i = 0; (unsigned)i < 1000; ++i)
+    {
+        cout << tab[i];
+        if((unsigned)i != (n - 1))
+            cout << ", ";
+        if(((unsigned)i==999)&&(n!=1000))
+            cout << ".......";
+        else if((unsigned)i == (n - 1))
+            break;
+    }
+    cout << "]" << endl;
+}
+\end{minted}
+
+\subsection{RechercheDichotomique.hpp}
+\begin{minted}[
+breaklines=true,
+frame=lines,
+linenos
+]{c++}
+#include <iostream>
+#include <stdlib.h>
+#include <bits/stdc++.h>
+
+#include "CreationTableau.hpp"
+
+using namespace std;
+
+//Algorithme de Recherche dichotomique d'un élément dans un tableau compléxité O(Log(n))
+int dichotomie(int *tab, unsigned long long n, int r)
+{
+
+    unsigned long long debut = 0; //Indice du premier élément du sous-tableau analysé
+    unsigned long long fin = n; //Indice du dernier élément du sous-tableau analysé
+    unsigned long long i; //Indice de l'élément du milieu du sous-tableau analysé
+
+    //Dans le cas ou la valeur recherché est plus grande ou plus petite que les bornes du tableau on retourne -1
+    if((r < tab[0])||(r > tab[n-1]))
+        return -1;
+    //Dans le cas ou la valeur recherché est égale a la valeur de la borne inférieur du tableau on retourne la position 0
+    if(tab[0] == r)
+        return 0;
+    //Dans le cas ou la valeur recherché est égale a la valeur de la borne supérieur du tableau on retourne la position (n-1)
+    if(tab[n-1] == r)
+        return (n - 1);
+
+    //on réitére la boucle tant qu'il existe des valeur entre le premier et dernier élément du sous tableau
+    while ((fin >= debut))
+    {
+        //Calcul de la position de l'élément du milieu
+        i = (debut + fin) / 2;
+        /*cout << i << " " << tab[i] <<endl;
+        cout << "debut = " << debut <<" fin = "<< fin <<endl;*/
+        //Si l'élément du milieu est l'élément recherché on retourne sa position
+        if(tab[i] == r)
+            return i;
+        /*Si la valeur recherchée est plus petite que la valeur du l'élément du milieu alors on regarde le sous-tableau
+        de gauche*/
+        else if ( tab[i] > r)
+            fin = i - 1;
+        //sinon on regarde le sous-tableau de droite
+        else
+            debut = i + 1;
+    }
+    //Dans le cas ou la valeur n'a pas été trouvé dans le tableau on retourne la valeur -1
+
+    return -1;
+}
+\end{minted}
+
+\section{Suppression d'un élément dans un arbre binaire de recherche}
+
+\subsection{main.cpp}
+\begin{minted}[
+breaklines=true,
+frame=lines,
+linenos
+]{c++}
+#include <iostream> 
+#include <bits/stdc++.h>
+#include <stdlib.h> 
+#include "suppression.hpp"
+using namespace std;
+
+
+
+
+
+int main(){
+    int n = 10;
+    // test alétoire 
+	/*cout << "----------------------------Supression d'un arbre quelconque----------------------------" << endl;
+	int *arr = (int *)malloc(n * sizeof(int));
+    remplirTabRandom(arr, n);
+    element* arbre_aleatoire = creer_arbre(arr, n);
+    cout<<"Arbre avant"<<endl;
+    traverser_par_niveau(arbre_aleatoire);
+	
+	cout << "choisissez le nombre que vous voulez supprimer dans l'arbre " << endl;
+    int val;
+    cin >> val;
+	
+    CalculateTimeRecursive(arbre_aleatoire, val);
+    CalculateTimeIterative(arbre_aleatoire, val);
+    cout<<"Arbre après"<<endl;
+    traverser_par_niveau(arbre_aleatoire);
+
+
+	
+    // test sur un arbre équilibré
+	cout << "----------------------------Supression d'un arbre équilibré----------------------------" << endl;
+    TriFusion(arr, 0, n - 1); //il faut trier le tableau avant de créer un arbre equilibré
+    element* arbre_equilibree = creer_arbre_equilibree(arr,0,n-1); 
+    cout<<"Arbre avant"<<endl;
+    traverser_par_niveau(arbre_equilibree);
+		
+
+	
+    CalculateTimeRecursive(arbre_equilibree, val);
+    CalculateTimeIterative(arbre_equilibree, val);
+    cout<<"Arbre après"<<endl;
+    traverser_par_niveau(arbre_equilibree);
+
+
+	
+    // test sur un arbre completement non équilibré, arr est déja trié donc on crée normalement l'arbre et tous les noeud vont etre à droite
+	cout << "----------------------------Supression d'un arbre complètement déséquilibré----------------------------" << endl;
+    element* arbre_non_equilibree = creer_arbre(arr, n); //arr est déjà trié
+    cout<<"Arbre avant"<<endl;
+    traverser_par_niveau(arbre_non_equilibree);
+		
+
+	
+    CalculateTimeRecursive(arbre_non_equilibree, val);
+    CalculateTimeIterative(arbre_non_equilibree, val);
+    cout<<"Arbre après"<<endl;
+    traverser_par_niveau(arbre_non_equilibree);
+*/
+	
+	int *arr = (int *)malloc(n * sizeof(int));
+	int i = 0, val, tem = 0, exet;
+	element* arbre_aleatoire;
+    
+	
+	for (i = 0; i<10; i++){
+		
+        remplirTabRandom(arr, n);
+        arbre_aleatoire = creer_arbre(arr, n);
+        cout<<"Arbre avant"<<endl;
+        traverser_par_niveau(arbre_aleatoire);
+
+    
+        CalculateTimeIterative(arbre_aleatoire, arbre_aleatoire->valeur , exet);
+		tem = tem + exet;
+
+        cout<<"Arbre après"<<endl;
+        traverser_par_niveau(arbre_aleatoire);
+
+	}
+    printf("Le temps d'execution moyen est : %f \n",(float)(tem/10));
+
+	return 0;
+}
+
+\end{minted}
+
+\subsection{CreationTableau.hpp}
+\begin{minted}[
+breaklines=true,
+frame=lines,
+linenos
+]{c++}
+#include <iostream>
+#include <stdlib.h>
+#include <bits/stdc++.h>
+
+using namespace std;
+
+//fonction qui remplie le tableau avec des valeurs aléatoire
+void remplirTabRandom(int *tab, unsigned long long n)
+{
+    auto R = n * 10;
+
+    int *liste = (int *)malloc(R * sizeof(int));
+
+    //srand(time(NULL));
+    //On remplie une liste contenant une liste de nombre de 1 a R
+
+    for (auto i = 0; (unsigned)i < R; ++i) {
+        liste[i] = i;
+    }
+
+    //On mélange par la suite l'ordre des nombres dans la liste aléatoirement
+    for (auto i = 0; (unsigned)i < R; ++i) {
+        auto j = i + rand() % (R - i);
+        int temp = liste[i];
+        liste[i] = liste[j];
+        liste[j] = temp;
+    }
+
+    //On remplie notre tableau avec les n première valeur de la liste mélangée
+    for (auto i = 0; (unsigned)i < n; ++i) {
+        tab[i] = liste[i];
+    }
+
+    free(liste);
+}
+
+//L'algo de dichotomie nécessitant que le tableau soit trier nous utilisons une fonction de trie afin d'éviter toute erreur
+// On applique l'algo de tri fusion
+void Fusion(int *tab, unsigned long long const gauche, unsigned long long const mid, unsigned long long const droite)
+{
+    auto const subtab1 = mid - gauche + 1;
+    auto const subtab2 = droite - mid;
+
+    // Création de tableau temporaire
+    int *tabG = (int *)malloc(subtab1 * sizeof(int)),
+        *tabD = (int *)malloc(subtab1 * sizeof(int));
+
+    // On copie le contenue du tableau dans tabG et tabD
+    for (auto i = 0; (unsigned)i < subtab1; ++i)
+        tabG[i] = tab[gauche + i];
+
+    for (auto j = 0; (unsigned)j < subtab2; ++j)
+        tabD[j] = tab[mid + 1 + j];
+
+    auto subtab1_index = 0, // Index initial du premier sous tableau
+        subtab2_index = 0; // Index initial du second sous tableau
+    int tabfusion_index = gauche; // Index initial du tableau fusionné
+
+    // On fusionne les 2 tableau en prennant a chaque fois la valeur le plus petite des 2 tableaux
+    while ((unsigned)subtab1_index < subtab1 && (unsigned)subtab2_index < subtab2) {
+        if (tabG[subtab1_index] <= tabD[subtab2_index]) {
+            tab[tabfusion_index] = tabG[subtab1_index];
+            subtab1_index++;
+        }
+        else {
+            tab[tabfusion_index] = tabD[subtab2_index];
+            subtab2_index++;
+        }
+        tabfusion_index++;
+    }
+    // On copie le contenue du restant du tableau tabG
+    while ((unsigned)subtab1_index < subtab1) {
+        tab[tabfusion_index] = tabG[subtab1_index];
+        subtab1_index++;
+        tabfusion_index++;
+    }
+    // On copie le contenue du restant du tableau tabD
+    while ((unsigned)subtab2_index < subtab2) {
+        tab[tabfusion_index] = tabD[subtab2_index];
+        subtab2_index++;
+        tabfusion_index++;
+    }
+}
+
+// On divive le tableau en 2 de manière recursive puis on les tri avant de les fusionner
+void TriFusion(int *tab, unsigned long long const debut, unsigned long long const fin)
+{
+    if (debut >= fin)
+        return;
+
+    auto mid = debut + (fin - debut) / 2;
+    TriFusion(tab, debut, mid);
+    TriFusion(tab, mid + 1, fin);
+    Fusion(tab, debut, mid, fin);
+}
+
+\end{minted}
+
+\subsection{tree.hpp}
+\begin{minted}[
+breaklines=true,
+frame=lines,
+linenos
+]{c++}
+#include <iostream>
+#include <stdlib.h> //pour génerer des entiers aléatoirement
+#include <bits/stdc++.h>
+#include "CreationTableau.hpp"
+
+
+
+using namespace std;
+
+//Création de la structure de base
+struct element{ //Définition de la structure
+    int valeur;
+    struct element *gauche=nullptr, *droit=nullptr; 
+};
+
+struct element* creer_element(int val){ //Création d'un élement dans l'arbre 
+    struct element* intermediaire = (struct element*)malloc(sizeof(struct element));
+    intermediaire->valeur= val;
+    intermediaire->droit = intermediaire->gauche =nullptr;
+    return intermediaire;
+}
+
+struct element* inserer_element(struct element* elt, int val){ //insertion d'un element dans l'arbre
+    if(elt==nullptr)
+        return creer_element(val);
+
+    if(val > elt->valeur)
+        elt->droit = inserer_element(elt->droit, val);
+
+    else
+        elt->gauche = inserer_element(elt->gauche, val);
+
+    return elt;
+
+}
+
+
+
+
+struct element* creer_arbre_equilibree(int arr[], int debut, int fin){
+    
+    if (debut > fin)
+    return nullptr;
+
+    int milieu = (debut +fin)/2;
+    element* inter = creer_element(arr[milieu]);
+
+    //Le coté gauche du tableau fera un sous-arbre droit de l'elt du milieu du tableau 
+    inter->gauche = creer_arbre_equilibree(arr, debut, milieu - 1);
+ 
+    //Le coté droit du tableau fera un sous-arbre droit de l'elt du milieu du tableau 
+    inter->droit = creer_arbre_equilibree(arr, milieu + 1, fin);
+ 
+    return inter;
+}
+
+
+
+//Remplissage de l'arbre binaire avec un nombre n d'entiers aléatoires
+struct element* creer_arbre(int arr[], int taille){
+    struct element *elt =nullptr;
+    for(int i=0;i<taille; i++){
+        elt = inserer_element(elt, arr[i]);
+    }
+    return elt;
+}
+
+
+void chercher(element *racine, int level, int &maxLevel, int &res) //charcher la valeur du noeud le plus profond
+{
+    if (racine != nullptr)
+    {
+        chercher(racine->gauche, ++level, maxLevel, res);
+ 
+        // mettre à jour les vals
+        if (level > maxLevel)
+        {
+            res = racine->valeur;
+            maxLevel = level;
+        }
+ 
+        chercher(racine->droit, level, maxLevel, res);
+    }
+}
+
+
+int get_feuille(element *racine)
+{
+    // Initialisation
+    int res = -1;
+    int maxLevel = -1;
+ 
+
+    chercher(racine, 0, maxLevel, res);
+    return res;
+}
+
+
+
+//visualization basique de l'arbre binaire 
+
+void traverser_arbre_ordonne(struct element* racine){ //afficher l'arbre binaire en ordre infixé
+    if(racine != nullptr){
+        traverser_arbre_ordonne(racine->gauche);
+        cout <<racine->valeur<<" ";
+        traverser_arbre_ordonne(racine->droit);
+    }
+}
+
+void traverser_arbre_preordonne(struct element* racine){ //afficher l'arbre binaire en ordre préfixé
+    if(racine != nullptr){
+        cout <<racine->valeur<<endl;
+        traverser_arbre_preordonne(racine->gauche);
+        traverser_arbre_preordonne(racine->droit);
+    }
+}
+
+void traverser_arbre_postordonne(struct element* racine){ //afficher l'arbre binaire en ordre postfixé
+    if(racine != nullptr){
+        traverser_arbre_postordonne(racine->gauche);
+        traverser_arbre_postordonne(racine->droit);
+        cout <<racine->valeur<<endl;
+    }
+}
+
+void traverser_par_niveau(element *racine)
+{
+    // cas de base
+    if (racine == nullptr) return;
+ 
+    // on utilise une file pour traverser
+    queue<element *> q;
+ 
+    // enfiler la racine 
+    q.push(racine);
+ 
+    while (q.empty() == false)
+    {
+        // Le nombre de noeuds par niveau
+        int nombre_noeuds = q.size();
+ 
+        // defiler tous les noeuds d'un niveau et enfiler les noeuds du niveau prochain
+        while (nombre_noeuds > 0)
+        {
+            element *element = q.front();
+            cout << element->valeur << " ";
+            q.pop();
+            if (element->gauche != nullptr)
+                q.push(element->gauche);
+            if (element->droit != nullptr)
+                q.push(element->droit);
+            nombre_noeuds--;
+        }
+        cout << endl;
+    }
+}
+\end{minted}
+
+\subsection{suppression.hpp}
+\begin{minted}[
+breaklines=true,
+frame=lines,
+linenos
+]{c++}
+#include "tree.hpp"
+#include<chrono>
+
+//Recherche d'un element dans un arbre binaire 
+using namespace std;
+
+
+
+//Recherche de la valeur minimale dans un arbre, utile pour la suppression d'un element avec deux fils.
+
+struct element* valeur_minimale(struct element* elt){
+    struct element* min = elt;
+    while(min && min->gauche != nullptr)
+        min=min->gauche;
+    return min;
+}
+/***
+ * SUPPRESSION SIMPLE ET RECURSIVE
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * ***/
+//suppression d'un element dans un arbre binaire 
+struct element* supprimer_element_recursive(struct element* racine, int val){ //premier essai, pas très optimisé.
+   
+    if(racine==nullptr) //cas de base pour la récursivité
+        return racine; 
+
+    if(val < racine->valeur)  //si la val a supprimer est inf à la valeur de l'elt alors on va supprimer à gauche.
+        racine->gauche = supprimer_element_recursive(racine->gauche,val);
+
+    else if(val > racine->valeur)  //si la val a supprimer est inf à la valeur de l'elt alors on va supprimer à droite.
+        racine->droit = supprimer_element_recursive(racine->droit,val);
+
+    else { //si val == racine->valeur (on a trouvé l'elt à supprimer)
+
+        //si l'elt n'a aucun fils
+        if(racine->droit==nullptr && racine->droit==nullptr)
+            return nullptr;
+
+        //si l'elt a un seul fils
+        else if(racine->gauche==nullptr){
+            struct element* intermediaire = racine->droit;
+            free(racine);
+            return intermediaire;
+        }else if(racine->droit==nullptr){
+            struct element* intermediaire = racine->gauche;
+            free(racine);
+            return intermediaire;
+        }
+
+        //si l'elt a deux fils : on cherche le minimum du coté droit de l'elt et on écrase la valeur de cet elt avec le min trouvé
+        struct element* min = valeur_minimale(racine->droit);
+        //on écrase la valeur de l'elt à supprimer
+        racine->valeur = min->valeur;
+        //on supprime le min
+        racine->droit = supprimer_element_recursive(racine->droit, min->valeur); //on peut éviter cet appel récursif et diminuer la complexité
+    }
+    return racine;
+}
+/***
+ * SUPPRESSION NON RECURSIVE
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * ***/
+
+
+struct element* supprimer_element(struct element* racine, int val){
+    struct element* pere=nullptr;
+    struct element* actuel = racine;
+
+    // on cherche l'elt à supprimer, pere point sur le pere de actuel
+    while(actuel != nullptr && actuel->valeur != val){
+        pere = actuel;
+
+        if(val < actuel->valeur)
+            actuel = actuel->gauche;
+        else
+            actuel = actuel->droit;
+    } 
+
+    //si la valeur cherchée est inexistante
+    if(actuel==nullptr){
+        printf("La valeur que vous cherchez à supprimer n'existe pas\n");
+        return nullptr;
+    }
+    
+    // si le noeud a supp a au plus un fils , on cherche c'est quel fils
+    if (actuel->gauche == nullptr || actuel->droit == nullptr) {
+ 
+        // un ptr pour replacer le noeud à supprimer
+        element* inter; //
+ 
+        // si le noeud a un fils droit, on pointe sur lui 
+        if (actuel->gauche == nullptr)
+            inter = actuel->droit;
+        else
+            inter = actuel->gauche;
+ 
+        
+        // si le noeud à supprimer est la racine, on retourne directement le ptr
+        if (pere == nullptr)
+            return inter;
+ 
+        //si le noeud à supprimer n'est pas une racine, on lie son père avec notre ptr
+        if (actuel == pere->gauche)
+            pere->gauche = inter;
+        else
+            pere->droit = inter;
+ 
+        // on libère l'espace du  noeud actuel et on garde le ptr intermediaire 
+        free(actuel);
+    }
+ 
+    // si le noeud à supp a deux fils
+    else {
+        element* min;
+        pere = racine;
+ 
+        // on cherche le min du sous arbre droit du noeud à supprimer on garddant trace du pere 
+        min = actuel->droit;
+        while (min->gauche != nullptr) {
+            pere = min;
+            min = min->gauche;
+        }
+ 
+        if (pere != racine) //vérifie si le pere du successeur en ordre sup est le courant ou non. s'il ne l'est pas, alors l'enfant gauche de son pere est égal à l'enfant droit de sup.
+            pere->gauche = min->droit;
+        else
+            actuel->droit = min->droit;
+ 
+        actuel->valeur = min->valeur;
+        free(min);
+    }
+    return racine;
+}
+
+
+// Autre fonction de suppression
+struct element* supprimer_element0(element* racine, int val)
+{
+    element* pere = nullptr;
+    element* actuel = racine;
+ 
+    // on cherche l'elt à supprimer, pere point sur le pere de actuel
+    while(actuel != nullptr && actuel->valeur != val){
+        pere = actuel;
+
+        if(val < actuel->valeur)
+            actuel = actuel->gauche;
+        else
+            actuel = actuel->droit;
+    } 
+ 
+    //si la valeur cherchée est inexistante
+    if(actuel==nullptr){
+        printf("La valeur que vous cherchez à supprimer n'existe pas\n");
+        return nullptr;
+    }
+ 
+    // Cas 1: le noeud n'a aucun fils
+    if (actuel->gauche == nullptr && actuel->droit == nullptr){
+        // si le noeud à supp n'est pas une racine, on met son pere gauche/droit à Null
+        if (actuel != racine)
+        {
+            if (pere->gauche == actuel) 
+                pere->gauche = nullptr;
+            
+            else 
+                pere->droit = nullptr;
+        }
+        // si nous avons qu'une racine
+        else {
+            return nullptr;
+        }
+
+        // on libère l'espace
+        free(actuel);        // ou bien delete actuel en appelant le destructeur
+    }
+
+    // Cas 2: noeud à supp a deux fils
+    else if (actuel->gauche && actuel->droit){
+        element* min; // pour chercher le succ en ordre
+        pere = racine;
+
+        // on cherche le min du sous arbre droit du noeud à supprimer on garddant trace du pere 
+        min = actuel->droit;
+        while (min->gauche != nullptr) {
+            pere = min;
+            min = min->gauche;
+        }
+
+        if (pere != racine) //vérifie si le pere du successeur en ordre sup est le courant ou non. s'il ne l'est pas, alors l'enfant gauche de son pere est égal à l'enfant droit de sup.
+            pere->gauche = min->droit;
+        else
+            actuel->droit = min->droit;
+
+        actuel->valeur = min->valeur;
+        free(min);
+    }
+    // Cas 3: le noeud à supp a un seul fils
+    else {
+        // choose a intermediaire node
+        element* intermediaire = (actuel->gauche)? actuel->gauche: actuel->droit;
+
+        //si le noeud n'est pas une racine, on lie le pere gauche/droit avec l'intermediaire  
+        if (actuel != racine)
+        {
+            if (actuel == pere->gauche) 
+                pere->gauche = intermediaire;
+            
+            else 
+                pere->droit = intermediaire;
+            
+        }
+        //si le noeud  est la racine, l'intermediaire devient direct la racine
+        else 
+            return intermediaire;
+        
+        // deallocate the memory
+        free(actuel);
+    }
+    return racine;
+}
+
+
+
+bool existe(struct element* noeud, int val){ //vérifier si le noeud existe pour l'approche récursiv
+    if (noeud == nullptr)
+        return false;
+ 
+    if (noeud->valeur == val)
+        return true;
+ 
+    
+    bool res1 = existe(noeud->gauche, val);
+    
+    if(res1) return true;
+ 
+    
+    bool res2 = existe(noeud->droit, val);
+ 
+    return res2;
+}
+
+void CalculateTimeRecursive(element* &racine, int val){
+    if (! existe(racine,val)){
+        printf("La valeur que vous cherchez à supprimer n'existe pas\n");
+    } 
+    else{
+        //time start
+        chrono::time_point<chrono::steady_clock> start = chrono::steady_clock::now(), stop;
+        racine = supprimer_element_recursive(racine, val);
+        //time ends
+        stop = chrono::steady_clock::now();
+        chrono::duration<double, nano> duration = stop - start;
+        printf("Le temps d'execution avec une approche Récursive est : %lf nanosecondes\n", duration.count());
+    }
+}
+
+void CalculateTimeIterative(element* &racine, int val, int &ex){
+        //time start
+        chrono::time_point<chrono::steady_clock> start = chrono::steady_clock::now(), stop;
+        racine = supprimer_element(racine, val);
+        //time ends
+        stop = chrono::steady_clock::now();
+        chrono::duration<double, nano> duration = stop - start;
+        printf("Le temps d'execution avec une approche Itérative est : %lf nanosecondes\n", duration.count());
+	    ex = duration.count();
+
+}
+\end{minted}

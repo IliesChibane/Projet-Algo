@@ -9,8 +9,7 @@
 \usepackage[french, onelanguage, boxruled, longend]{algorithm2e}
 \usepackage{setspace}
 \usepackage{multirow}
-%\usepackage{algorithm}
-%\usepackage{algorithmic}
+\usepackage{minted}
 
 \newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
 
@@ -50,6 +49,8 @@
     \end{titlepage}
     \normalsize
 
+    \tableofcontents
+
     \newpage
     \onehalfspacing
     \include{./algo1.tex}
@@ -69,5 +70,9 @@
     \newpage
     \onehalfspacing
     \include{./conclusion.tex}
+
+    \newpage
+    \singlespacing
+    \include{./annexe.tex}
 
 \end{document}
