@@ -64,22 +64,23 @@ int main(){
 	element* arbre_aleatoire;
     
 	
-	for (i = 0; i<10; i++){
+	//for (i = 0; i<10; i++){
 		
         remplirTabRandom(arr, n);
         arbre_aleatoire = creer_arbre(arr, n);
-        cout<<"Arbre avant"<<endl;
-        traverser_par_niveau(arbre_aleatoire);
+        //cout<<"Arbre avant"<<endl;
+        //traverser_par_niveau(arbre_aleatoire);
 
     
-        CalculateTimeIterative(arbre_aleatoire, arbre_aleatoire->valeur , exet);
-		tem = tem + exet;
+        CalculateTimeIterative(arbre_aleatoire, arbre_aleatoire->valeur);
+        CalculateTimeRecursive(arbre_aleatoire, arbre_aleatoire->valeur);
+		//tem = tem + exet;
 
-        cout<<"Arbre après"<<endl;
-        traverser_par_niveau(arbre_aleatoire);
+        //cout<<"Arbre après"<<endl;
+        //traverser_par_niveau(arbre_aleatoire);
 
-	}
-    printf("Le temps d'execution moyen est : %f \n",(float)(tem/10));
+	//}
+    //printf("Le temps d'execution moyen est : %f \n",(float)(tem/10));
 
 	return 0;
 }

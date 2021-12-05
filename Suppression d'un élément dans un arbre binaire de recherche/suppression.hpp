@@ -267,7 +267,7 @@ void CalculateTimeRecursive(element* &racine, int val){
     }
 }
 
-void CalculateTimeIterative(element* &racine, int val, int &ex){
+void CalculateTimeIterative(element* &racine, int val){
         //time start
         chrono::time_point<chrono::steady_clock> start = chrono::steady_clock::now(), stop;
         racine = supprimer_element(racine, val);
@@ -275,6 +275,6 @@ void CalculateTimeIterative(element* &racine, int val, int &ex){
         stop = chrono::steady_clock::now();
         chrono::duration<double, nano> duration = stop - start;
         printf("Le temps d'execution avec une approche Itérative est : %lf nanosecondes\n", duration.count());
-	    ex = duration.count();
+	    //ex = duration.count();
 
 }
