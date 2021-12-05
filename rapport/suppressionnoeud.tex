@@ -231,15 +231,18 @@ Dans le meilleur et moyen cas, l’arbre sera complètement équilibré et donc 
 Dans le pire cas la complexité sera $\mathcal{O}((n -n')) + {O}(n') + {O}(n'/2) \approx {O}(n)$
 
 \par
-Le tableau suivant représente les temps d'exécution théorique en nanoseconde de l'algorithme de suppression de la racine selon la variation de la taille de l'arbre.
+Le tableau suivant représente les temps d'exécution théorique en nanoseconde de l'algorithme de suppression itérative et récursive d'une feuille selon la variation de la taille de l'arbre.
 
 \small
 \begin{center}
-\begin{tabular}{| c | c | c | c | c | c | c | c | c | c | c | c | c |}
+\begin{tabular}{|c | c | c | c | c | c | c | c | c | c | c | c | c | c |}
     \hline
-    N &  10 & 50 & 100 & 500 & 1000 & 5000 & 10000 & 100000 & 1000000 & 10000000 \\
+     N &  10 & 50 & 100 & 500 & 1000 & 5000 & 10000 & 100000 & 1000000 & 10000000 \\
     \hline
-    t(ns) & 490 & 560 & 720 & 830 & 1130 & 1280 & 1380 & 1590 &  2489 & 2680  \\
+    Itérative t(ns) & 250  & 429  & 531  & 569  & 589  & 986  & 845  & 897  &  1181 & 1462  \\
+    \hline
+    Récursive t(ns) & 365  & 479  & 563  & 589  & 804  & 895  & 929  & 985  &  1489 & 1680  \\
+    
     
     \hline
 \end{tabular}  
@@ -249,7 +252,7 @@ La figure suivante (voir Figure \ref{fig:temps_exec_abr_theo}) représente l'év
 
 \begin{figure}[H]
     \centering
-        \includegraphics[scale=0.7]{./ressources/exe theo.png}
+        \includegraphics[scale=0.7]{./ressources/chartraphe.png}
         \caption{Temps d'exécution théorique du programme selon la taille de l'arbre}
     \label{fig:temps_exec_abr_theo}
 \end{figure} 
@@ -322,27 +325,27 @@ Le tableau suivant représente les temps d'exécution en nanoseconde de l'algori
     \hline
     N &  10 & 50 & 100 & 500 & 1000 & 5000 & 10000 & 100000 & 1000000 & 10000000 \\
     \hline
-    t1(ns) & 540 & 840.000000 & 950.000000 & 4279.000000 & 6520.000000 & 28690.000000 & 53031.000000 & 637466.000000 & 6980 & 8430 \\
+    t1(ns) & 86  & 363  & 501  & 581  & 1137  & 3642  & 1365  & 2213  & 1261  & 1731  \\
     \hline
-    t2(ns) & 300 & 450.000000 & 1001.000000 & 2980.000000 & 8320.000000 & 30950.000000 & 77911.000000 & 608887.000000 & 6961 & 11260 \\
+    t2(ns) & 161  & 160  & 282  & 349  & 496 & 869  & 885  & 734  & 793 & 931  \\
     \hline
-    t3(ns) & 210 & 610.000000 & 809.000000 & 3130.000000 & 6430.000000 & 26850.000000 & 53431.000000 & 554416.000000 & 6611 & 10610 \\
+    t3(ns) & 87  & 79  & 164  & 357  & 483   & 371  & 838  & 593  & 1110  & 1158  \\
     \hline
-    t4(ns) & 200 & 360.000000 & 800.000000 & 2980.000000 & 6960.000000 & 26791.000000 & 53051.000000 & 690497.000000 & 6971 & 8520 \\
+    t4(ns) & 47  & 79  & 216  & 325   & 566  & 323  & 797  & 897  & 1355  & 1623  \\
     \hline
-    t5(ns) & 200 & 400.000000 & 1040.000000 & 3040.000000 & 6930.000000 & 28670.000000 & 61360.000000 & 727498.000000 & 5601 & 9040 \\
+    t5(ns) & 43   & 93  & 170  & 326  & 409  & 440  & 749  & 541  & 917   & 1897  \\
     \hline
-    t6(ns) & 270 & 360.000000 & 1000.000000 & 2980.000000 & 6550.000000 & 26790.000000 & 53131.000000 & 893579.000000 & 6140 & 9061 \\
+    t6(ns) & 125  & 101  & 176  & 391  & 308  & 315  & 779  & 553  & 902  & 924  \\
     \hline
-    t7(ns) & 330 & 380.000000 & 1290.000000 & 3250.000000 & 7010.000000 & 30810.000000 & 53070.000000 & 630577.000000 & 6690 & 12340 \\
+    t7(ns) & 128  & 80  & 214  & 347  & 338  & 265  & 570  & 1105  & 1439  & 843  \\
     \hline
-    t8(ns) & 250 & 370.000000 & 1210.000000 & 2970.000000 & 6270.000000 & 34560.000000 & 53141.000000 & 16761528.000000 & 6430 & 8790 \\
+    t8(ns) & 47  & 111  & 228  & 320  & 307  & 307  & 868  & 876  & 930   & 1135  \\
     \hline
-    t9(ns) & 230 & 370.000000 & 810.000000 & 3120.000000 & 6531.000000  & 26901.000000 & 57151.000000 & 2983500.000000 & 6191 & 7999 \\
+    t9(ns) & 64  & 74  & 222 & 321  & 374   & 294  & 742  & 940  & 925   &  1457  \\
     \hline
-    t10 (ns) & 210 & 370.000000 & 1011.000000 & 3000.000000 & 6029.000000 & 28110.000000 & 53210.000000 & 593466.000000 & 6399 & 9900 \\
+    t10 (ns) & 117  & 114  & 199 & 307  & 362  & 276  & 687  & 611  & 618  & 1006 \\
     \hline
-    Moyenne (ns) & 274 & 451.000000 & 992.000000 & 3172.000000 & 6755.000000 & 28912.000000 & 56848.000000 & 2508141.000000 & 6497 & 9595 \\
+    Moyenne (ns) & 90   & 125  & 237 & 362  & 478  & 710  & 828   & 906  & 1025  & 1270 \\
     \hline
 \end{tabular}
 }
@@ -353,12 +356,12 @@ La figure suivante (voir Figure \ref{fig:temps_exec_noeuds}) représente l'évol
 
 \begin{figure}[H]
     \centering
-        \includegraphics[scale=0.7]{./ressources/Temps d'execution (ns) par rapport à Nombre de noeuds .png}
+        \includegraphics[scale=0.7]{./ressources/Suppression d'un noeud dans un ABR.png}
         \caption{Temps d'exécution du programme selon le nombre de noeuds}
     \label{fig:temps_exec_noeuds}
 \end{figure}
 \par
-Depuis le graphe, la courbe est sous forme de courbe ascendante, on observe que le temps d'exécution évolue avec l'augmentation de la taille du problème, ce qui correspond bien à la complexité théorique calculée auparavant. 
+Depuis le graphe, on observe que le temps d'exécution évolue avec l'augmentation de la taille du problème, ce qui correspond bien à la complexité théorique calculée auparavant. 
 
 \section{Conclusion}
 La suppression d’un nœud dans un arbre binaire de recherche est l’une des opérations les plus compliquées à faire étant donné qu’il faut appliquer un traitement différent selon le nombre de fils que le nœud à supprimer possède.  Dans cette partie, nous avons essayé les deux approches : itérative et récursive. Nous constatons qu’en utilisant cette dernière, le code est plutot petit et facile à comprendre contrairement à la façon itérative qui est beaucoup plus lourde.En revanche, cette dernière nous aide à comprendre de manière détaillée tout ce qui se passe en interne dans l'algorithme et comment la suppression est réellement effectuée.De plus, elle est plus rapide que l'approche récursive.
