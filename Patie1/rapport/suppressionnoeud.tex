@@ -61,7 +61,7 @@ Il est important de noter que le successeur d'ordre peut être obtenu en trouvan
     \Begin{
         \If{$racine = Nil$}
             {retour Nil\;}
-        %\ENDIF
+        \ENDIF
         \If{$valeur < racine.valeur$}{
             \tcp{Si la valeur cherchée est inférieure à l'élèment en cours, on supprime à gauche}
             $racine.filsg \leftarrow supprimerec(racine.filsg, valeur)$\;}
@@ -194,11 +194,11 @@ Maintenant, nous allons écrire l’algorithme itératif de suppression pour com
         \Else{
         $actuel.filsd \leftarrow min.filsd$\;
         }
-        $actuel.valeur \leftarrow min.valeur$\; %\\
+        $actuel.valeur \leftarrow min.valeur$\; \\
         Libérer(min)\;
         }
         retour racine\;
-    
+        FIN.
 \end{function}
 
 
@@ -215,16 +215,34 @@ $$i.e : n=2^x\hspace{2cm} qui\hspace{0.2cm} est\hspace{0.2cm} log_2 n\hspace{0.2
 Dans le cas moyen, la complexité temporelle est de l’ordre de la hauteur de l’arbre binaire de recherche. Puisque ce dernier est en moyenne $\mathcal{O}(log_2(n))$, la complexité temporelle du cas moyen est de l’ordre $\mathcal{O}(log_2(n))$.
 \par
 Par ailleurs, si on traverse de la racine à une feuille, c’est-à-dire toute la hauteur $h$ de l’arbre. Si ce dernier n’est pas équilibré, on sera amené à parcourir tous les nœuds et la hauteur de l’arbre deviendra $n$. par conséquent la complexité temporelle dans le pire des cas de l’opération de suppression est $\mathcal{O}(n)$.
+\par
+La complexité temporelle de la suppression d’un nœud ne diffère pas grandement entre l’approche récursive et l’itérative étant donné que chaque boucle dans cette dernière est remplacée par un appel récursif de la fonction dans la deuxième approche.
+\par
+Dans la suppression itérative, on commence d’abord par chercher la valeur à supprimer en utilisant une boucle à n itérations. Ensuite une fois trouvée, si le nœud contenant cette valeur a deux fils, nous devons une fois de plus faire la recherche du minimum (resp. Maximum) dans son sous arbre à droite (resp. Gauche) qui contient $n’$ éléments.
+\par
+Dans le meilleur et moyen cas, l’arbre sera complètement équilibré et donc la complexité temporelle sera $\mathcal{O}(log_2(n - n') +log_2(n')) \approx  \mathcal{O}(log_2(n))$.
+\par
+Dans le pire cas la complexité sera $\mathcal{O}((n -n')) + {O}(n') \approx  {O}(n)$. 
+\par
+Dans la suppression récursive, on compare à chaque fois la valeur cherchée avec la valeur en cours et on effectue des appels récursifs jusqu’à trouver la valeur voulue. Ensuite, si le nœud contenant cette valeur a deux fils, nous devons faire la recherche du minimum (resp. Maximum) dans son sous arbre à droite (resp. Gauche) afin d’écraser sa valeur. Finalement, on effectue un autre appel récursif sur le même sous-arbre pour supprimer la valeur du minimum.
+\par
+Dans le meilleur et moyen cas, l’arbre sera complètement équilibré et donc la complexité temporelle sera  $\mathcal{O}(log_2(n - n') +log_2(n')) + \mathcal{O}(n'/2) \approx \mathcal{O}(n)$
+\par 
+Dans le pire cas la complexité sera $\mathcal{O}((n -n')) + {O}(n') + {O}(n'/2) \approx {O}(n)$
 
-Le tableau suivant représente les temps d'exécution théorique en nanoseconde de l'algorithme de suppression de la racine selon la variation de la taille de l'arbre.
+\par
+Le tableau suivant représente les temps d'exécution théorique en nanoseconde de l'algorithme de suppression itérative et récursive d'une feuille selon la variation de la taille de l'arbre.
 
 \small
 \begin{center}
-\begin{tabular}{| c | c | c | c | c | c | c | c | c | c | c | c | c |}
+\begin{tabular}{|c | c | c | c | c | c | c | c | c | c | c | c | c | c |}
     \hline
-    N &  10 & 50 & 100 & 500 & 1000 & 5000 & 10000 & 100000 & 1000000 & 10000000 \\
+     N &  10 & 50 & 100 & 500 & 1000 & 5000 & 10000 & 100000 & 1000000 & 10000000 \\
     \hline
-    t(ns) & 490 & 560 & 720 & 830 & 1130 & 1280 & 1380 & 1590 &  2489 & 2680  \\
+    Itérative t(ns) & 250  & 429  & 531  & 569  & 589  & 986  & 845  & 897  &  1181 & 1462  \\
+    \hline
+    Récursive t(ns) & 365  & 479  & 563  & 589  & 804  & 895  & 929  & 985  &  1489 & 1680  \\
+    
     
     \hline
 \end{tabular}  
@@ -234,7 +252,7 @@ La figure suivante (voir Figure \ref{fig:temps_exec_abr_theo}) représente l'év
 
 \begin{figure}[H]
     \centering
-        \includegraphics[scale=0.7]{./ressources/exe theo.png}
+        \includegraphics[scale=0.7]{./ressources/chartraphe.png}
         \caption{Temps d'exécution théorique du programme selon la taille de l'arbre}
     \label{fig:temps_exec_abr_theo}
 \end{figure} 
@@ -307,27 +325,27 @@ Le tableau suivant représente les temps d'exécution en nanoseconde de l'algori
     \hline
     N &  10 & 50 & 100 & 500 & 1000 & 5000 & 10000 & 100000 & 1000000 & 10000000 \\
     \hline
-    t1(ns) & 540 & 691 & 610 & 960 & 910 & 1251 & 1980 & 1581 & 6980 & 8430 \\
+    t1(ns) & 86  & 363  & 501  & 581  & 1137  & 3642  & 1365  & 2213  & 1261  & 1731  \\
     \hline
-    t2(ns) & 300 & 220 & 450 & 690 & 880 & 960 & 1350 & 2250 & 6961 & 11260 \\
+    t2(ns) & 161  & 160  & 282  & 349  & 496 & 869  & 885  & 734  & 793 & 931  \\
     \hline
-    t3(ns) & 210 & 260 & 470 & 980 & 780 & 920 & 1900 & 2420 & 6611 & 10610 \\
+    t3(ns) & 87  & 79  & 164  & 357  & 483   & 371  & 838  & 593  & 1110  & 1158  \\
     \hline
-    t4(ns) & 200 & 230 & 680 & 1160 & 740 & 950 & 1160 & 4460 & 6971 & 8520 \\
+    t4(ns) & 47  & 79  & 216  & 325   & 566  & 323  & 797  & 897  & 1355  & 1623  \\
     \hline
-    t5(ns) & 200 & 290 & 340 & 610 & 1040 & 1010 & 2049 & 3331 & 5601 & 9040 \\
+    t5(ns) & 43   & 93  & 170  & 326  & 409  & 440  & 749  & 541  & 917   & 1897  \\
     \hline
-    t6(ns) & 270 & 200 & 300 & 690 & 550 & 1220 & 1250 & 3810 & 6140 & 9061 \\
+    t6(ns) & 125  & 101  & 176  & 391  & 308  & 315  & 779  & 553  & 902  & 924  \\
     \hline
-    t7(ns) & 330 & 250 & 361 & 580 & 690 & 1170 & 1380 & 3680 & 6690 & 12340 \\
+    t7(ns) & 128  & 80  & 214  & 347  & 338  & 265  & 570  & 1105  & 1439  & 843  \\
     \hline
-    t8(ns) & 250 & 310 & 279 & 670 & 980 & 819 & 1310 & 1720 & 6430 & 8790 \\
+    t8(ns) & 47  & 111  & 228  & 320  & 307  & 307  & 868  & 876  & 930   & 1135  \\
     \hline
-    t9(ns) & 230 & 450 & 290 & 650 & 840  & 820 & 1450 & 2291 & 6191 & 7999 \\
+    t9(ns) & 64  & 74  & 222 & 321  & 374   & 294  & 742  & 940  & 925   &  1457  \\
     \hline
-    t10 (ns) & 210 & 681 & 310 & 779 & 760 & 960 & 1520 & 2690 & 6399 & 9900 \\
+    t10 (ns) & 117  & 114  & 199 & 307  & 362  & 276  & 687  & 611  & 618  & 1006 \\
     \hline
-    Moyenne (ns) & 274 & 358 & 409 & 776 & 817 & 1008 & 1534 & 2823 & 6497 & 9595 \\
+    Moyenne (ns) & 90   & 125  & 237 & 362  & 478  & 710  & 828   & 906  & 1025  & 1270 \\
     \hline
 \end{tabular}
 }
@@ -338,12 +356,12 @@ La figure suivante (voir Figure \ref{fig:temps_exec_noeuds}) représente l'évol
 
 \begin{figure}[H]
     \centering
-        \includegraphics[scale=0.7]{./ressources/Temps d'execution (ns) par rapport à Nombre de noeuds .png}
+        \includegraphics[scale=0.7]{./ressources/Suppression d'un noeud dans un ABR.png}
         \caption{Temps d'exécution du programme selon le nombre de noeuds}
     \label{fig:temps_exec_noeuds}
 \end{figure}
 \par
-Depuis le graphe, la courbe est sous forme de courbe ascendante, on observe que le temps d'exécution évolue avec l'augmentation de la taille du problème, ce qui correspond bien à la complexité théorique calculée auparavant. 
+Depuis le graphe, on observe que le temps d'exécution évolue avec l'augmentation de la taille du problème, ce qui correspond bien à la complexité théorique calculée auparavant. 
 
 \section{Conclusion}
 La suppression d’un nœud dans un arbre binaire de recherche est l’une des opérations les plus compliquées à faire étant donné qu’il faut appliquer un traitement différent selon le nombre de fils que le nœud à supprimer possède.  Dans cette partie, nous avons essayé les deux approches : itérative et récursive. Nous constatons qu’en utilisant cette dernière, le code est plutot petit et facile à comprendre contrairement à la façon itérative qui est beaucoup plus lourde.En revanche, cette dernière nous aide à comprendre de manière détaillée tout ce qui se passe en interne dans l'algorithme et comment la suppression est réellement effectuée.De plus, elle est plus rapide que l'approche récursive.
