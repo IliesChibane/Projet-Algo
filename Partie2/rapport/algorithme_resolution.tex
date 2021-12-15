@@ -1,0 +1,59 @@
+\section{Modélisation de la solution}
+Dans ce problème, chaque anneau porte un numéro séquentiel unique $a_i \in [1, n]$ qui représente sa taille tel que $n$ est le nombre maximal d'anneaux (e.g. l'anneau avec le nombre $1$ est plus petit que l'anneau avec le nombre $3$).
+\par
+De plus, on modélise chaque tour par un tableau $T_j$ d'une taille égale au nombre maximum d'anneaux $n$. Si un niveau $i$ de la tour $j$ contient un anneau $a_{i'}$, $T[j, i] = a_{i'}$, sinon $T[j, i] = 0$. Le niveau le plus bas de la tour (la base de la tour) est placé à la dernière case du tableau ; $\forall j$ $T[j, n]$ est le niveau le plus bas de la tour (voir Figure \ref{fig:rep_tour}).
+
+\begin{figure}[h!]
+    \begin{center}
+        \begin{tikzpicture}
+            \draw (0,0) rectangle (2,5);
+            \draw (0,1) -- (2,1);
+            \draw (0,4) -- (2,4);
+            \draw [dashed] (0,2) -- (2,2);
+            \draw [dashed] (0,3) -- (2,3);
+            %\node at (1,2.5) {- - -};
+
+            \node [left] at (-1,0.5) {T[j, n]};
+            \node at (1,0.5) {n};
+            \node [right] at (3,0.5) {l'anneau le plus grand};
+
+            \node [left] at (-1,4.5) {T[j, 1]};
+            \node at (1,4.5) {1};
+            \node [right] at (3,4.5) {l'anneau le plus petit};
+
+            \node [below] at (1,-0.5) {T[j]};
+
+        \end{tikzpicture}
+        \caption{Exemple d'une tour avec tous les anneaux}
+        \label{fig:rep_tour}
+    \end{center}
+\end{figure}
+
+\par
+Par concéquent, le bord de jeu peut être représenté par une matrice colonne par colonne ou chaque colonne est en réalité une tour du jeu.
+
+$$
+\mathbf{bord} = 
+\begin{pmatrix}
+    T[1, 1] & T[2, 1] & ... \\
+    ... \\
+    T[1, n] & T[2, n] & ...
+\end{pmatrix}$$
+
+\paragraph{Règle de changement d'état}
+Pour passer d'un état de bord vers le suivant, on ne peut bouger qu'un seul anneau du haut d'une tour vers une autre tour, à condition que l'anneau supérieur de la tour destination a un nombre supérieur à l'anneau qu'on veut bouger.
+\par
+Plus formellement, on peut déplacer le permier élément non nul d'une colonne s'il existe vers une autre colonne si le premier element non nul de la colonne destination est supérieur à celui qu'on déplace.
+
+\section{Algorithme de résolution}
+
+\begin{algorithm}[H]
+    \SetAlgoLined
+    \KwData{bord : matrice [1, 3][1, n] d'entier}
+    \KwResult{}
+    \textbf{Variables :}\\
+    \Begin{
+        
+    }
+    \caption{Analyse lexicale}
+\end{algorithm}
