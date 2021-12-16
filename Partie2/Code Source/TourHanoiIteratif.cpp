@@ -10,6 +10,11 @@ struct Pilier
 	int *Pilier;
 };
 
+struct Chemin
+{
+    int o,d;
+};
+
 void init(Pilier TH[], int n)
 {
   for (int i = 0; i < 3; ++i)
@@ -54,15 +59,63 @@ int autre(int p1, int p2)
   return 3 - p1 -p2;
 }
 
-void hanoi(int n, int origine,int destination, Pilier TH[])
+Chemin pilierInter(int a)
 {
-  if (n != 0)
+  Chemin ep;
+  switch(a)
   {
-    int auxiliaire = autre(origine, destination);
-    hanoi(n-1, origine, auxiliaire, TH);
+    case 1 :
+      ep.o = 0;
+      ep.d = 2;
+      break;
+    case 0 :
+      ep.o = 1;
+      ep.d = 2;
+      break;
+    case 2 :
+      ep.o = 0;
+      ep.d = 1;
+      break;
+  }
+
+  return ep;
+}
+
+void hanoi(int n, int origine,int destination, Pilier TH[])
+{ 
+  int op = 0, dp = 1;
+  while(TH[2].Pilier[0] == 0)
+  {
+    deplacer(TH[op], TH[dp],NDisque);
     deplacement++;
-    deplacer(TH[origine], TH[destination],NDisque);
-    hanoi(n-1, auxiliaire, destination, TH);
+    Chemin ep = pilierInter(dp);
+    if(TH[2].Pilier[0] == 0)
+    {
+      int a = sommet(TH[ep.o],NDisque), b = sommet(TH[ep.d],NDisque);
+
+      if(a== NDisque)
+      {
+        deplacer(TH[ep.d], TH[ep.o],NDisque);
+        deplacement++;
+      }
+      else if (b == NDisque)
+      {
+        deplacer(TH[ep.o], TH[ep.d],NDisque);
+        deplacement++;
+      }
+      else if(TH[ep.o].Pilier[a] > TH[ep.d].Pilier[b])
+      {
+        deplacer(TH[ep.d], TH[ep.o],NDisque);
+        deplacement++;
+      }
+      else
+      {
+        deplacer(TH[ep.o], TH[ep.d],NDisque);
+        deplacement++;
+      }
+    }
+    op = op == 2 ? 0 : op+1; 
+    dp = dp == 2 ? 0 : dp+1;
   }
 }
 
