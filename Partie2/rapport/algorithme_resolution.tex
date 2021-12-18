@@ -40,20 +40,56 @@ $$
     T[1, n] & T[2, n] & ...
 \end{pmatrix}$$
 
+Un exemple d'initialisation classique de trois tours avec trois anneaux placés sur la première tour :
+
+$$
+\mathbf{bord} = 
+\begin{pmatrix}
+    1 & 0 & 0 \\
+    2 & 0 & 0 \\
+    3 & 0 & 0 
+\end{pmatrix}$$
+
 \paragraph{Règle de changement d'état}
 Pour passer d'un état de bord vers le suivant, on ne peut bouger qu'un seul anneau du haut d'une tour vers une autre tour, à condition que l'anneau supérieur de la tour destination a un nombre supérieur à l'anneau qu'on veut bouger.
 \par
-Plus formellement, on peut déplacer le permier élément non nul d'une colonne s'il existe vers une autre colonne si le premier element non nul de la colonne destination est supérieur à celui qu'on déplace.
+Plus formellement, on peut déplacer le permier élément non nul d'une colonne s'il existe vers une autre colonne, s'il y a encore de la place et que le premier element non nul de la colonne destination est supérieur à celui qu'on déplace.
 
 \section{Algorithme de résolution}
+Cet algorithme permet de produire la séquence exacte d'actions pour résoudre le problème des tours de Hanoi.
 
 \begin{algorithm}[H]
     \SetAlgoLined
-    \KwData{bord : matrice [1, 3][1, n] d'entier}
-    \KwResult{}
-    \textbf{Variables :}\\
+    \KwData{bord : matrice [1, 3][1, n] d'entiers, depart, arrivee, intermediaire : 1..3, nbdisques : entier}
+    \KwResult{bord : matrice [1, 3][1, n] d'entiers}
     \Begin{
-        
+        \If{$nbdisques \neq 0$}{
+            Hanoi(bord, depart, intermediaire, arrivee, nbdisques - 1)\;
+            deplacer(board, depart, arrivee)\tcp*{Deplacer le disque supérieur de la tour depart vers la tour arrivee}
+            Hanoi(bord, intermediaire, arrivee, depart, nbdisques - 1)\;
+        }
     }
-    \caption{Analyse lexicale}
+    \caption{Hanoi}
 \end{algorithm}
+
+La fonction \emph{deplacer} permet de déplacer le disque de niveau supérieur d'une tour vers un autre.
+
+\begin{function}[H]
+    \textbf{Variable :}\\
+    i, j : entier\;
+    \Begin{
+        \tcp{Trouver le disque supérieur de la tour depart}
+        $i \leftarrow 1$\;
+        \While{$i \leq n$ et $bord[depart][i] = 0$}{
+            $i \leftarrow i + 1$\;
+        }
+        \tcp{Trouver le disque supérieur de la tour arrivee}
+        $j \leftarrow 1$\;
+        \While{$j \leq n$ et $bord[arrivee][j] = 0$}{
+            $j \leftarrow j + 1$\;
+        }
+        $bord[arrivee][j - 1] \leftarrow bord[depart][i]$\;
+        $bord[depart][i] \leftarrow 0$\;
+    }
+    \caption{deplacer(bord : matrice {[1, 3]}{[1, n]} d'entiers, depart, arrivee : 1..3)}
+\end{function}
