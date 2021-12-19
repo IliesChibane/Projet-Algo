@@ -56,7 +56,10 @@ Pour passer d'un état de bord vers le suivant, on ne peut bouger qu'un seul ann
 Plus formellement, on peut déplacer le permier élément non nul d'une colonne s'il existe vers une autre colonne, s'il y a encore de la place et que le premier element non nul de la colonne destination est supérieur à celui qu'on déplace.
 
 \section{Algorithme de résolution}
-Cet algorithme permet de produire la séquence exacte d'actions pour résoudre le problème des tours de Hanoi.
+Cet algorithme récursif permet de produire la séquence exacte d'actions pour résoudre le problème des tours de Hanoi.
+\par
+
+On commence d'abord par déplacer les $n - 1$ disques de la tour de départ vers la tour intermédiaire par un appel récursif. Puis, le plus grand disque restant est transporté vers la tour d'arrivée. Ensuite, les $n - 1$ disques qui se trouvaient sur la tour intermédiaire sont déplacés vers la tour d'arrivée par le même processus récursif.
 
 \begin{algorithm}[H]
     \SetAlgoLined
@@ -109,4 +112,8 @@ $$ h(n) = 2^{n} - 1 $$
 Et ainsi la complexité est égale à $\mathcal{O}(2^{n})$.
 
 \section{Algorithme de vérification}
-Pour vérifier qu'une solution au problème des tours de Hanoi est correcte
+Le problème des tours de Hanoi à trois tours admet une unique solution, sous forme d'une suite de déplacements qui génèrent un séquencement d'états intermédiaires.
+\par
+Pour vérifier la validité d'une solution quelconque, nous devons nous assurer que chaque déplacement est bien réglementaire (concerne le disque le plus haut et ne pose pas un disque sur un autre disque de taille plus petite) et que le dernier état engendré correspond effectivement à l'état but, c.à.d. que toutes les tours sont vides sauf la tour cible.
+\par
+...
