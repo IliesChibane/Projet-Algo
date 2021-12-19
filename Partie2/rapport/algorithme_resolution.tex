@@ -94,7 +94,7 @@ La fonction \emph{deplacer} permet de déplacer le disque de niveau supérieur d
         $bord[arrivee][j - 1] \leftarrow bord[depart][i]$\;
         $bord[depart][i] \leftarrow 0$\;
     }
-    \caption{deplacer(bord : matrice {[1, 3]}{[1, n]} d'entiers, depart, arrivee : 1..3)}
+    \caption{deplacer(Entrée/sortie : bord : matrice {[1, 3]}{[1, n]} d'entiers, Entrée : depart, arrivee : 1..3)}
 \end{function}
 
 \paragraph{Calcul de la complexité}
@@ -114,6 +114,26 @@ Et ainsi la complexité est égale à $\mathcal{O}(2^{n})$.
 \section{Algorithme de vérification}
 Le problème des tours de Hanoi à trois tours admet une unique solution, sous forme d'une suite de déplacements qui génèrent un séquencement d'états intermédiaires.
 \par
-Pour vérifier la validité d'une solution quelconque, nous devons nous assurer que chaque déplacement est bien réglementaire (concerne le disque le plus haut et ne pose pas un disque sur un autre disque de taille plus petite) et que le dernier état engendré correspond effectivement à l'état but, c.à.d. que toutes les tours sont vides sauf la tour cible.
+Pour vérifier la validité d'une solution quelconque, nous devons nous assurer que chaque déplacement est bien réglementaire (concerne le disque le plus haut et ne pose pas un disque sur un autre disque de taille plus petite) et que le dernier état engendré correspond effectivement à l'état but, c.à.d. que toutes les tours sont vides sauf la tour cible. De plus, la séquence de déplacement doit être exactement de longeur $2^{n} - 1$ tel que $n$ représente le nombre de disques, car la solution est unique, donc égale à la solution calculée par l'algorithme exacte.
 \par
-...
+Nous nous assurons que l'algorithme de génération de solutions produit des séquences de déplacements qui respectent ces conditions susmentionnées. Par conséquent, nous devons vérifier que le dernier état qui doit correspondre à l'état but dans lequel les anneaux sont alignés sur la tour cible ou destination.
+
+\begin{function}[H]
+    \textbf{Variable :}\\
+    \Begin{
+        \For{$i \leftarrow 1 \KwTo n$}{
+            \If{$bord[arrivee][i] \neq i$}{
+                \KwRet{faux}\;
+            }
+        }
+        \KwRet{vrai}\;
+    }
+    \caption{solutionestcorrecte(Entrée : bord : matrice {[1, 3]}{[1, n]} d'entiers, arrivee : 1..3) : booleén}
+\end{function}
+
+\paragraph{Calcul de complexité}
+La complexité de l'algorithme de vérification est triviale, elle est égale à la complexité du parcours séquentiel des éléments d'un tableau (la tour d'arrivée).
+\par
+La complexité temporelle est égale à $\mathcal{O}(n)$ tel que $n$ est le nombre de disques.
+\par
+Quant à la complexité spatiale, sachant que la fonction de vérification ne prend que le dernier état comme paramètre, elle est donc égale à la taille de la matrice d'entiers : $3 * n \cong \mathcal{O}(n)$.
