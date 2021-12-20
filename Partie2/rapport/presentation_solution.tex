@@ -1,3 +1,5 @@
+\chapter{Présentation du la solution}
+
 \section{Modélisation de la solution}
 Dans ce problème, chaque anneau porte un numéro séquentiel unique $a_i \in [1, n]$ qui représente sa taille tel que $n$ est le nombre maximal d'anneaux (e.g. l'anneau avec le nombre $1$ est plus petit que l'anneau avec le nombre $3$).
 \par
@@ -48,7 +50,8 @@ $$
     1 & 0 & 0 \\
     2 & 0 & 0 \\
     3 & 0 & 0 
-\end{pmatrix}$$
+\end{pmatrix}
+$$
 
 \paragraph{Règle de changement d'état}
 Pour passer d'un état de bord vers le suivant, on ne peut bouger qu'un seul anneau du haut d'une tour vers une autre tour, à condition que l'anneau supérieur de la tour destination a un nombre supérieur à l'anneau qu'on veut bouger.
@@ -124,7 +127,7 @@ Nous nous assurons que l'algorithme de génération de solutions produit des sé
 \begin{function}[H]
     \textbf{Variable :}\\
     \Begin{
-        \For{$i \leftarrow 1 \KwTo n$}{
+        \For{$i \leftarrow 1$ \KwTo $n$}{
             \If{$bord[arrivee][i] \neq i$}{
                 \KwRet{faux}\;
             }
@@ -142,5 +145,79 @@ La complexité temporelle est égale à $\mathcal{O}(n)$ tel que $n$ est le nomb
 Quant à la complexité spatiale, sachant que la fonction de vérification ne prend que le dernier état comme paramètre, elle est donc égale à la taille de la matrice d'entiers : $3 * n \cong \mathcal{O}(n)$.
 
 \section{Illustration d'une instance du problème}
-Nous allons dans ce qui suit étudier l'exemple d'une solution générée aléatoirement pour le problème des tours de hanoi à trois tour et trois disques.
-
+Nous étudions dans ce qui suit une instance du problème des tours de hanoi avec une disposition de trois tours et trois disques sur la tour initiale.
+$$
+\mathbf{bord} = 
+\begin{pmatrix}
+    1 & 0 & 0 \\
+    2 & 0 & 0 \\
+    3 & 0 & 0 
+\end{pmatrix}
+$$
+\par
+L'unique solution à cette disposition est une séquence suivante de 7 déplacements :
+\begin{itemize}
+    \item On déplace le disque de taille 1 de la tour 1 vers la tour 3.
+        $$
+        \mathbf{bord} = 
+        \begin{pmatrix}
+            0 & 0 & 0 \\
+            2 & 0 & 0 \\
+            3 & 0 & 1 
+        \end{pmatrix}
+        $$
+    \item On déplace le disque de taille 2 de la tour 1 vers la tour 2.
+        $$
+        \mathbf{bord} = 
+        \begin{pmatrix}
+            0 & 0 & 0 \\
+            0 & 0 & 0 \\
+            3 & 2 & 1 
+        \end{pmatrix}
+        $$
+    \item On déplace le disque de taille 1 de la tour 3 vers la tour 2.
+        $$
+        \mathbf{bord} = 
+        \begin{pmatrix}
+            0 & 0 & 0 \\
+            0 & 1 & 0 \\
+            3 & 2 & 0 
+        \end{pmatrix}
+        $$
+    \item On déplace le disque de taille 3 de la tour 1 vers la tour 3.
+        $$
+        \mathbf{bord} = 
+        \begin{pmatrix}
+            0 & 0 & 0 \\
+            0 & 1 & 0 \\
+            0 & 2 & 3 
+        \end{pmatrix}
+        $$
+    \item On déplace le disque de taille 1 de la tour 2 vers la tour 1.
+        $$
+        \mathbf{bord} = 
+        \begin{pmatrix}
+            0 & 0 & 0 \\
+            0 & 0 & 0 \\
+            1 & 2 & 3 
+        \end{pmatrix}
+        $$
+    \item On déplace le disque de taille 2 de la tour 2 vers la tour 3.
+        $$
+        \mathbf{bord} = 
+        \begin{pmatrix}
+            0 & 0 & 0 \\
+            0 & 0 & 2 \\
+            1 & 0 & 3 
+        \end{pmatrix}
+        $$
+    \item On déplace le disque de taille 1 de la tour 1 vers la tour 3.
+        $$
+        \mathbf{bord} = 
+        \begin{pmatrix}
+            0 & 0 & 1 \\
+            0 & 0 & 2 \\
+            0 & 0 & 3 
+        \end{pmatrix}
+        $$
+\end{itemize}

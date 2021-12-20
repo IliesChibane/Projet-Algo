@@ -1,6 +1,6 @@
 TARGET = main.pdf
 MAIN = main.tex
-DEP = main.tex algorithme_resolution.tex
+DEP = main.tex presentation_probleme.tex presentation_solution.tex etude_experimentale.tex
 
 $(TARGET) : $(DEP)
 	latexmk -pdf $(MAIN) -shell-escape

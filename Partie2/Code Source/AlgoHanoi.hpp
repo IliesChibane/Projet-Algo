@@ -1,6 +1,8 @@
 #include <iostream>
 #include <stdlib.h>
 #include <math.h>
+#include <vector>
+#include <time.h>
 
 
 #include "Affiichage.hpp"
@@ -112,55 +114,48 @@ void HanoiIteratifAffichage(int n, int origine,int destination, Pilier TH[])
     }
 }
 
-void Aleatoire(int n, Pilier TH[])
+std::vector<Dep> Aleatoire(int n, Pilier TH[])
 {
-    p = ( Pile*) malloc(sizeof(Pile));
-    p->sommet = NULL;
-    for(int i =0; i < (pow(2,n)-2); ++i)
+    // le nombre de deplacements a generer est 2^n - 1
+    std::vector<Dep> solution;
+    srand(time(NULL));
+    Dep dep;
+    int top_o, top_d;
+    bool dep_autorise;
+    for (int i = 0; i < pow(2, n) - 1; ++i)
     {
-        int o = rand()%3, f =rand()%3;
-        if(o == f)
+        dep_autorise = false;
+        while (!dep_autorise)
         {
-            if(f == 0)
-                f += rand() % 2 == 0 ? 1 : 2;
-            else if (f == 2)
-                f -= rand() % 2 == 0 ? 1 : 2;
-            else
-                f += rand() % 2 == 0 ? 1 : (-1);
+            dep.o = rand() % 3;
+            if ((top_o = sommet(TH[dep.o], n)) == n) // origine vide
+                continue;
+            dep.d = rand() % 3;
+            if (dep.d == dep.o) // destination meme que origine
+                continue;
+            top_d = sommet(TH[dep.d], n);
+            if (top_d == n || TH[dep.o].Pilier[top_o] < TH[dep.d].Pilier[top_d])
+                dep_autorise = true;
         }
+        solution.push_back(dep);
 
-        while(TH[o].Pilier[0] == 0)
-        {
-            if(o == 0)
-                o += rand() % 2 == 0 ? 1 : 2;
-            else if (o == 2)
-                o -= rand() % 2 == 0 ? 1 : 2;
-            else
-                o += rand() % 2 == 0 ? 1 : (-1);
-        }
+        cout << "on deplace le disque de taille "<< TH[dep.o].Pilier[sommet(TH[dep.o], n)] 
+             <<" du pilier "<< dep.o <<" au pilier "<< dep.d << endl;
 
-        emPiler(p, o, f);
+        deplacer(TH[dep.o], TH[dep.d], n); 
     }
-    emPiler(p, 0, rand()%2 + 1);
+    cout << "la solution contient " << solution.size() << " deplacements" << endl;
+
+    return solution;
 }
 
-void Verification(int n, Pilier TH[])
+bool Verification(int n, Pilier TH[])
 {
-    for(int i =0; i < (pow(2,n)-1); ++i)
+    AfficheLesTours(TH, n);
+    for (int i = 0; i < n; ++i)
     {
-        Dep d = dePiler(p);
-        cout << "on deplace le disque de taille "<< TH[d.o].Pilier[sommet(TH[d.o], n)] 
-             <<" du pilier "<< d.o <<" au pilier "<< d.d << endl;
-        deplacer(TH[d.o], TH[d.d],NDisque);
+        if (TH[2].Pilier[i] != i + 1)
+            return false;
     }
-
-    if(TH[2].Pilier[0] == 0)
-    {
-        cout << "Solution invalide" << endl;
-    }
-    else
-    {
-        cout << "Solution valide" << endl;
-        cout << "Tour d'hanoi resolu en " << deplacement << " deplacements" <<endl;
-    }
+    return true;
 }

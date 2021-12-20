@@ -21,7 +21,8 @@ int main()
     int ch, NbrDisque;
     Pilier TourHanoi[3];
     cin >> ch;
-
+    chrono::time_point<chrono::steady_clock> start, stop;
+    chrono::duration<double, nano> duration;
     switch(ch)
     {
         case 1:
@@ -29,10 +30,10 @@ int main()
             cin >> NbrDisque;
             NDisque = NbrDisque;
             init(TourHanoi, NbrDisque);
-            chrono::time_point<chrono::steady_clock> start = chrono::steady_clock::now(), stop;
+            start = chrono::steady_clock::now();
             HanoiRecursif(NbrDisque, 0, 2, TourHanoi);
             stop = chrono::steady_clock::now();
-            chrono::duration<double, nano> duration = stop - start;
+            duration = stop - start;
             cout << "Tour d'hanoi resolu en " << deplacement << " deplacements" <<endl;
             cout << "la fonction de resolution de la tour d'hanoi aura prit " << duration.count()
                  << "ns afin de terminer son execution" <<endl;
@@ -44,7 +45,7 @@ int main()
             NDisque = NbrDisque;
             init(TourHanoi, NbrDisque);
             AfficheLesTours(TourHanoi, NbrDisque);
-            Sleep(1000);
+            //sleep(1000);
             HanoiRecursifAffichage(NbrDisque, 0, 2, TourHanoi);
             cout << "Tour d'hanoi resolu en " << deplacement << " deplacements" <<endl;
             break;
@@ -54,10 +55,10 @@ int main()
             cin >> NbrDisque;
             NDisque = NbrDisque;
             init(TourHanoi, NbrDisque);
-            chrono::time_point<chrono::steady_clock> start = chrono::steady_clock::now(), stop;
+            start = chrono::steady_clock::now();
             HanoiIteratif(NbrDisque, 0, 2, TourHanoi);
             stop = chrono::steady_clock::now();
-            chrono::duration<double, nano> duration = stop - start;
+            duration = stop - start;
             cout << "Tour d'hanoi resolu en " << deplacement << " deplacements" <<endl;
             cout << "la fonction de resolution de la tour d'hanoi aura prit " << duration.count()
                  << "ns afin de terminer son execution" <<endl;
@@ -69,7 +70,7 @@ int main()
             NDisque = NbrDisque;
             init(TourHanoi, NbrDisque);
             AfficheLesTours(TourHanoi, NbrDisque);
-            Sleep(1000);
+            //sleep(1000);
             HanoiIteratifAffichage(NbrDisque, 0, 2, TourHanoi);
             cout << "Tour d'hanoi resolu en " << deplacement << " deplacements" <<endl;
             break;
@@ -79,8 +80,16 @@ int main()
             cin >> NbrDisque;
             NDisque = NbrDisque;
             init(TourHanoi, NbrDisque);
+            start = chrono::steady_clock::now();
             Aleatoire(NbrDisque, TourHanoi);
-            Verification(NbrDisque, TourHanoi);
+            if (Verification(NbrDisque, TourHanoi))
+                cout << "Solution valide" << endl;
+            else
+                cout << "Solution invalide" << endl;
+            stop = chrono::steady_clock::now();
+            duration = stop - start;
+            cout << "la fonction de generation de solution de tour d'hanoi et de verification aura prit " << duration.count()
+                 << "ns afin de terminer son execution" <<endl;
             break;
 
         default:
