@@ -66,7 +66,10 @@ On commence d'abord par déplacer les $n - 1$ disques de la tour de départ vers
     \KwData{bord : matrice [1, 3][1, n] d'entiers, depart, arrivee, intermediaire : 1..3, nbdisques : entier}
     \KwResult{bord : matrice [1, 3][1, n] d'entiers}
     \Begin{
-        \If{$nbdisques \neq 0$}{
+        \uIf{$nbdisques = 1$}{
+            \tcp{S'il reste un seul disque à déplacer, on le déplace directement}
+            deplacer(board, depart, arrivee)
+        }\Else{
             Hanoi(bord, depart, intermediaire, arrivee, nbdisques - 1)\;
             deplacer(board, depart, arrivee)\tcp*{Deplacer le disque supérieur de la tour depart vers la tour arrivee}
             Hanoi(bord, intermediaire, arrivee, depart, nbdisques - 1)\;
