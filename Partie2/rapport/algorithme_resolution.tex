@@ -40,20 +40,104 @@ $$
     T[1, n] & T[2, n] & ...
 \end{pmatrix}$$
 
+Un exemple d'initialisation classique de trois tours avec trois anneaux placés sur la première tour :
+
+$$
+\mathbf{bord} = 
+\begin{pmatrix}
+    1 & 0 & 0 \\
+    2 & 0 & 0 \\
+    3 & 0 & 0 
+\end{pmatrix}$$
+
 \paragraph{Règle de changement d'état}
 Pour passer d'un état de bord vers le suivant, on ne peut bouger qu'un seul anneau du haut d'une tour vers une autre tour, à condition que l'anneau supérieur de la tour destination a un nombre supérieur à l'anneau qu'on veut bouger.
 \par
-Plus formellement, on peut déplacer le permier élément non nul d'une colonne s'il existe vers une autre colonne si le premier element non nul de la colonne destination est supérieur à celui qu'on déplace.
+Plus formellement, on peut déplacer le permier élément non nul d'une colonne s'il existe vers une autre colonne, s'il y a encore de la place et que le premier element non nul de la colonne destination est supérieur à celui qu'on déplace.
 
 \section{Algorithme de résolution}
+Cet algorithme récursif permet de produire la séquence exacte d'actions pour résoudre le problème des tours de Hanoi.
+\par
+
+On commence d'abord par déplacer les $n - 1$ disques de la tour de départ vers la tour intermédiaire par un appel récursif. Puis, le plus grand disque restant est transporté vers la tour d'arrivée. Ensuite, les $n - 1$ disques qui se trouvaient sur la tour intermédiaire sont déplacés vers la tour d'arrivée par le même processus récursif.
 
 \begin{algorithm}[H]
     \SetAlgoLined
-    \KwData{bord : matrice [1, 3][1, n] d'entier}
-    \KwResult{}
-    \textbf{Variables :}\\
+    \KwData{bord : matrice [1, 3][1, n] d'entiers, depart, arrivee, intermediaire : 1..3, nbdisques : entier}
+    \KwResult{bord : matrice [1, 3][1, n] d'entiers}
     \Begin{
-        
+        \If{$nbdisques \neq 0$}{
+            Hanoi(bord, depart, intermediaire, arrivee, nbdisques - 1)\;
+            deplacer(board, depart, arrivee)\tcp*{Deplacer le disque supérieur de la tour depart vers la tour arrivee}
+            Hanoi(bord, intermediaire, arrivee, depart, nbdisques - 1)\;
+        }
     }
-    \caption{Analyse lexicale}
+    \caption{Hanoi}
 \end{algorithm}
+
+La fonction \emph{deplacer} permet de déplacer le disque de niveau supérieur d'une tour vers un autre.
+
+\begin{function}[H]
+    \textbf{Variable :}\\
+    i, j : entier\;
+    \Begin{
+        \tcp{Trouver le disque supérieur de la tour depart}
+        $i \leftarrow 1$\;
+        \While{$i \leq n$ et $bord[depart][i] = 0$}{
+            $i \leftarrow i + 1$\;
+        }
+        \tcp{Trouver le disque supérieur de la tour arrivee}
+        $j \leftarrow 1$\;
+        \While{$j \leq n$ et $bord[arrivee][j] = 0$}{
+            $j \leftarrow j + 1$\;
+        }
+        $bord[arrivee][j - 1] \leftarrow bord[depart][i]$\;
+        $bord[depart][i] \leftarrow 0$\;
+    }
+    \caption{deplacer(Entrée/sortie : bord : matrice {[1, 3]}{[1, n]} d'entiers, Entrée : depart, arrivee : 1..3)}
+\end{function}
+
+\paragraph{Calcul de la complexité}
+La complexité est exprimée en terme de nombre d'opérations de déplacement effectuées. En l'occurence, le nombre de déplacements est exprimé selon la suite numérique suivante :
+$$ h(1) = 1 $$
+$$ h(n) = 2 * h(n - 1) + 1 $$
+où $n$ représente le nombre total de disque à déplacer.
+
+En remplaçant $h(n - 1)$ par la formule réccurente, on obtient :
+$$ h(n) = 2 * (2 * h(n - 2) + 1) + 1 $$
+$$ h(n) = 2 * (2 * (2 * h(n - 3) + 1) + 1) + 1 $$
+$$ ... $$
+$$ h(n) = 2^{n} - 1 $$
+
+Et ainsi la complexité est égale à $\mathcal{O}(2^{n})$.
+
+\section{Algorithme de vérification}
+Le problème des tours de Hanoi à trois tours admet une unique solution, sous forme d'une suite de déplacements qui génèrent un séquencement d'états intermédiaires.
+\par
+Pour vérifier la validité d'une solution quelconque, nous devons nous assurer que chaque déplacement est bien réglementaire (concerne le disque le plus haut et ne pose pas un disque sur un autre disque de taille plus petite) et que le dernier état engendré correspond effectivement à l'état but, c.à.d. que toutes les tours sont vides sauf la tour cible. De plus, la séquence de déplacement doit être exactement de longeur $2^{n} - 1$ tel que $n$ représente le nombre de disques, car la solution est unique, donc égale à la solution calculée par l'algorithme exacte.
+\par
+Nous nous assurons que l'algorithme de génération de solutions produit des séquences de déplacements qui respectent ces conditions susmentionnées. Par conséquent, nous devons vérifier que le dernier état qui doit correspondre à l'état but dans lequel les anneaux sont alignés sur la tour cible ou destination.
+
+\begin{function}[H]
+    \textbf{Variable :}\\
+    \Begin{
+        \For{$i \leftarrow 1 \KwTo n$}{
+            \If{$bord[arrivee][i] \neq i$}{
+                \KwRet{faux}\;
+            }
+        }
+        \KwRet{vrai}\;
+    }
+    \caption{solutionestcorrecte(Entrée : bord : matrice {[1, 3]}{[1, n]} d'entiers, arrivee : 1..3) : booleén}
+\end{function}
+
+\paragraph{Calcul de complexité}
+La complexité de l'algorithme de vérification est triviale, elle est égale à la complexité du parcours séquentiel des éléments d'un tableau (la tour d'arrivée).
+\par
+La complexité temporelle est égale à $\mathcal{O}(n)$ tel que $n$ est le nombre de disques.
+\par
+Quant à la complexité spatiale, sachant que la fonction de vérification ne prend que le dernier état comme paramètre, elle est donc égale à la taille de la matrice d'entiers : $3 * n \cong \mathcal{O}(n)$.
+
+\section{Illustration d'une instance du problème}
+Nous allons dans ce qui suit étudier l'exemple d'une solution générée aléatoirement pour le problème des tours de hanoi à trois tour et trois disques.
+
