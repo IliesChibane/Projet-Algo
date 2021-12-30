@@ -11,19 +11,23 @@
 
 using namespace std;
 
+//affiche un char n fois
 void affiche(char c, int n)
 {
   for (int i = 0; i < n; ++i)
     cout << c;
 }
 
+//affiche une tour
 void AfficherTour(int d, int n)
 {
+  //pas disque affihe la poutre du pilier
   if (d == 0) {
     affiche(' ', n-1);
     cout << '|';
     affiche(' ', n);
   }
+  //affichage du pilier selon sa taille
   else {
     affiche(' ', n-d);
     affiche('-', 2*d-1);
@@ -31,19 +35,20 @@ void AfficherTour(int d, int n)
   }
 }
 
+//affiche des 3 tours
 void AfficheLesTours(Pilier TH[], int n)
 {
   for (int i = 0; i < n; ++i) {
     AfficherTour(TH[0].Pilier[i], n);
-    //sleep(100);
+    Sleep(100);
     AfficherTour(TH[1].Pilier[i], n);
-    //sleep(100);
+    Sleep(100);
     AfficherTour(TH[2].Pilier[i], n);
-    //sleep(100);
+    Sleep(100);
     cout << endl;
   }
 
   affiche('#', 6*n-1);
   cout << endl << endl;
-  //sleep(1000);
+  Sleep(1000);
 }
