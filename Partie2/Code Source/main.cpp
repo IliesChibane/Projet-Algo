@@ -45,7 +45,7 @@ int main()
             NDisque = NbrDisque;
             init(TourHanoi, NbrDisque);
             AfficheLesTours(TourHanoi, NbrDisque);
-            //sleep(1000);
+            Sleep(500);
             HanoiRecursifAffichage(NbrDisque, 0, 2, TourHanoi);
             cout << "Tour d'hanoi resolu en " << deplacement << " deplacements" <<endl;
             break;
@@ -70,7 +70,7 @@ int main()
             NDisque = NbrDisque;
             init(TourHanoi, NbrDisque);
             AfficheLesTours(TourHanoi, NbrDisque);
-            //sleep(1000);
+            Sleep(500);
             HanoiIteratifAffichage(NbrDisque, 0, 2, TourHanoi);
             cout << "Tour d'hanoi resolu en " << deplacement << " deplacements" <<endl;
             break;
