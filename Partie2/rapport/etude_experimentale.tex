@@ -31,9 +31,9 @@ La figure suivante (voir Figure \ref{fig:temps_exec_th_algo_reso}) représente l
 Depuis le graphe, nous observons que le temps d'exécution évolue de manière exponentielle selon le nombre de disques de départ. Il atteint rapidement des temps d'exécution incommensurables le rendant inexploitable.
 
 \paragraph{Complexité spatiale}
-L'algorithme exploite une matrice $3 x n$ tel que $n$ est le nombre de disques. Chaque disque est représenté par un entier de taille $4$ octets. De plus, la taille de la représentation est stattique au cours de l'exécution. Par conséquent, la complexité spatiale est égale à $4 * 3 * n$ octets donc de l'ordre de $\mathcal{O}(n)$.
+L'algorithme exploite une matrice $3 x n$ tel que $n$ est le nombre de disques. Chaque disque est représenté par un entier de taille $4$ octets. De plus, la taille de la représentation est statique au cours de l'exécution. Par conséquent, la complexité spatiale est égale à $4 * 3 * n$ octets donc de l'ordre de $\mathcal{O}(n)$.
 \par
-Cependant, l'algorithme récursif fait au maximum $n$ appels récursifs (le nombre maximum d'appels est le nombre maximum de disques pouvant être déplacés à la fois). L'adresse de retour étant stockée sur $8$ octets, la taille maximal de la pile d'appel de fonctions exploitée est donc égale à $8 * n$ octets qui est de l'ordre de $\mathcal{O}(n)$.
+Cependant, l'algorithme récursif fait au maximum $n$ appels récursifs (le nombre maximum d'appels est le nombre maximum de disques pouvant être déplacés à la fois). L'adresse de retour étant stockée sur $8$ octets, la taille maximale de la pile d'appel de fonctions exploitée est donc égale à $8 * n$ octets qui est de l'ordre de $\mathcal{O}(n)$.
 \par
 La complexité spatiale totale est donc de l'ordre de $\mathcal{O}(n)$.
 
@@ -63,7 +63,7 @@ La figure suivante (voir Figure \ref{fig:temps_exec_th_algo_verification}) repr�
     \label{fig:temps_exec_th_algo_verification}
 \end{figure} 
 
-Depuis le graphe, nous observons que le temps d'exécusion évolue avec une tendance linéaire avec l'augmentation du nombre de disques.
+Depuis le graphe, nous observons que le temps d'exécution évolue avec une tendance linéaire avec l'augmentation du nombre de disques.
 
 \paragraph{Complexité spatiale}
 La complexité spatiale de l'algorithme de vérification est égale à la taille de la matrice plus l'indice de la tour cible qui est un entier, c.à.d. $3 * n + 4$ octets donc de l'ordre $\mathcal{O}(n)$.
@@ -116,10 +116,10 @@ La figure suivante (voir Figure \ref{fig:temps_exec_algo_reso}) représente l'é
     \label{fig:temps_exec_algo_reso}
 \end{figure}
 \par
-Depuis la figure \ref{fig:temps_exec_algo_reso}, nous remarquons bien que le temps d'exécusion de l'algorithme de résolution est exponentiel, conforme à la complexité de $\mathcal{O}(2^{n})$.
+Depuis la figure \ref{fig:temps_exec_algo_reso}, nous remarquons bien que le temps d'exécution de l'algorithme de résolution est exponentiel, conforme à la complexité de $\mathcal{O}(2^{n})$.
 
 \subsection{Algorithme de génération de solution}
-Cette algorithme fait au minimum $2^{n} - 1$ itérations, qui est équivalent au nombre d'étapes de la solution. Si l'algorithme génère à une étape un déplacement non autorisé, ce déplacement est rejeté et un autre est généré (si à son tour il n'est pas autorisé en génère un autre et ainsi de suite). Donc il est de complexité $\mathcal{O}(2^{n})$.
+Cet algorithme fait au minimum $2^{n} - 1$ itérations, qui est équivalent au nombre d'étapes de la solution. Si l'algorithme génère à une étape un déplacement non autorisé, ce déplacement est rejeté et un autre est généré (si à son tour il n'est pas autorisé en génère un autre et ainsi de suite). Donc il est de complexité $\mathcal{O}(2^{n})$.
 \par
 Le tableau suivant représente les temps d'exécution en nanoseconde de l'algorithme de génération de solution pour le problème des tours de hanois selon la variation du nombre de disques.\\
 \small
@@ -163,7 +163,7 @@ La figure suivante (voir Figure \ref{fig:temps_exec_algo_generation}) représent
     \label{fig:temps_exec_algo_generation}
 \end{figure}
 \par
-Depuis la figure \ref{fig:temps_exec_algo_generation}, nous remarquons bien que le temps d'exécusion de l'algorithme de résolution est exponentiel, conforme à la complexité de $\mathcal{O}(2^{n})$. Cependant, les temps d'exécution sont bien plus élevés que ceux de l'algorithme de résolution, car même si l'algorithme de génération fait $2^{n} - 1$ itération, certains déplacements sont rejetés.
+Depuis la figure \ref{fig:temps_exec_algo_generation}, nous remarquons bien que le temps d'exécution de l'algorithme de résolution est exponentiel, conforme à la complexité de $\mathcal{O}(2^{n})$. Cependant, les temps d'exécution sont bien plus élevés que ceux de l'algorithme de résolution, car même si l'algorithme de génération fait $2^{n} - 1$ itération, certains déplacements sont rejetés.
 
 \subsection{Algorithme de vérification de solution}
 Le tableau suivant représente les temps d'exécution en nanoseconde de l'algorithme de vérification de solution pour le problème des tours de hanois selon la variation du nombre de disques.\\
@@ -208,4 +208,9 @@ La figure suivante (voir Figure \ref{fig:temps_exec_algo_verification}) représe
     \label{fig:temps_exec_algo_verification}
 \end{figure}
 \par
-Depuis la figure \ref{fig:temps_exec_algo_verification}, nous obsevons une trajectoire presque linéraire, qui est représentative de la complexité $\mathcal{O}(n)$. Les fluctuations sont dûes aux nombres de disques relativement bas.
+Depuis la figure \ref{fig:temps_exec_algo_verification}, nous observons une trajectoire presque linéaire, qui est représentative de la complexité $\mathcal{O}(n)$. Les fluctuations sont dûes au nombre de disques relativement bas.
+
+\paragraph{Discussion des résultats}
+On constate que la complexité de l'algorithme de résolution pour le problème des tours de hanoi évolue bien de manière exponentielle comme l'a montré l'étude expérimentale. Le temps d'exécution pour une instance du problème de 20 disques est de l'ordre de dizaine de secondes, celle avec 30 disques dépasse les quinzaines de minutes. Avec de tels résultats, il est clair que l'exploitation effective de ce genre de complexités est inenvisageable, voire impossible.
+\par
+Quant à l'algorithme de vérification, il a une simple complexité linéaire. Il ne fait que vérifier l'état de la dernière tour, les déplacements quant à eux, sont supposés corrects et valides par l'algorithme de génération de solution.
