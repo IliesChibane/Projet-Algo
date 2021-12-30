@@ -28,7 +28,7 @@ Il existe toujours cette confusion dans certains articles scientifiques qui ment
 
 Dans ce problème les étapes correctes peuvent être déterminées dès le départ sans avoir besoin d'une recherche d'essais-erreurs pour prendre la bonne décision. Par conséquent, ce problème n'est pas un problème de décision, auquel des classes telles que NP s'appliquent.
 
-C'est plus un problème de fonction. La complexité temporelle est en effet déterminée par le nombre d'étapes à sortir, qui est de 2n-1, c'est-à-dire $O(2^n).$
+C'est plus un problème de fonction. La complexité temporelle est en effet déterminée par le nombre d'étapes à sortir, qui est de $2^{n-1}$, c'est-à-dire $O(2^n).$
 La classe correspondante serait donc FEXPTIME-Complete, le préfixe F signifiant Function, et Complete signifiant que cela ne peut se faire en un temps inférieur à exponentiel (comme P). Elle est analogue à la classe EXPTIME-Complete pour les problèmes de décision, c'est-à-dire $O(2^{polynomial(n)})$.
 
 Il faut savoir que la classe EXPTIME En théorie de la complexité, est la classe de complexité qui est l'ensemble des problèmes de décision décidés par une machine de Turing déterministe en temps exponentiel.  Mais il existe des classes plus grosses comme EXPSPACE et NEXPTIME (respectivement les problèmes pouvant être résolus en espace exponentiel, et en temps exponentiel sur machine non déterministe).
