@@ -13,6 +13,7 @@
 \usepackage{tikz}
 \usepackage{amsmath}
 \usepackage{amsfonts}
+\usepackage[nottoc]{tocbibind}
 
 \newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
 
@@ -69,5 +70,8 @@
     \newpage
     \onehalfspacing
     \include{./conclusion.tex}
+    
+    \bibliographystyle{unsrt}
+    \bibliography{ref}    
 
 \end{document}
