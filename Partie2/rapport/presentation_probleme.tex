@@ -8,10 +8,10 @@ C’est la tour sacrée du Brahmâ. Nuit et jour, les prêtres se succèdent sur
 
 \footnote{Edouard Lucas, Récréations mathématiques, tome 3, (1892), réédité par la Librairie Albert Blanchard, (1979), p. 58}
 \subsection{fait amusant}
-De ce qui était mentionné, si on utilise à 64 disques on aura besoin de $2^{64}-1$ déplacements. Supposant que chaque déplacement dure 1 seconde, on obtiendra 86 400 déplacements par jour, le jeu se terminera après 584,5 milliards d'années approximativement, soit une quarantaine de fois l'âge de l'univers.
+De ce qui était mentionné, si on utilise à 64 disques on aura besoin de $2^{64}-1$ déplacements. Supposant que chaque déplacement dure 1 seconde, on obtiendra 86 400 déplacements par jour, le jeu se terminera après 584,5 milliards d'années approximativement, soit une quarantaine de fois l'âge de l'univers.  \cite{website1}
 
 \section{Présentation du problème}
-Les tours de Hanoï sont un jeu de réflexion imaginé par le mathématicien français Édouard Lucas, qui consiste à déplacer des disques de diamètres différents d'une tour de « départ » à une tour d'« arrivée » en passant par une tour « intermédiaire », et ceci en un minimum de coups, tout en respectant les règles suivantes :
+Les tours de Hanoï sont un jeu de réflexion imaginé par le mathématicien français Édouard Lucas, qui consiste à déplacer des disques de diamètres différents d'une tour de « départ » à une tour d'« arrivée » en passant par une tour « intermédiaire », et ceci en un minimum de coups, tout en respectant les règles suivantes\cite{website2} :
 
 -> On peut déplacer au maximum un seul disque par déplacement.
 -> On n'a pas le droit de poser un disque sur un autre plus petit.
@@ -41,7 +41,7 @@ L'illustration ci-dessous montre le diagramme d'inclusions des classes de comple
 \end{figure}
 
 \subsection{Définition formelle du problème}
-Il est facile de démontrer par récurrence que si n est le nombre de disques, il faut 2n - 1 coups au minimum pour parvenir à ses finsc, quantité qui augmente très rapidement avec n. En effet, soient A, B et C les trois emplacements des tours ; notons $x_n$ le nombre de déplacements de disques nécessaires au déplacement d'une tour complète. Pour déplacer une tour de n disques de A vers C, on effectue ces trois étapes :
+Il est facile de démontrer par récurrence que si n est le nombre de disques, il faut 2n - 1 coups au minimum pour parvenir à ses finsc, quantité qui augmente très rapidement avec n. En effet, soient A, B et C les trois emplacements des tours ; notons $x_n$ le nombre de déplacements de disques nécessaires au déplacement d'une tour complète. Pour déplacer une tour de n disques de A vers C, on effectue ces trois étapes\cite{website1} :
 
 déplacer la tour des n-1 premiers disques de A vers B (étape qui nécessite $x_{n-1}$ déplacements, d’où la récurrence) ;
 déplacer le plus grand disque de A vers C (un déplacement supplémentaire) ;
