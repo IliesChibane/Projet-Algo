@@ -1,9 +1,9 @@
 \chapter{Présentation du la solution}
 
 \section{Modélisation de la solution}
-Dans ce problème, chaque anneau porte un numéro séquentiel unique $a_i \in [1, n]$ qui représente sa taille tel que $n$ est le nombre maximal d'anneaux (e.g. l'anneau avec le nombre $1$ est plus petit que l'anneau avec le nombre $3$).
+Dans ce problème, chaque anneau porte un numéro séquentiel unique $a_i \in [1, n]$ qui représente sa taille tel que $n$ est le nombre maximal d'anneaux (E.g. l'anneau avec le nombre $1$ est plus petit que l'anneau avec le nombre $3$).
 \par
-De plus, on modélise chaque tour par un tableau $T_j$ d'une taille égale au nombre maximum d'anneaux $n$. Si un niveau $i$ de la tour $j$ contient un anneau $a_{i'}$, $T[j, i] = a_{i'}$, sinon $T[j, i] = 0$. Le niveau le plus bas de la tour (la base de la tour) est placé à la dernière case du tableau ; $\forall j$ $T[j, n]$ est le niveau le plus bas de la tour (voir Figure \ref{fig:rep_tour}).
+De plus, on modélise chaque tour par un tableau $T_j$ d'une taille égale au nombre maximum d'anneaux $n$. Si un niveau $i$ de la tour $j$ contient un anneau $a_{i'}$, alors $T[j, i] = a_{i'}$, sinon $T[j, i] = 0$. Le niveau le plus bas de la tour (la base de la tour) est placé à la dernière case du tableau ; $\forall j$ $T[j, n]$ est le niveau le plus bas de la tour (voir Figure \ref{fig:rep_tour}).
 
 \begin{figure}[h!]
     \begin{center}
@@ -32,7 +32,7 @@ De plus, on modélise chaque tour par un tableau $T_j$ d'une taille égale au no
 \end{figure}
 
 \par
-Par concéquent, le bord de jeu peut être représenté par une matrice colonne par colonne ou chaque colonne est en réalité une tour du jeu.
+Par conséquent, le bord de jeu peut être représenté par une matrice, colonne par colonne, où chaque colonne est en réalité une tour du jeu.
 
 $$
 \mathbf{bord} = 
@@ -53,10 +53,10 @@ $$
 \end{pmatrix}
 $$
 
-\paragraph{Règle de changement d'état}
-Pour passer d'un état de bord vers le suivant, on ne peut bouger qu'un seul anneau du haut d'une tour vers une autre tour, à condition que l'anneau supérieur de la tour destination a un nombre supérieur à l'anneau qu'on veut bouger.
+\paragraph{Règles de changement d'état}
+Pour passer d'un état de bord vers le suivant, on ne peut bouger qu'un seul anneau du haut d'une tour vers une autre tour, à condition que l'anneau supérieur de la tour destination ait un nombre supérieur à l'anneau qu'on veut bouger.
 \par
-Plus formellement, on peut déplacer le permier élément non nul d'une colonne s'il existe vers une autre colonne, s'il y a encore de la place et que le premier element non nul de la colonne destination est supérieur à celui qu'on déplace.
+Plus formellement, on peut déplacer le premier élément non nul d'une colonne s'il existe vers une autre colonne, s'il y a encore de la place et que le premier element non nul de la colonne destination est supérieur à celui qu'on déplace.
 
 \section{Algorithme de résolution}
 Cet algorithme récursif permet de produire la séquence exacte d'actions pour résoudre le problème des tours de Hanoi.
@@ -103,7 +103,7 @@ La fonction \emph{deplacer} permet de déplacer le disque de niveau supérieur d
 \end{function}
 
 \paragraph{Calcul de la complexité}
-La complexité est exprimée en terme de nombre d'opérations de déplacement effectuées. En l'occurence, le nombre de déplacements est exprimé selon la suite numérique suivante :
+La complexité est exprimée en matière de nombre d'opérations de déplacement effectuées. En l'occurrence, le nombre de déplacements est exprimé selon la suite numérique suivante :
 $$ h(1) = 1 $$
 $$ h(n) = 2 * h(n - 1) + 1 $$
 où $n$ représente le nombre total de disque à déplacer.
@@ -118,7 +118,7 @@ Ce résultat peut être démontré par récurrence comme suit :\\
 Cas de base ou pour $n = 1$ :
 $$ h(1) = 2^{1} - 1 = 1$$
 Donc la formule est correcte pour $n = 1$.\\
-Supposons que la proposition $h(i) = 2^{i} - 1$ est correct pour $\forall i \leq n$. Montrons qu'elle est aussi correcte pour $n + 1$ :
+Supposons que la proposition $h(i) = 2^{i} - 1$ est correcte pour $\forall i \leq n$. Montrons qu'elle est aussi correcte pour $n + 1$ :
 $$ h(n + 1) = 2 * h(n) + 1$$
 D'après l'hypothèse :
 $$ h(n + 1) = 2 * (2^{n} - 1) + 1 $$
@@ -129,7 +129,7 @@ Et ainsi la complexité est égale à $\mathcal{O}(2^{n})$.
 \section{Algorithme de vérification}
 Le problème des tours de Hanoi à trois tours admet une unique solution, sous forme d'une suite de déplacements qui génèrent un séquencement d'états intermédiaires.
 \par
-Pour vérifier la validité d'une solution quelconque, nous devons nous assurer que chaque déplacement est bien réglementaire (concerne le disque le plus haut et ne pose pas un disque sur un autre disque de taille plus petite) et que le dernier état engendré correspond effectivement à l'état but, c.à.d. que toutes les tours sont vides sauf la tour cible. De plus, la séquence de déplacement doit être exactement de longeur $2^{n} - 1$ tel que $n$ représente le nombre de disques, car la solution est unique, donc égale à la solution calculée par l'algorithme exacte.
+Pour vérifier la validité d'une solution quelconque, nous devons nous assurer que chaque déplacement est bien réglementaire (concerne le disque le plus haut et ne pose pas un disque sur un autre disque de taille plus petite) et que le dernier état engendré correspond effectivement à l'état but, c.à.d. que toutes les tours sont vides sauf la tour cible. De plus, la séquence de déplacement doit être exactement de longueur $2^{n} - 1$ tel que $n$ représente le nombre de disques, car la solution est unique, donc égale à la solution calculée par l'algorithme exact.
 \par
 Nous nous assurons que l'algorithme de génération de solutions produit des séquences de déplacements qui respectent ces conditions susmentionnées. Par conséquent, nous devons vérifier que le dernier état qui doit correspondre à l'état but dans lequel les anneaux sont alignés sur la tour cible ou destination.
 
@@ -154,7 +154,7 @@ La complexité temporelle est égale à $\mathcal{O}(n)$ tel que $n$ est le nomb
 Quant à la complexité spatiale, sachant que la fonction de vérification ne prend que le dernier état comme paramètre, elle est donc égale à la taille de la matrice d'entiers : $3 * n * n \cong \mathcal{O}(n^{2})$.
 
 \section{Illustration d'une instance du problème}
-Nous étudions dans ce qui suit une instance du problème des tours de hanoi avec une disposition de trois tours et trois disques sur la tour initiale.
+Nous étudions dans ce qui suit une instance du problème des tours de Hanoi avec une disposition de trois tours et trois disques sur la tour initiale.
 $$
 \mathbf{bord} = 
 \begin{pmatrix}
@@ -164,7 +164,7 @@ $$
 \end{pmatrix}
 $$
 \par
-L'unique solution à cette disposition est une séquence suivante de 7 déplacements :
+L'unique solution à cette disposition est la séquence suivante de 7 déplacements :
 \begin{itemize}
     \item On déplace le disque de taille 1 de la tour 1 vers la tour 3.
         $$

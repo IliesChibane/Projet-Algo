@@ -13,6 +13,8 @@
 \usepackage{tikz}
 \usepackage{amsmath}
 \usepackage{amsfonts}
+\usepackage[nottoc]{tocbibind}
+\usepackage{url}
 
 \newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
 
@@ -65,5 +67,12 @@
     \newpage
     \onehalfspacing
     \include{./etude_experimentale.tex}
+
+    \newpage
+    \onehalfspacing
+    \include{./conclusion.tex}
+    
+    \bibliographystyle{IEEEtran}
+    \bibliography{ref}
 
 \end{document}
