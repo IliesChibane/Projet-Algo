@@ -1,0 +1,476 @@
+\chapter{Annexe}
+
+\subsection{main.cpp}
+\begin{minted}[
+    breaklines=true,
+    frame=lines,
+    linenos
+    ]{c++}
+    #include <iostream>
+    #include <stdlib.h>
+    #include<time.h>
+    #include <bits/stdc++.h>
+    
+    #include "AlgoHanoi.hpp"
+    
+    using namespace std;
+    
+    int main()
+    {
+        srand(time(0));
+        cout <<"\t\t\tBienvenu dans la partie 2 du projet de Conception, analyse et complexite des algorithmes"<<endl;
+        cout <<"Veuille choisir l'une des options suivante :"<<endl;
+        cout <<"1) Algorithme des d'Hanoi recursif"<<endl;
+        cout <<"2) Algorithme des d'Hanoi recursif avec affichage"<<endl;
+        cout <<"3) Algorithme des d'Hanoi iteratif"<<endl;
+        cout <<"4) Algorithme des d'Hanoi iteratif avec affichage"<<endl;
+        cout <<"5) Solution aleatoire"<<endl;
+    
+        int ch, NbrDisque;
+        Pilier TourHanoi[3];
+        cin >> ch;
+        chrono::time_point<chrono::steady_clock> start, stop;
+        chrono::duration<double, nano> duration;
+        switch(ch)
+        {
+            case 1:
+                cout << "Choisissez le nombre de disque" << endl;
+                cin >> NbrDisque;
+                NDisque = NbrDisque;
+                init(TourHanoi, NbrDisque);
+                start = chrono::steady_clock::now();
+                HanoiRecursif(NbrDisque, 0, 2, TourHanoi);
+                stop = chrono::steady_clock::now();
+                duration = stop - start;
+                cout << "Tour d'hanoi resolu en " << deplacement << " deplacements" <<endl;
+                cout << "la fonction de resolution de la tour d'hanoi aura prit " << duration.count()
+                     << "ns afin de terminer son execution" <<endl;
+                break;
+    
+            case 2:
+                cout << "Choisissez le nombre de disque" << endl;
+                cin >> NbrDisque;
+                NDisque = NbrDisque;
+                init(TourHanoi, NbrDisque);
+                AfficheLesTours(TourHanoi, NbrDisque);
+                Sleep(500);
+                HanoiRecursifAffichage(NbrDisque, 0, 2, TourHanoi);
+                cout << "Tour d'hanoi resolu en " << deplacement << " deplacements" <<endl;
+                break;
+    
+            case 3:
+                cout << "Choisissez le nombre de disque" << endl;
+                cin >> NbrDisque;
+                NDisque = NbrDisque;
+                init(TourHanoi, NbrDisque);
+                start = chrono::steady_clock::now();
+                HanoiIteratif(NbrDisque, 0, 2, TourHanoi);
+                stop = chrono::steady_clock::now();
+                duration = stop - start;
+                cout << "Tour d'hanoi resolu en " << deplacement << " deplacements" <<endl;
+                cout << "la fonction de resolution de la tour d'hanoi aura prit " << duration.count()
+                     << "ns afin de terminer son execution" <<endl;
+                break;
+    
+            case 4:
+                cout << "Choisissez le nombre de disque" << endl;
+                cin >> NbrDisque;
+                NDisque = NbrDisque;
+                init(TourHanoi, NbrDisque);
+                AfficheLesTours(TourHanoi, NbrDisque);
+                Sleep(500);
+                HanoiIteratifAffichage(NbrDisque, 0, 2, TourHanoi);
+                cout << "Tour d'hanoi resolu en " << deplacement << " deplacements" <<endl;
+                break;
+    
+            case 5:
+                cout << "Choisissez le nombre de disque" << endl;
+                cin >> NbrDisque;
+                NDisque = NbrDisque;
+                init(TourHanoi, NbrDisque);
+                start = chrono::steady_clock::now();
+                Aleatoire(NbrDisque, TourHanoi);
+                if (Verification(NbrDisque, TourHanoi))
+                    cout << "Solution valide" << endl;
+                else
+                    cout << "Solution invalide" << endl;
+                stop = chrono::steady_clock::now();
+                duration = stop - start;
+                cout << "la fonction de generation de solution de tour d'hanoi et de verification aura prit " << duration.count()
+                     << "ns afin de terminer son execution" <<endl;
+                break;
+    
+            default:
+                cout << "erreur "<<endl;
+        }
+    }
+\end{minted}
+
+\subsection{Affichage.hpp}
+\begin{minted}[
+    breaklines=true,
+    frame=lines,
+    linenos
+    ]{c++}
+    #ifdef _WIN32
+    #include <Windows.h>
+    #else
+    #include <unistd.h>
+    #endif
+    
+    #include <iostream>
+    #include <cstdlib>
+    
+    #include "structure.hpp"
+    
+    using namespace std;
+    
+    //affiche un char n fois
+    void affiche(char c, int n)
+    {
+      for (int i = 0; i < n; ++i)
+        cout << c;
+    }
+    
+    //affiche une tour
+    void AfficherTour(int d, int n)
+    {
+      //pas disque affihe la poutre du pilier
+      if (d == 0) {
+        affiche(' ', n-1);
+        cout << '|';
+        affiche(' ', n);
+      }
+      //affichage du pilier selon sa taille
+      else {
+        affiche(' ', n-d);
+        affiche('-', 2*d-1);
+        affiche(' ', n-d+1);
+      }
+    }
+    
+    //affiche des 3 tours
+    void AfficheLesTours(Pilier TH[], int n)
+    {
+      for (int i = 0; i < n; ++i) {
+        AfficherTour(TH[0].Pilier[i], n);
+        Sleep(100);
+        AfficherTour(TH[1].Pilier[i], n);
+        Sleep(100);
+        AfficherTour(TH[2].Pilier[i], n);
+        Sleep(100);
+        cout << endl;
+      }
+    
+      affiche('#', 6*n-1);
+      cout << endl << endl;
+      Sleep(1000);
+    }
+\end{minted}
+
+\subsection{AlgoHanoi.hpp}
+\begin{minted}[
+    breaklines=true,
+    frame=lines,
+    linenos
+    ]{c++}
+    #include <iostream>
+    #include <stdlib.h>
+    #include <math.h>
+    #include <vector>
+    #include <time.h>
+    
+    
+    #include "Affiichage.hpp"
+    
+    using namespace std;
+    
+    struct Dep
+    {
+        int o, d;
+    };
+    
+    //variable globale afin de sauvegarder le nombre de deplacements et de disques
+    int deplacement = 0, NDisque = 0;
+    
+    //resolution recursif des tours d'hanoi
+    void HanoiRecursif(int n, int origine,int destination, Pilier TH[])
+    {
+        if (n != 0)
+        {
+            //on determine le pilier intermediaire
+            int auxiliaire = autre(origine, destination);
+            //premier appel recursif ou on deplace le disque de son pilier actuel au pilier intermediaire
+            HanoiRecursif(n-1, origine, auxiliaire, TH);
+            //on effectue le deplacement
+            deplacement++;
+            deplacer(TH[origine], TH[destination],NDisque);
+            //second appel recursif ou on deplace le disque du pilier intermediaire au pilier destiination
+            HanoiRecursif(n-1, auxiliaire, destination, TH);
+        }
+    }
+    
+    //resolution recursif des tours d'hanoi + affichage
+    void HanoiRecursifAffichage(int n, int origine,int destination, Pilier TH[])
+    {
+        if (n != 0)
+        {
+            //on determine le pilier intermediaire
+            int auxiliaire = autre(origine, destination);
+            //premier appel recursif ou on deplace le disque de son pilier actuel au pilier intermediaire
+            HanoiRecursifAffichage(n-1, origine, auxiliaire, TH);
+            //on effectue le deplacement
+            deplacement++;
+            deplacer(TH[origine], TH[destination],NDisque);
+            //affichage intermediaire des tours
+            AfficheLesTours(TH, NDisque);
+            //second appel recursif ou on deplace le disque du pilier intermediaire au pilier destiination
+            HanoiRecursifAffichage(n-1, auxiliaire, destination, TH);
+        }
+    }
+    
+    /*
+    Afin de resoudre ce problème iterativement on applique les regles suivantes :
+    - déplacer le plus petit disque d'un emplacement à l'emplacement suivant (de TH[0] vers TH[1], de TH[1] vers TH[2], de TH[2] vers TH[0]) ;
+    - déplacer un autre disque ;
+    */
+    void HanoiIteratif(int n, int origine,int destination, Pilier TH[])
+    { 
+        //on initialise le pilier d'origine ainsi que le pilier destination du premier deplacement
+        int op = 0, dp = 1;
+        while(TH[2].Pilier[0] == 0)
+        {
+            //on effectue le deplacement du plus petit disque
+            deplacer(TH[op], TH[dp],NDisque);
+            deplacement++;
+            //on determine les 2 piliers n'occupant pas le plus petit disque 
+            Chemin ep = pilierInter(dp);
+            //si le pilier destination n'est pas deja remplie 
+            if(TH[2].Pilier[0] == 0)
+            {
+                //on recupere les disques se trouvant au sommet des 2 piliers 
+                int a = sommet(TH[ep.o],NDisque), b = sommet(TH[ep.d],NDisque);
+    
+                /*ensuite on compare lequel des 2 piliers possedent le disque le plus petit ce dernier sera par la suite
+                deplacer vers le second, dans le cas ou un des piliers est vide on deplace le disque de l'autre pilier
+                automatique*/
+                if(a== NDisque)
+                {
+                    deplacer(TH[ep.d], TH[ep.o],NDisque);
+                    deplacement++;
+                }
+                else if (b == NDisque)
+                {
+                    deplacer(TH[ep.o], TH[ep.d],NDisque);
+                    deplacement++;
+                }
+                else if(TH[ep.o].Pilier[a] > TH[ep.d].Pilier[b])
+                {
+                    deplacer(TH[ep.d], TH[ep.o],NDisque);
+                    deplacement++;
+                }
+                else
+                {
+                    deplacer(TH[ep.o], TH[ep.d],NDisque);
+                    deplacement++;
+                }
+            }
+            //on determine le pilier actuel du plus petit disque ainsi que sa destination
+            op = op == 2 ? 0 : op+1; 
+            dp = dp == 2 ? 0 : dp+1;
+        }
+    }
+    
+    //meme chose que la procedure precedente avec ajout des procedure d'affichage
+    void HanoiIteratifAffichage(int n, int origine,int destination, Pilier TH[])
+    { 
+        int op = 0, dp = 1;
+        while(TH[2].Pilier[0] == 0)
+        {
+        deplacer(TH[op], TH[dp],NDisque);
+        AfficheLesTours(TH, NDisque);
+        deplacement++;
+        Chemin ep = pilierInter(dp);
+        if(TH[2].Pilier[0] == 0)
+        {
+            int a = sommet(TH[ep.o],NDisque), b = sommet(TH[ep.d],NDisque);
+    
+            if(a == NDisque)
+            {
+            deplacer(TH[ep.d], TH[ep.o],NDisque);
+            deplacement++;
+            }
+            else if (b == NDisque)
+            {
+            deplacer(TH[ep.o], TH[ep.d],NDisque);
+            deplacement++;
+            }
+            else if(TH[ep.o].Pilier[a] > TH[ep.d].Pilier[b])
+            {
+            deplacer(TH[ep.d], TH[ep.o],NDisque);
+            deplacement++;
+            }
+            else
+            {
+            deplacer(TH[ep.o], TH[ep.d],NDisque);
+            deplacement++;
+            }
+            AfficheLesTours(TH, NDisque);
+        }
+        op = op == 2 ? 0 : op+1; 
+        dp = dp == 2 ? 0 : dp+1;
+        }
+    }
+    
+    //fonction generant des deplacement aleatoire
+    vector<Dep> Aleatoire(int n, Pilier TH[])
+    {
+        // le nombre de deplacements a generer est 2^n - 1
+        vector<Dep> solution;
+        srand(time(NULL));
+        Dep dep;
+        int top_o, top_d;
+        bool dep_autorise;
+        for (int i = 0; i < pow(2, n) - 1; ++i)
+        {
+            dep_autorise = false;
+            //on genere un deplacement aleatoire valide
+            while (!dep_autorise)
+            {
+                dep.o = rand() % 3;
+                if ((top_o = sommet(TH[dep.o], n)) == n) // origine vide
+                    continue;
+                dep.d = rand() % 3;
+                if (dep.d == dep.o) // destination meme que origine
+                    continue;
+                top_d = sommet(TH[dep.d], n);
+                if (top_d == n || TH[dep.o].Pilier[top_o] < TH[dep.d].Pilier[top_d])
+                    dep_autorise = true;
+            }
+            //on l'ajoute a la liste de deplacement
+            solution.push_back(dep);
+    
+            cout << "on deplace le disque de taille "<< TH[dep.o].Pilier[sommet(TH[dep.o], n)] 
+                 <<" du pilier "<< dep.o <<" au pilier "<< dep.d << endl;
+    
+            deplacer(TH[dep.o], TH[dep.d], n); 
+        }
+        cout << "la solution contient " << solution.size() << " deplacements" << endl;
+    
+        return solution;
+    }
+    
+    //verifiation de la solution aleatoire
+    bool Verification(int n, Pilier TH[])
+    {
+        for (int i = 0; i < n; ++i)
+        {
+            //si le pilier final ne contient pas tout les disque dans le bon ordre alors on retourne false
+            if (TH[2].Pilier[i] != i + 1)
+                return false;
+        }
+        return true;
+    }
+\end{minted}
+
+\subsection{structure.hpp}
+\begin{minted}[
+    breaklines=true,
+    frame=lines,
+    linenos
+    ]{c++}
+    #include <iostream>
+
+    using namespace std;
+    
+    struct Pilier
+    {
+      int *Pilier;
+    };
+    
+    struct Chemin
+    {
+        int o,d;
+    };
+    
+    //initalisation du pilier
+    void init(Pilier TH[], int n)
+    {
+      //creation des 3 piliers
+      for (int i = 0; i < 3; ++i)
+        TH[i].Pilier = (int *)malloc(n * sizeof(int));
+      
+      // chaque pilier est representer par sa taille le plus petit est representer par l'indice 1 et le plus grand par l'indice n
+      // on represente l'abscence de pilier par l'indice 0 
+      for (int i = 0; i < n; ++i)
+      {
+        TH[0].Pilier[i] = i+1; // premier pilier contient l'integralite des disque dans l'odre de leur taille variant de 1 a n
+        TH[1].Pilier[i] = 0; // pilier vide
+        TH[2].Pilier[i] = 0; // pilier vide
+      }
+    }
+    
+    //on retourne le disque se trouvant au sommet du pilier
+    int sommet(Pilier p, int n)
+    {
+      int top;
+      //on parcourt le pilier jusqu'a atteindre le premier disque du tableau 
+      for (top = 0; (top < n) && (p.Pilier[top] == 0); ++top);
+        return top;
+    }
+    
+    //on deplace un disque d'un pilier a un autre
+    void deplacer(Pilier &origine, Pilier &destination, int n)
+    {
+      //on recupere le disque a deplacer
+      int top1 = sommet(origine, n);
+    
+      if (top1 < n)
+      {
+        /*on verifie que le disque a deplacer n'est pas plus grand que le disque se rouvant au sommet du pilier destination
+        et que le pilier destination n'est pas autrement on retourne une erreur*/
+        int top2 = sommet(destination,n);
+        if ((top2 < n) && (destination.Pilier[top2] < origine.Pilier[top1])) 
+        {
+          cerr << "ERREUR : on ne peut pas deplacer une disque de taille "
+               << origine.Pilier[top1] << " sur un disque de taille "
+               << destination.Pilier[top2] << " !" << endl;
+          return;
+        }
+    
+        //on ajoute le disque au pilier destination et on l'enleve du pilier origine
+        destination.Pilier[top2-1] = origine.Pilier[top1];
+        origine.Pilier[top1] = 0;
+      }
+    }
+    
+    //defini le pilier intermediaire
+    int autre(int p1, int p2)
+    {
+      return 3 - p1 -p2;
+    }
+    
+    //retoune les 2 piliers ne contenant pas le plus petit disque
+    Chemin pilierInter(int a)
+    {
+      Chemin ep;
+      //la variable 'a' contient la position pilier contenant le plus petit disque on retourne par consequent les 2 autres piliers
+      switch(a)
+      {
+        case 1 :
+          ep.o = 0;
+          ep.d = 2;
+          break;
+        case 0 :
+          ep.o = 1;
+          ep.d = 2;
+          break;
+        case 2 :
+          ep.o = 0;
+          ep.d = 1;
+          break;
+      }
+    
+      return ep;
+    }
+\end{minted}
