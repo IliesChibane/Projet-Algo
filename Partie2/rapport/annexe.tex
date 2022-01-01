@@ -1,6 +1,6 @@
 \chapter{Annexe}
 
-\subsection{main.cpp}
+\subsection*{main.cpp}
 \begin{minted}[
     breaklines=true,
     frame=lines,
@@ -106,7 +106,7 @@
     }
 \end{minted}
 
-\subsection{Affichage.hpp}
+\subsection*{Affichage.hpp}
 \begin{minted}[
     breaklines=true,
     frame=lines,
@@ -154,21 +154,18 @@
     {
       for (int i = 0; i < n; ++i) {
         AfficherTour(TH[0].Pilier[i], n);
-        Sleep(100);
         AfficherTour(TH[1].Pilier[i], n);
-        Sleep(100);
         AfficherTour(TH[2].Pilier[i], n);
-        Sleep(100);
         cout << endl;
       }
     
       affiche('#', 6*n-1);
       cout << endl << endl;
-      Sleep(1000);
+      Sleep(500);
     }
 \end{minted}
 
-\subsection{AlgoHanoi.hpp}
+\subsection*{AlgoHanoi.hpp}
 \begin{minted}[
     breaklines=true,
     frame=lines,
@@ -373,7 +370,7 @@
     }
 \end{minted}
 
-\subsection{structure.hpp}
+\subsection*{structure.hpp}
 \begin{minted}[
     breaklines=true,
     frame=lines,
