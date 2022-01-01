@@ -31,7 +31,7 @@ La figure suivante (voir Figure \ref{fig:temps_exec_th_algo_reso}) représente l
 Depuis le graphe, nous observons que le temps d'exécution évolue de manière exponentielle selon le nombre de disques de départ. Il atteint rapidement des temps d'exécution incommensurables le rendant inexploitable.
 
 \paragraph{Complexité spatiale}
-L'algorithme exploite une matrice $3 x n$ tel que $n$ est le nombre de disques. Chaque disque est représenté par un entier de taille $4$ octets. De plus, la taille de la représentation est statique au cours de l'exécution. Par conséquent, la complexité spatiale est égale à $4 * 3 * n$ octets donc de l'ordre de $\mathcal{O}(n)$.
+L'algorithme exploite une matrice $3 * n$ tel que $n$ est le nombre de disques. Chaque disque est représenté par un entier de taille $4$ octets. De plus, la taille de la représentation est statique au cours de l'exécution. Par conséquent, la complexité spatiale est égale à $4 * 3 * n$ octets donc de l'ordre de $\mathcal{O}(n)$.
 \par
 Cependant, l'algorithme récursif fait au maximum $n$ appels récursifs (le nombre maximum d'appels est le nombre maximum de disques pouvant être déplacés à la fois). L'adresse de retour étant stockée sur $8$ octets, la taille maximale de la pile d'appel de fonctions exploitée est donc égale à $8 * n$ octets qui est de l'ordre de $\mathcal{O}(n)$.
 \par
