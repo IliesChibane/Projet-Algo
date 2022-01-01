@@ -26,7 +26,7 @@ Pour cette partie du projet, il est demandé de faire l’étude d’une méthod
 
 ## Structure du projet 
 Le code source ainsi que le rapport sont respectivement accessible dans le dossier Code Source et rapport.<br>
-En ce qui concerne les slides elles sont disponibles via ce <a href="https://www.canva.com/design/DAE0DAkV9bk/AQ3DsBTHq8MBfBajEzsaWQ/view?utm_content=DAE0DAkV9bk&utm_campaign=designshare&utm_medium=link&utm_source=publishsharelink#21">lien</a>
+En ce qui concerne les slides elles sont disponibles via ce <a href="https://www.canva.com/design/DAE0DAkV9bk/AQ3DsBTHq8MBfBajEzsaWQ/view?utm_content=DAE0DAkV9bk&utm_campaign=designshare&utm_medium=link&utm_source=publishsharelink#1">lien</a>
 
 ## Projet realiser par :
 <h3>Ait Amara Mohamed</h3>
