@@ -40,15 +40,12 @@ void AfficheLesTours(Pilier TH[], int n)
 {
   for (int i = 0; i < n; ++i) {
     AfficherTour(TH[0].Pilier[i], n);
-    Sleep(100);
     AfficherTour(TH[1].Pilier[i], n);
-    Sleep(100);
     AfficherTour(TH[2].Pilier[i], n);
-    Sleep(100);
     cout << endl;
   }
 
   affiche('#', 6*n-1);
   cout << endl << endl;
-  Sleep(1000);
+  Sleep(500);
 }
