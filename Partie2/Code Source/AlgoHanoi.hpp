@@ -4,7 +4,6 @@
 #include <vector>
 #include <time.h>
 
-
 #include "Affiichage.hpp"
 
 using namespace std;
@@ -61,7 +60,11 @@ Afin de resoudre ce problème iterativement on applique les regles suivantes :
 void HanoiIteratif(int n, int origine,int destination, Pilier TH[])
 { 
     //on initialise le pilier d'origine ainsi que le pilier destination du premier deplacement
-    int op = 0, dp = 1;
+    int op = 0, dp;
+    if (n % 2 == 0)
+        dp = 1;
+    else
+        dp = 2;
     while(TH[2].Pilier[0] == 0)
     {
         //on effectue le deplacement du plus petit disque
@@ -100,15 +103,22 @@ void HanoiIteratif(int n, int origine,int destination, Pilier TH[])
             }
         }
         //on determine le pilier actuel du plus petit disque ainsi que sa destination
-        op = op == 2 ? 0 : op+1; 
-        dp = dp == 2 ? 0 : dp+1;
+        op = dp;
+        if (n % 2 == 0) 
+            dp = dp == 2 ? 0 : dp + 1;
+        else
+            dp = dp == 0 ? 2 : dp - 1;
     }
 }
 
 //meme chose que la procedure precedente avec ajout des procedure d'affichage
 void HanoiIteratifAffichage(int n, int origine,int destination, Pilier TH[])
 { 
-    int op = 0, dp = 1;
+    int op = 0, dp;
+    if (n % 2 == 0)
+        dp = 1;
+    else
+        dp = 2;
     while(TH[2].Pilier[0] == 0)
     {
     deplacer(TH[op], TH[dp],NDisque);
@@ -141,8 +151,11 @@ void HanoiIteratifAffichage(int n, int origine,int destination, Pilier TH[])
         }
         AfficheLesTours(TH, NDisque);
     }
-    op = op == 2 ? 0 : op+1; 
-    dp = dp == 2 ? 0 : dp+1;
+    op = dp;
+    if (n % 2 == 0) 
+        dp = dp == 2 ? 0 : dp + 1;
+    else
+        dp = dp == 0 ? 2 : dp - 1;
     }
 }
 
@@ -189,6 +202,7 @@ bool Verification(int n, Pilier TH[])
 {
     for (int i = 0; i < n; ++i)
     {
+        AfficheLesTours(TH, n);
         //si le pilier final ne contient pas tout les disque dans le bon ordre alors on retourne false
         if (TH[2].Pilier[i] != i + 1)
             return false;

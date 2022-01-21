@@ -47,5 +47,5 @@ void AfficheLesTours(Pilier TH[], int n)
 
   affiche('#', 6*n-1);
   cout << endl << endl;
-  Sleep(500);
+  //Sleep(500);
 }
