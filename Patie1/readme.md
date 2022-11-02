@@ -11,7 +11,7 @@
 <br>
 
 ## Description du projet
-L'objectif de ce mini projet est de ce mini-projet est l’étude expérimentale de 4 algorithmes de différentes complexités.
+L'objectif de ce mini projet est expérimentale de 4 algorithmes de différentes complexités.
 La première étape consiste à réaliser 4 algoritmes de complexité différentes et ensuite de calculer leurs complexité et de faire nombreux test et de voir comment les optimiser.<br>
 La deuxième étape elle consiste en l'élaboration d'un rapport détaillé qui sera par la suite présenté.<br>
 
